@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark"> <!-- Le thème est géré par JS, dark est le fallback -->
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3Epath %7B fill: %233498db; %7D @media (prefers-color-scheme: dark) %7B path %7B fill: %23f7b733; %7D %7D%3C/style%3E%3Cpath d='M44,87.5 C44,90.261 46.239,92.5 49,92.5 L51,92.5 C53.761,92.5 56,90.261 56,87.5 L56,83.5 L44,83.5 L44,87.5 Z M66.3,74.7 C66.3,74.7 75,66.9 75,54.5 C75,41.512 64.988,31.5 52,31.5 L48,31.5 C35.012,31.5 25,41.512 25,54.5 C25,66.9 33.7,74.7 33.7,74.7 L33.7,79.5 L66.3,79.5 L66.3,74.7 Z'/%3E%3C/svg%3E" type="image/svg+xml">
 
     <style>
-        /* --- GESTION DES THÈMES --- */
         :root {
             --primary-color: #f7b733; --primary-color-rgb: 247, 183, 51;
             --secondary-color: #fc4a1a; --accent-color: #4abdac;
@@ -29,76 +28,90 @@
             --option-bg: rgba(52, 152, 219, 0.05); --option-hover-bg: rgba(52, 152, 219, 0.1);
             --progress-track-bg: #e9ecef; --tooltip-bg: #34495e;
         }
-
-        /* --- STYLES GÉNÉRAUX --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6; color: var(--main-text-color); background-color: var(--bg-color);
-            min-height: 100vh; padding-bottom: 20px; transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh; transition: background-color 0.3s ease, color 0.3s ease;
         }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         html[data-theme='dark'] strong, html[data-theme='dark'] b { color: var(--primary-color); }
-
-        /* --- HEADER --- */
-        .header { text-align: center; background: var(--card-bg); padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 15px 35px var(--card-shadow); border: 1px solid var(--glass-border); transition: background-color 0.3s ease, border-color 0.3s ease; }
-        .header h1 { color: var(--primary-color); font-size: 2.5em; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(var(--primary-color-rgb), 0.3); }
+        .header { text-align: center; background: var(--card-bg); padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 15px 35px var(--card-shadow); border: 1px solid var(--glass-border); transition: all 0.4s ease-in-out; display: flex; justify-content: space-between; align-items: center; }
+        .header-title-container { text-align: left; }
+        .header h1 { color: var(--primary-color); font-size: 2.2em; margin-bottom: 0px; text-shadow: 0 2px 10px rgba(var(--primary-color-rgb), 0.3); transition: font-size 0.4s ease-in-out; }
+        .header .subtitle { font-size: 1.1em; color: var(--secondary-text-color); font-weight: 500; transition: opacity 0.3s, max-height 0.4s ease-in-out, margin 0.4s; max-height: 100px; opacity: 1; }
         html[data-theme='light'] .header h1 { color: var(--main-text-color); text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); }
-        .header-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; gap: 20px; flex-wrap: wrap; }
-        .header-info { flex: 1; text-align: left; }
-        .header-info p { margin: 0; color: var(--main-text-color); }
-        .header-info .time-badge { background: rgba(var(--primary-color-rgb), 0.15); padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: bold; color: var(--primary-color);}
-        .header-info .subtext { margin-top: 5px; color: var(--secondary-text-color); font-size: 0.9em; }
-        .header-action { display: flex; align-items: center; gap: 20px; }
-        .header-action .video-link-header { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; transition: transform 0.3s ease, box-shadow 0.3s ease; font-size: 0.9em; }
-        .header-action .video-link-header:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.5); }
-        .theme-switch { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .header.header-compact { padding-top: 20px; padding-bottom: 20px; }
+        .header.header-compact h1 { font-size: 1.6em; }
+        .header.header-compact .subtitle { max-height: 0; opacity: 0; margin: 0; }
+        .theme-switch { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px; border-radius: 20px; background: var(--option-bg); }
         .theme-switch-label { font-size: 1.2rem; color: var(--secondary-text-color); transition: color 0.3s ease; }
         .theme-switch input { display: none; }
-        .switch-track { position: relative; width: 50px; height: 26px; background-color: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 13px; transition: background-color 0.3s ease; }
+        .switch-track { position: relative; width: 50px; height: 26px; background-color: var(--bg-color); border: 1px solid var(--glass-border); border-radius: 13px; transition: background-color 0.3s ease; }
         .switch-thumb { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: var(--secondary-text-color); border-radius: 50%; transition: transform 0.3s ease, background-color 0.3s ease; }
         .theme-switch input:checked + .switch-track .switch-thumb { transform: translateX(24px); background-color: var(--primary-color); }
-        #sun-icon { display: none; }
-        html[data-theme='light'] #moon-icon { display: none; }
-        html[data-theme='light'] #sun-icon { display: block; }
-
-        /* --- WIDGETS & UI --- */
+        #sun-icon { display: none; } html[data-theme='light'] #moon-icon { display: none; } html[data-theme='light'] #sun-icon { display: block; }
+        #startScreen { background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px var(--card-shadow); text-align: left; animation: slideInUp 0.6s ease-out; margin-bottom: 20px; }
+        #startScreen.hidden { display: none; }
+        .start-title { font-size: 1.5em; color: var(--primary-color); margin-bottom: 10px; }
+        .start-section { margin: 25px 0; }
+        .start-section h4 { color: var(--accent-color); margin-bottom: 10px; border-bottom: 2px solid var(--glass-border); padding-bottom: 5px; }
+        .start-section ul { list-style-type: '✓ '; padding-left: 20px; }
+        .start-section li { margin-bottom: 8px; }
+        .start-video-box, .start-update-box { background: var(--option-bg); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary-color); }
+        .start-video-box { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .video-link-start { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; transition: transform 0.3s ease, box-shadow 0.3s ease; font-size: 0.9em; }
+        .video-link-start:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.5); }
+        .start-actions { text-align: center; margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        #startQuizBtn { font-size: 1.2em; padding: 15px 40px; }
+        #resumeBtn { display: none; }
+        .quiz-content.hidden { display: none; }
+        .btn { padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: all 0.3s ease; }
+        .btn:active { transform: translateY(-1px) scale(0.98); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.4); }
+        .btn-secondary { background: var(--option-hover-bg); color: var(--main-text-color); border: 1px solid var(--glass-border); }
+        .btn-secondary:hover { background: var(--option-bg); }
+        .floating-widget { display: none; }
+        body.quiz-active .floating-widget, .video-container { display: flex; }
         .floating-widget { position: fixed; padding: 10px 15px; background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); color: var(--main-text-color); border-radius: 20px; box-shadow: 0 4px 15px var(--card-shadow); font-size: 0.9em; z-index: 1001; transition: all 0.3s ease; }
-        .live-score { top: 20px; left: 20px; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding: 12px; }
+        .live-score { top: 20px; right: 20px; cursor: pointer; flex-direction: column; align-items: flex-end; gap: 5px; padding: 12px; text-align: right; }
         .live-score:hover { transform: translateY(-3px); box-shadow: 0 8px 25px var(--card-shadow-hover); }
-        #score-text { font-weight: bold; font-size: 1.1em; }
+        #score-text { font-weight: bold; font-size: 1.4em; }
+        #score-text-label { font-size: 0.8em; color: var(--secondary-text-color); }
         #currentScore.updated { animation: score-pop 0.5s ease-out; }
         @keyframes score-pop { 0% { transform: scale(1); } 50% { transform: scale(1.5); color: var(--primary-color); } 100% { transform: scale(1); } }
-        .timer-widget { top: 20px; right: 20px; display: flex; align-items: center; gap: 8px; }
-        .timer-widget .timer-icon { font-size: 1.2em; }
-        #timerDisplay { font-weight: bold; font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; }
-        .accuracy-container { display: flex; align-items: center; gap: 8px; width: 100%; }
-        .accuracy-bar-track { flex-grow: 1; height: 8px; background-color: var(--progress-track-bg); border-radius: 4px; overflow: hidden; }
+        .accuracy-container { align-items: center; gap: 8px; width: 100%; margin-top: 5px; }
+        #accuracyText { font-size: 0.8em; font-weight: bold; color: var(--accent-color); }
+        .accuracy-bar-track { flex-grow: 1; height: 5px; background-color: var(--progress-track-bg); border-radius: 4px; overflow: hidden; }
         .accuracy-bar-fill { height: 100%; width: 0%; background-color: var(--accent-color); border-radius: 4px; transition: width 0.5s ease-out; }
-        .precision-stars { line-height: 1; }
-        .precision-stars .star { font-size: 1.2em; color: var(--secondary-text-color); transition: color 0.4s ease, transform 0.4s ease; }
-        @keyframes star-pop-in { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 60% { transform: scale(1.2) rotate(10deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); } }
-        .precision-stars .star.filled { color: var(--primary-color); transform: scale(1.1); animation: star-pop-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        
-        .keyboard-hint { bottom: 20px; left: 20px; position: fixed; display: flex; align-items: center; border-radius: 25px; cursor: pointer; overflow: hidden; width: 45px; height: 45px; padding: 0; transition: width 0.4s ease-in-out; }
+        .tool-widget { top: 20px; left: 20px; align-items: center; border-radius: 25px; cursor: pointer; overflow: hidden; height: 45px; padding: 0 10px; transition: width 0.4s ease-in-out; width: 110px; }
+        .tool-widget:hover { width: 220px; }
+        .tool-content { display: flex; align-items: center; gap: 10px; width: 100%; }
+        .tool-timer { display: flex; align-items: center; gap: 8px; font-weight: bold; }
+        #timerDisplay { font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; }
+        .tool-actions { display: flex; align-items: center; gap: 5px; margin-left: auto; opacity: 0; transition: opacity 0.3s 0.1s; }
+        .tool-widget:hover .tool-actions { opacity: 1; }
+        .tool-action-btn { background: none; border: none; color: var(--main-text-color); cursor: pointer; font-size: 1.4em; padding: 5px; border-radius: 50%; display: flex; transition: background-color 0.2s; position: relative; }
+        .tool-action-btn:hover { background-color: var(--option-hover-bg); }
+        .tool-action-btn svg { width: 20px; height: 20px; }
+        .tool-action-btn .tooltip-text { visibility: hidden; width: 120px; background-color: var(--tooltip-bg); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s; font-size: 0.9em; }
+        .tool-action-btn:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .keyboard-hint { bottom: 20px; left: 20px; position: fixed; align-items: center; border-radius: 25px; cursor: pointer; overflow: hidden; width: 45px; height: 45px; padding: 0; transition: width 0.4s ease-in-out; }
         .keyboard-hint:hover { width: 400px; }
         .hint-icon { position: absolute; top: 0; left: 0; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.6em; z-index: 2; }
-        .hint-text { padding-left: 55px; /* Espace pour l'icône */ white-space: nowrap; padding-right: 15px; opacity: 0; transition: opacity 0.3s 0.1s; font-size: 0.9em; }
+        .hint-text { padding-left: 55px; white-space: nowrap; padding-right: 15px; opacity: 0; transition: opacity 0.3s 0.1s; font-size: 0.9em; }
         .keyboard-hint:hover .hint-text { opacity: 1; }
-
-        .resume-notification { top: 80px; left: 20px; display: none; cursor: pointer; border-color: var(--primary-color); }
-        .resume-notification:hover { background-color: var(--option-hover-bg); }
-        .resume-notification.show { display: block; }
-        .review-banner { display: none; background: rgba(74, 189, 172, 0.15); border-left: 4px solid var(--accent-color); padding: 10px 15px; margin-bottom: 20px; border-radius: 8px; font-size: 0.9em; text-align: center; }
-        .question-card.review-mode-active .review-banner { display: block; }
-
-        /* --- PROGRESSION & QUESTIONS --- */
+        .review-banner { display: none; background: rgba(74, 189, 172, 0.15); border-left: 4px solid var(--accent-color); padding: 10px 15px; margin-bottom: 20px; border-radius: 8px; font-size: 0.9em; }
+        .question-card.review-mode-active .review-banner { display: flex; align-items: center; gap: 15px; }
+        .review-banner .btn-link-review { background: none; border: none; color: var(--accent-color); text-decoration: underline; cursor: pointer; font-size: 0.9em; margin-left: auto; font-weight: bold; padding: 5px; }
+        .review-banner .btn-link-review:hover { text-decoration: none; }
         .progress-container { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid var(--glass-border); transition: background-color 0.3s ease, border-color 0.3s ease; }
         .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
         .progress-track { position: relative; width: 100%; height: 20px; margin: 15px 0; }
-        .progress-bar { width: 100%; height: 6px; background: var(--progress-track-bg); border-radius: 3px; position: absolute; top: 50%; transform: translateY(-50%); }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 3px; transition: width 0.3s ease; width: 0%; z-index: 1; position: relative; }
+        .progress-bar { width: 100%; height: 6px; background: var(--progress-track-bg); border-radius: 3px; position: absolute; top: 50%; transform: translateY(-50%); overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 3px; transition: width 0.4s ease-out; width: 0%; }
         .progress-dots { display: flex; justify-content: space-between; align-items: center; width: 100%; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; }
         .progress-dot { width: 14px; height: 14px; background-color: var(--secondary-text-color); border-radius: 50%; transition: all 0.3s; position: relative; border: 3px solid var(--card-bg); cursor: not-allowed; }
         .progress-dot::after { content: attr(data-tooltip); position: absolute; bottom: 150%; left: 50%; transform: translateX(-50%); background-color: var(--tooltip-bg); color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8em; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; pointer-events: none; z-index: 10; }
@@ -107,17 +120,16 @@
         .progress-dot.completed-correct { background-color: var(--success-color); }
         .progress-dot.completed-incorrect { background-color: var(--error-color); }
         .progress-dot.active { background-color: var(--primary-color); border-color: var(--primary-color); transform: scale(1.2); box-shadow: 0 0 12px var(--primary-color); }
-        .info-box { position: relative; background: var(--option-bg); padding: 12px 12px 12px 40px; border-radius: 8px; margin-top: 20px; border-left: 3px solid var(--accent-color); font-size: 0.9em; text-align: left; }
-        .info-box::before { content: '💡'; position: absolute; left: 12px; top: 12px; font-size: 1.2em; }
-        .question-card { background: var(--card-bg); padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px var(--card-shadow); display: none; transition: background-color 0.3s ease, border-color 0.3s ease; }
-        .question-card.active { display: block; animation: slideInUp 0.5s ease-out forwards; }
-        .question-card.slide-out { animation: slideOutUp 0.4s ease-in forwards; }
-        @keyframes slideInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideOutUp { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-30px); } }
+        .question-card { background: var(--card-bg); padding: 30px; border-radius: 20px; margin-bottom: 0; box-shadow: 0 10px 30px var(--card-shadow); display: none; transition: background-color 0.3s ease, border-color 0.3s ease; }
+        .question-card.active { display: block; animation: slideInRight 0.5s ease-out forwards; }
+        .question-card.slide-out { animation: slideOutLeft 0.4s ease-in forwards; }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideOutLeft { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-50px); } }
         .question-header { display: flex; align-items: center; margin-bottom: 20px; justify-content: space-between; }
         .question-header-left { display: flex; align-items: center; }
         .question-number { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; flex-shrink: 0;}
         .question-category { background: var(--option-bg); color: var(--main-text-color); padding: 5px 15px; border-radius: 20px; font-size: 0.9em; font-weight: bold; }
+        .modern-topic-tag { color: var(--accent-color); font-weight: bold; margin-left: 5px; cursor: help; }
         .question-title { font-size: 1.4em; color: var(--main-text-color); margin: 15px 0; border-radius: 5px; transition: box-shadow 0.2s ease-out; }
         .question-title:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.4); }
         .options { margin: 20px 0; }
@@ -144,37 +156,15 @@
         .feedback-explanation { margin-bottom: 15px; }
         .calculation-breakdown { background: var(--option-bg); padding: 10px 15px; border-radius: 8px; margin-top: 10px; font-family: 'Courier New', Courier, monospace; font-size: 0.95em; border-left: 3px solid var(--primary-color); }
         .context-box { background: rgba(var(--primary-color-rgb), 0.1); border-left: 5px solid var(--primary-color); padding: 15px; margin: 15px 0; border-radius: 5px; }
-        .nav-buttons { display: flex; gap: 10px; }
-        
-        .btn-nav {
-            background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); 
-            width: 45px; height: 45px; border-radius: 50%;
-            transition: all 0.2s ease-out; 
-            display: flex; align-items: center; justify-content: center;
-            color: var(--main-text-color);
-        }
-        .btn-nav svg { width: 24px; height: 24px; }
+        .nav-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-nav { background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); width: 45px; height: 45px; border-radius: 50%; transition: all 0.2s ease-out; display: flex; align-items: center; justify-content: center; color: var(--main-text-color); font-size: 1.5em; }
         .btn-nav:not(:disabled) { cursor: pointer; }
         .btn-nav:not(:disabled):hover { background: var(--option-hover-bg); transform: scale(1.1); }
         .btn-nav:not(:disabled):active { transform: scale(0.95); transition-duration: 0.1s; }
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; backdrop-filter: none; }
-        #nextBtn:not(:disabled) {
-             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-             color: white;
-             border: none;
-             box-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.4);
-        }
-        .nav-buttons.review-mode-active #nextBtn {
-            background: var(--glass-bg);
-            color: var(--main-text-color);
-            border: 1px solid var(--glass-border); box-shadow: none;
-        }
-        .nav-buttons.review-mode-active .btn-nav:not(:disabled):hover {
-            background: var(--option-hover-bg);
-            transform: scale(1.1);
-        }
-        
-        /* --- STYLES POUR LA NOUVELLE QUESTION 18 (Classement) --- */
+        .nav-buttons .btn-nav:last-child:not(:disabled) { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; border: none; box-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.4); }
+        .nav-buttons.review-mode-active .btn-nav:last-child { background: var(--glass-bg); color: var(--main-text-color); border: 1px solid var(--glass-border); box-shadow: none; }
+        .nav-buttons.review-mode-active .btn-nav:not(:disabled):hover { background: var(--option-hover-bg); transform: scale(1.1); }
         .ranking-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: flex-start; }
         .ranking-source, .ranking-slots { padding: 10px; border-radius: 10px; border: 2px dashed var(--secondary-text-color); }
         .ranking-source { display: flex; flex-direction: column; gap: 10px; min-height: 150px; flex-basis: 200px; }
@@ -182,16 +172,12 @@
         .ranking-slot { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .ranking-slot .rank-label { font-weight: bold; width: 100px; text-align: right; }
         .ranking-slot .dropzone { flex: 1; min-height: 45px; border-radius: 8px; }
-
-        /* --- ACCORDÉON "EN SAVOIR +" --- */
         details { margin-top: 15px; background: var(--option-bg); border-radius: 8px; padding: 5px 15px; border-left: 3px solid var(--accent-color); }
         summary { cursor: pointer; font-weight: bold; padding: 10px 0; outline: none; display: flex; align-items: center; justify-content: space-between; list-style: none; }
         summary::-webkit-details-marker { display: none; }
         summary::after { content: '▼'; font-size: 0.8em; transition: transform 0.3s ease; }
         details[open] summary::after { transform: rotate(180deg); }
         .details-content { padding: 0 0 10px 0; font-size: 0.95em; }
-
-        /* --- STYLES RESTANTS --- */
         .results { text-align: center; padding: 30px; background: var(--card-bg); border-radius: 20px; display: none; position: relative; transition: background-color 0.3s ease; }
         .results.show { display: block; animation: zoomIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -200,6 +186,7 @@
         .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--glass-border); font-size: 0.9em; cursor: pointer; transition: background-color 0.2s; }
         .summary-item:hover { background-color: var(--option-hover-bg); }
         .summary-item:last-child { border-bottom: none; }
+        .summary-item > div { display: flex; align-items: center; }
         .summary-result { font-weight: bold; padding: 3px 8px; border-radius: 12px; color: white; }
         .summary-result.correct { background-color: var(--success-color); }
         .summary-result.incorrect { background-color: var(--error-color); }
@@ -208,16 +195,13 @@
         .key-takeaways ul { list-style-type: '✓ '; padding-left: 20px; }
         .key-takeaways li { margin-bottom: 10px; }
         .badges-earned-container { margin: 30px 0; padding: 20px; background: rgba(var(--primary-color-rgb), 0.1); border-left: 4px solid var(--primary-color); border-radius: 8px; text-align: left; }
-        #badges-earned { display: flex; flex-wrap: wrap; gap: 15px; }
-        .badge-earned-item { display: flex; flex-direction: column; align-items: center; width: 80px; }
+        #badges-earned { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        .badge-earned-item { display: flex; flex-direction: column; align-items: center; width: 80px; cursor: help; }
         .badge-earned-item .badge-icon { font-size: 2.5em; }
         .badge-earned-item p { font-size: 0.8em; text-align: center; margin-top: 5px; }
+        .badge-earned-item.unearned { filter: grayscale(90%); opacity: 0.5; transition: filter 0.3s ease, opacity 0.3s ease; }
+        .badge-earned-item.unearned:hover { filter: grayscale(0); opacity: 1; }
         .results-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px; }
-        .btn { padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: transform 0.3s ease, box-shadow 0.3s, background-color 0.3s; }
-        .btn:active { transform: translateY(-1px) scale(0.98); }
-        .btn-primary { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.4); }
-        .btn-secondary { background: var(--secondary-text-color); color: var(--bg-color); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease-out; }
         html[data-theme='light'] .modal-overlay { background: rgba(244, 246, 248, 0.7); }
@@ -245,18 +229,18 @@
         .draggable-item { background: var(--card-bg); padding: 10px; border-radius: 8px; cursor: grab; text-align: center; border: 2px solid var(--primary-color); transition: background-color 0.3s, border-color 0.3s, opacity 0.2s; color: var(--main-text-color); }
         html[data-theme='light'] .draggable-item { background: #e9ecef; }
         .draggable-item:active { cursor: grabbing; opacity: 0.8; }
+        .dropzone .draggable-item.correct { border-color: var(--success-color); background-color: rgba(39, 174, 96, 0.2); }
+        .dropzone .draggable-item.incorrect { border-color: var(--error-color); background-color: rgba(231, 76, 60, 0.2); }
         .dropzone { flex: 1; min-height: 50px; background: var(--progress-track-bg); border: 2px dashed var(--secondary-text-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s; }
         html[data-theme='light'] .dropzone.over { background-color: #dee2e6; }
         html[data-theme='dark'] .dropzone.over { background-color: #2c3e50; }
-        .dropzone.correct-drop .draggable-item { border-color: var(--success-color); background-color: rgba(39, 174, 96, 0.2); }
-        .dropzone.incorrect-drop .draggable-item { border-color: var(--error-color); background-color: rgba(231, 76, 60, 0.2); }
         .interactive-question-container.disabled .draggable-item { cursor: not-allowed; }
         .interactive-question-container.disabled .dropzone, .interactive-question-container.disabled .timeline-events { pointer-events: none; opacity: 0.8; }
         .timeline-container .timeline-events { flex: 1; min-width: 200px; border: 2px dashed var(--secondary-text-color); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 10px; transition: background-color 0.3s;}
         .timeline-slots { flex: 2; min-width: 300px; }
         .timeline-slot { display: flex; align-items: center; margin-bottom: 10px; }
         .timeline-year { font-weight: bold; width: 100px; color: var(--main-text-color); }
-        .question-image { max-width: 250px; border-radius: 10px; margin: 15px auto; display: block; box-shadow: 0 4px 10px var(--card-shadow); }
+        .question-image { max-width: 100%; border-radius: 10px; margin: 15px auto; display: block; box-shadow: 0 4px 10px var(--card-shadow); }
         .sorting-container { display: flex; flex-direction: column; gap: 20px; }
         .sorting-bins { display: flex; gap: 20px; flex-wrap: wrap; }
         .sorting-bin { flex: 1; min-width: 250px; padding: 10px; border: 2px solid var(--secondary-text-color); border-radius: 10px; }
@@ -273,18 +257,22 @@
         #q17-description-box { margin-top: 20px; display: none; }
         #q17-description-box ul { list-style-type: none; padding-left: 0; }
         #q17-description-box li { margin-bottom: 8px; }
-        .video-container { position: fixed; bottom: 70px; right: 20px; width: 320px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; box-shadow: 0 8px 32px var(--card-shadow); z-index: 1000; transition: all 0.4s ease-in-out; overflow: hidden; }
+        .video-container { position: fixed; bottom: 80px; right: 20px; width: 280px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; box-shadow: 0 8px 32px var(--card-shadow); z-index: 1000; transition: all 0.4s ease-in-out; overflow: hidden; display: flex; flex-direction: column; }
         .video-container:not(.minimized):hover { transform: scale(1.03); box-shadow: 0 12px 40px var(--card-shadow-hover); }
-        .video-container.minimized { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 2px solid rgba(255, 255, 255, 0.5); padding: 0; cursor: pointer; }
+        .video-container.minimized { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 2px solid rgba(255, 255, 255, 0.5); padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .video-container.minimized:hover { transform: scale(1.1); box-shadow: 0 8px 25px var(--card-shadow-hover); }
         .video-header { background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.8), rgba(252, 74, 26, 0.8)); color: white; padding: 10px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; height: auto; }
         html[data-theme='light'] .video-header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
         .video-container.minimized .video-header { background: transparent; justify-content: center; align-items: center; height: 100%; padding: 0; }
-        .video-controls button { background: rgba(255,255,255,0.2); border: none; color: white; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; transition: background 0.3s ease; }
+        .video-controls button { background: rgba(255,255,255,0.2); border: none; color: white; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; transition: background 0.3s ease; display: flex; align-items: center; justify-content: center; }
         .video-controls button:hover { background: rgba(255,255,255,0.4); }
-        .video-content { padding: 15px; }
-        .video-player-container { width: 100%; height: 160px; background-image: url('https://i.ytimg.com/vi/GRwOsXCW2jM/hqdefault.jpg'); background-size: cover; background-position: center; cursor: pointer; border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; }
-        .video-player-container .play-icon { font-size: 3em; color: white; text-shadow: 0 0 15px rgba(0,0,0,0.7); }
+        .video-content { padding: 5px; }
+        .video-player-container { width: 100%; height: 152px; background-image: url('https://i.ytimg.com/vi/GRwOsXCW2jM/hqdefault.jpg'); background-size: cover; background-position: center; cursor: pointer; border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .video-player-container::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.4); border-radius: 8px; transition: background-color 0.3s; pointer-events: auto; }
+        .video-player-container.player-active::before { display: none; }
+        .video-player-container:hover::before { background-color: rgba(0,0,0,0.2); }
+        .play-icon-svg { width: 50px; height: 50px; fill: rgba(255, 255, 255, 0.9); z-index: 1; transition: transform 0.3s; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); pointer-events: none; }
+        .video-player-container.player-active .play-icon-svg { display: none; }
         .video-player-container iframe { width: 100%; height: 100%; border: none; border-radius: 8px; }
         .video-container.minimized .video-title, .video-container.minimized .video-controls, .video-container.minimized .video-content { display: none; }
         .dynamic-icon { transition: transform 0.3s ease; display: inline-block; font-size: 1.8em; }
@@ -297,111 +285,136 @@
         .tooltip .tooltip-text { visibility: hidden; width: 220px; background-color: var(--tooltip-bg); color: #fff; text-align: center; border-radius: 6px; padding: 8px; position: absolute; z-index: 100; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 0.9em; font-weight: normal; }
         .tooltip .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: var(--tooltip-bg) transparent transparent transparent; }
         .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
-        
-        @media (max-width: 768px) {
-            .video-container { width: 280px; }
-            .live-score, .keyboard-hint, .resume-notification, .timer-widget { font-size: 0.8em; padding: 8px 12px; }
-            .timer-widget { top: 90px; right: auto; left: 20px; }
-            .resume-notification { top: 150px; left: 20px; }
-            .keyboard-hint:hover { width: 300px; }
-        }
+        @media (max-width: 768px) { .video-container { width: 250px; } .floating-widget { font-size: 0.8em; padding: 8px 12px; } .keyboard-hint:hover { width: 300px; } .tool-widget { width: 95px; } .tool-widget:hover { width: 180px; } }
+        @media (max-width: 480px) { .header:not(.header-compact) h1 { font-size: 1.8em; } .start-actions { flex-direction: column; } }
     </style>
 </head>
 <body>
     <div class="live-score floating-widget" id="liveScore" aria-live="polite" onclick="openStatsModal()">
-        <span id="score-text">📊 Score : <span id="currentScore">0</span> / <span id="totalQuestionsDisplay">0</span></span>
+        <span id="score-text-label">Score</span>
+        <span id="score-text"><span id="currentScore">0</span> / <span id="totalQuestionsDisplay">0</span></span>
         <div class="accuracy-container">
+            <span id="accuracyText">--%</span>
             <div class="accuracy-bar-track"><div class="accuracy-bar-fill" id="accuracyBarFill"></div></div>
-            <span class="precision-stars" id="precisionStars"><span>☆</span><span>☆</span><span>☆</span></span>
         </div>
     </div>
     
-    <div class="timer-widget floating-widget" id="timerWidget">
-        <span class="timer-icon">⏱️</span>
-        <span id="timerDisplay">00:00</span>
+    <div class="tool-widget floating-widget" id="toolWidget">
+        <div class="tool-content">
+            <div class="tool-timer">
+                <span class="timer-icon">⏱️</span>
+                <span id="timerDisplay">00:00</span>
+            </div>
+            <div class="tool-actions">
+                <button class="tool-action-btn" id="homeBtn"><span class="tooltip-text">Accueil</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" fill="currentColor"/></svg></button>
+                <button class="tool-action-btn" id="toolResetBtn"><span class="tooltip-text">Réinitialiser</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="currentColor"/></svg></button>
+            </div>
+        </div>
     </div>
 
     <div class="keyboard-hint floating-widget" id="keyboardHint">
-        <span class="hint-icon">💡</span>
-        <span class="hint-text">Astuce : Touches [1]-[4] pour répondre, [→] pour continuer.</span>
+        <span class="hint-icon">⌨️</span>
+        <span class="hint-text">Astuce : [1-4] pour répondre, [→] pour continuer.</span>
     </div>
-    <div class="resume-notification floating-widget" id="resumeNotification">🔄 Reprendre la session précédente</div>
-
+    
     <div class="container">
-        <header class="header">
-            <h1>L'Éclairage Urbain : Des Lumières de la Ville aux Smart Cities</h1>
-            <div class="header-meta">
-                <div class="header-info">
-                    <p><strong>Objectif :</strong> Comprendre l'évolution de l'éclairage urbain<span class="time-badge">⏱️ ~20-25 min</span></p>
-                    <p class="subtext">Histoire → Technologies → Innovations 2024-2025</p>
-                </div>
-                <div class="header-action">
-                    <label for="theme-toggle-switch" class="theme-switch" title="Changer de thème">
-                        <span class="theme-switch-label" id="moon-icon">🌙</span>
-                        <span class="theme-switch-label" id="sun-icon">☀️</span>
-                        <input type="checkbox" id="theme-toggle-switch">
-                        <div class="switch-track"><div class="switch-thumb"></div></div>
-                    </label>
-                    <a href="https://youtu.be/GRwOsXCW2jM" target="_blank" class="video-link-header" title="C'est Pas Sorcier - Lumières de la ville (26 minutes)">
-                        🎬 Vidéo source (26min)
-                    </a>
-                </div>
+        <header class="header" id="mainHeader">
+            <div class="header-title-container">
+                <h1>L'Éclairage Urbain</h1>
+                <p class="subtitle">Des Lumières de la Ville aux Smart Cities</p>
             </div>
+            <label for="theme-toggle-switch" class="theme-switch" title="Changer de thème">
+                <span class="theme-switch-label" id="moon-icon">🌙</span>
+                <span class="theme-switch-label" id="sun-icon">☀️</span>
+                <input type="checkbox" id="theme-toggle-switch">
+                <div class="switch-track"><div class="switch-thumb"></div></div>
+            </label>
         </header>
 
-        <div class="progress-container">
-            <div class="progress-header">
-                <h3>Progression</h3>
-                <p id="progressText">Question 1 / 20</p>
+        <div id="startScreen">
+            <h2 class="start-title">Bienvenue ! Prêt à illuminer vos connaissances ?</h2>
+            <p>Ce quiz interactif vous fera voyager à travers l'histoire et les technologies de l'éclairage public, des premières lanternes à gaz jusqu'aux lampadaires intelligents de demain.</p>
+            
+            <div class="start-section">
+                <h4>🧠 Compétences clés évaluées :</h4>
+                <ul>
+                    <li>Compréhension de l'évolution historique de l'éclairage.</li>
+                    <li>Connaissance des différentes technologies (incandescence, décharge, LED).</li>
+                    <li>Analyse des enjeux énergétiques et environnementaux.</li>
+                    <li>Vision des innovations des Smart Cities.</li>
+                </ul>
             </div>
-            <div class="progress-track">
-                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-                <div class="progress-dots" id="progressDots"></div>
+            
+            <div class="start-section">
+                <h4>🎬 Conseil de préparation :</h4>
+                <div class="start-video-box">
+                    <p>Pour mettre toutes les chances de votre côté, visionnez la vidéo "C'est Pas Sorcier" (26 min). Vous pouvez la lancer ici ou utiliser le widget 🎬 en bas à droite pour la garder visible pendant le quiz.</p>
+                    <a href="https://youtu.be/GRwOsXCW2jM" target="_blank" class="video-link-start" title="C'est Pas Sorcier - Lumières de la ville (26 minutes)">🎬 Voir la vidéo</a>
+                </div>
             </div>
-            <div class="info-box">
-                Depuis la vidéo, la technologie a bondi ! Si elle montre les lampes à décharge, aujourd'hui c'est la <span class="tooltip">LED<span class="tooltip-text">Diode Électroluminescente. Source lumineuse très efficace et durable.</span></span> qui domine. Les villes évoluent vers les <strong>Smart Cities</strong>, utilisant capteurs et IA pour un éclairage intelligent.
-            </div>
-        </div>
-        
-        <div id="questions-wrapper">
-            <div class="question-card" data-question="1"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">1</div><div class="question-category">Histoire</div></div></div><h2 class="question-title" id="q1-title" tabindex="-1">Quel type d'éclairage dominait les villes jusqu'au XIXème siècle ?</h2><div class="options" role="radiogroup" aria-labelledby="q1-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>L'éclairage électrique</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>L'éclairage au gaz</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>L'éclairage solaire</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>L'éclairage LED</div></div><div class="feedback" id="feedback1" tabindex="-1"><p class="feedback-title">Réponse : L'éclairage au gaz</p><p class="feedback-explanation">Avant l'avènement de l'électricité, le gaz de ville, produit par la distillation de la houille, était la principale source d'éclairage public.</p><div class="context-box"><h4>📚 Contexte</h4><p>Paris fut l'une des premières villes au monde à adopter l'éclairage public au gaz à grande échelle vers 1820, lui valant son surnom de "Ville Lumière".</p></div></div></div>
-            
-            <div class="question-card" data-question="2"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">2</div><div class="question-category">Technologie</div></div></div><h2 class="question-title" id="q2-title" tabindex="-1">En quelle année Thomas Edison a-t-il présenté sa première lampe à incandescence durable au public ?</h2><div class="options" role="radiogroup" aria-labelledby="q2-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>1879</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>1881</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>1885</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>1890</div></div><div class="feedback" id="feedback2" tabindex="-1"><p class="feedback-title">Réponse : 1879</p><p class="feedback-explanation">C'est fin 1879 que Thomas Edison a fait la démonstration publique de sa lampe, qui pouvait briller pendant environ 13 heures, une révolution pour l'époque.</p><details><summary>En savoir + sur le filament</summary><div class="details-content"><p>Le filament de cette première lampe était un simple <strong>fil de coton à coudre, carbonisé</strong>. Cette innovation a été ensuite grandement améliorée, notamment avec l'utilisation de bambou du Japon carbonisé, permettant d'atteindre des durées de vie de plusieurs centaines d'heures.</p></div></details></div></div>
-            
-            <div class="question-card" data-question="3"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">3</div><div class="question-category">Infrastructure</div></div></div><h2 class="question-title" id="q3-title" tabindex="-1">Combien de points lumineux parsèment Paris (chiffre de l'épisode) ?</h2><div class="options" role="radiogroup" aria-labelledby="q3-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>50 000</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>100 000</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>150 000</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>200 000</div></div><div class="feedback" id="feedback3" tabindex="-1"><p class="feedback-title">Réponse : 150 000 points lumineux</p><p class="feedback-explanation">À l'époque du tournage, Paris comptait ce nombre impressionnant de sources lumineuses pour assurer l'éclairage de ses rues et monuments.</p><div class="context-box"><h4>🔧 Maintenance</h4><p>Aujourd'hui, ce chiffre a évolué et une grande partie de ce parc est convertie en <span class="tooltip">LED<span class="tooltip-text">Diode Électroluminescente.</span></span> et gérée par des systèmes de télégestion pour optimiser la consommation et la maintenance.</p></div></div></div>
-            
-            <div class="question-card" data-question="4"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">4</div><div class="question-category">Technique</div></div></div><h2 class="question-title" id="q4-title" tabindex="-1">Selon Jamy, comment une lampe à incandescence produit-elle de la lumière ?</h2><div class="options" role="radiogroup" aria-labelledby="q4-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Par combustion d'un gaz</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>En chauffant un filament jusqu'à l'incandescence</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Par décharge électrique dans un tube</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Par réaction chimique</div></div><div class="feedback" id="feedback4" tabindex="-1"><p class="feedback-title">Réponse : En chauffant un filament jusqu'à l'incandescence</p><p class="feedback-explanation">Le passage du courant électrique dans un filament (souvent en tungstène) le chauffe à une température si élevée qu'il émet de la lumière visible.</p><details><summary>En savoir + sur l'inefficacité</summary><div class="details-content"><p>Ce procédé est très inefficace : <strong>plus de 90% de l'énergie est perdue sous forme de chaleur !</strong> C'est pourquoi ces ampoules sont très chaudes au toucher. En comparaison, une LED moderne convertit jusqu'à 95% de son énergie en lumière, ce qui explique sa faible consommation et pourquoi elle reste froide.</p></div></details></div></div>
-            
-            <div class="question-card" data-question="5"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">5</div><div class="question-category">Ampoules</div></div></div><h2 class="question-title" id="q5-title" tabindex="-1">Quelle est la différence principale entre une lampe classique et une lampe halogène ?</h2><div class="options" role="radiogroup" aria-labelledby="q5-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>La lampe halogène a un filament différent</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>La lampe halogène contient un gaz qui permet un filament plus chaud</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>La lampe halogène fonctionne sans électricité</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>La lampe halogène est plus grosse</div></div><div class="feedback" id="feedback5" tabindex="-1"><p class="feedback-title">Réponse : La lampe halogène contient un gaz</p><p class="feedback-explanation">L'ampoule contient un gaz halogéné (iode ou brome) qui, par un cycle chimique, redépose le tungstène évaporé sur le filament. Cela permet au filament de chauffer plus, produisant une lumière plus blanche et vive.</p><details><summary>En savoir + sur le cycle halogène</summary><div class="details-content"><p>Ce cycle a permis d'augmenter la durée de vie (de 1000h à 2000h) et l'efficacité des lampes à incandescence. C'était une amélioration importante, mais elles restent bien moins performantes que les lampes fluocompactes ou les LED qui les ont remplacées.</p></div></details></div></div>
-            
-            <div class="question-card" data-question="6"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">6</div><div class="question-category">Lampes à décharge</div></div></div><h2 class="question-title" id="q6-title" tabindex="-1">Qu'est-ce qu'une lampe à décharge selon les explications de Jamy ?</h2><div class="options" role="radiogroup" aria-labelledby="q6-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Une lampe qui se décharge comme une pile</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Une lampe qui produit de la lumière par décharge électrique dans un gaz</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Une lampe qui ne fonctionne que le jour</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Une lampe sans filament</div></div><div class="feedback" id="feedback6" tabindex="-1"><p class="feedback-title">Réponse : Production de lumière par décharge électrique dans un gaz</p><p class="feedback-explanation">Contrairement à l'incandescence, cette technologie n'utilise pas de filament chauffé. Un arc électrique est créé entre deux électrodes, ce qui excite un gaz (sodium, mercure...) qui émet alors de la lumière.</p><div class="context-box"><h4>🚀 Remplacement massif</h4><p>Les lampadaires à la lumière orange caractéristique (lampes à sodium) sont un exemple typique de lampes à décharge. Ils sont massivement remplacés par des LED plus efficaces et polyvalentes.</p></div></div></div>
-            
-            <div class="question-card" data-question="7"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">7</div><div class="question-category">Environnement</div></div></div><h2 class="question-title" id="q7-title" tabindex="-1">Quel est l'un des défis environnementaux majeurs de l'éclairage urbain ?</h2><div class="options" role="radiogroup" aria-labelledby="q7-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Le manque de lumière</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>La pollution lumineuse et son impact sur la faune nocturne</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Le coût trop faible</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>L'éclairage trop coloré</div></div><div class="feedback" id="feedback7" tabindex="-1"><p class="feedback-title">Réponse : La pollution lumineuse</p><p class="feedback-explanation">L'éclairage artificiel excessif ou mal dirigé crée un "halo lumineux" au-dessus des villes qui perturbe les écosystèmes, notamment les cycles de vie et de migration des animaux nocturnes (insectes, oiseaux, chauves-souris).</p><details><summary>En savoir + sur les couleurs (Kelvin)</summary><div class="details-content"><p>La "couleur" de la lumière se mesure en <strong>Kelvin (K)</strong>. Une lumière "chaude" (orange, ~2200K) contient peu de lumière bleue et perturbe moins la faune. Une lumière "froide" (blanche-bleutée, > 4000K) est riche en lumière bleue et a un impact plus fort. Les villes privilégient donc des LED de <strong>moins de 3000K</strong> pour protéger la biodiversité.</p></div></details></div></div>
-            
-            <div class="question-card" data-question="8"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">8</div><div class="question-category">Énergie alternative</div></div></div><h2 class="question-title" id="q8-title" tabindex="-1">Quelle innovation surprenante permet d'alimenter l'éclairage de manière écologique ?</h2><div class="options" role="radiogroup" aria-labelledby="q8-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Les batteries de sol utilisant les plantes</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>L'énergie du vent uniquement</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Les hamsters dans des roues</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>L'énergie des voitures qui passent</div></div><div class="feedback" id="feedback8" tabindex="-1"><p class="feedback-title">Réponse : Les batteries de sol utilisant les plantes</p><p class="feedback-explanation">Des startups développent des technologies qui exploitent les micro-organismes présents dans le sol autour des racines des plantes. Ces microbes dégradent la matière organique et libèrent des électrons, créant un courant électrique.</p><div class="context-box"><h4>🧬 Biotechnologies</h4><p>Bien qu'encore expérimentale et à faible rendement, cette approche bio-inspirée montre une voie fascinante pour une énergie décentralisée et intégrée à l'environnement urbain.</p></div></div></div>
-            
-            <div class="question-card" data-question="9"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">9</div><div class="question-category">Smart Cities</div></div></div><h2 class="question-title" id="q9-title" tabindex="-1">Dans une "ville intelligente", un lampadaire peut maintenant servir à :</h2><div class="options" role="radiogroup" aria-labelledby="q9-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Seulement éclairer les rues</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Mesurer la qualité de l'air, fournir du Wi-Fi et diffuser des infos</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Uniquement décorer la ville</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Remplacer les feux de circulation</div></div><div class="feedback" id="feedback9" tabindex="-1"><p class="feedback-title">Réponse : Mesurer la qualité de l'air, fournir du Wi-Fi...</p><p class="feedback-explanation">Le lampadaire, déjà alimenté et présent partout en ville, est devenu le support idéal pour une multitude de capteurs et services connectés.</p><details><summary>En savoir + sur le Li-Fi</summary><div class="details-content"><p>Certains lampadaires peuvent même transmettre des données via la lumière elle-même ! C'est la technologie <strong>Li-Fi (Light Fidelity)</strong>. En modulant l'intensité de la lumière à une fréquence imperceptible pour l'œil humain, on peut créer une connexion internet très rapide et sécurisée, complémentaire au Wi-Fi.</p></div></details></div></div>
-            
-            <div class="question-card" data-question="10"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">10</div><div class="question-category">Économies</div></div></div><h2 class="question-title" id="q10-title" tabindex="-1">Quelle économie d'énergie peut réaliser une ville en passant à l'éclairage <span class="tooltip">LED<span class="tooltip-text">Diode Électroluminescente.</span></span> intelligent ?</h2><div class="options" role="radiogroup" aria-labelledby="q10-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>10 à 20%</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>30 à 40%</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>50 à 75%</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>90 à 100%</div></div><div class="feedback" id="feedback10" tabindex="-1"><p class="feedback-title">Réponse : 50 à 75%</p><p class="feedback-explanation">La combinaison de la haute efficacité des LED (par rapport aux anciennes lampes) et des systèmes de gestion intelligents (qui modulent l'intensité lumineuse selon les besoins) permet de réaliser des économies d'énergie très significatives.</p><div class="context-box"><h4>📈 Retour sur investissement</h4><p>Malgré un coût d'installation élevé, le retour sur investissement est rapide (souvent entre 3 et 7 ans) grâce aux économies sur la facture d'électricité et la réduction des coûts de maintenance.</p></div></div></div>
-            
-            <div class="question-card" data-question="11"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">11</div><div class="question-category">Innovations</div></div></div><h2 class="question-title" id="q11-title" tabindex="-1">Quelle technologie de détection améliore la précision de l'éclairage adaptatif ?</h2><div class="options" role="radiogroup" aria-labelledby="q11-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Les capteurs infrarouges classiques</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Les radars à ondes millimétriques</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Les caméras simples</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Les capteurs de température</div></div><div class="feedback" id="feedback11" tabindex="-1"><p class="feedback-title">Réponse : Les radars à ondes millimétriques</p><p class="feedback-explanation">Ces radars avancés sont beaucoup plus précis que les capteurs infrarouges. Ils peuvent détecter la présence, la vitesse et la direction des piétons ou des véhicules, même dans de mauvaises conditions météorologiques.</p><details><summary>En savoir + : Radar vs Infrarouge (PIR)</summary><div class="details-content"><p>Un capteur <strong>infrarouge passif (PIR)</strong> détecte les changements de chaleur. Il peut être trompé par temps chaud ou ne pas détecter une personne immobile. Un <strong>radar</strong> envoie des ondes et analyse leur écho. Il détecte donc le moindre mouvement et la position exacte, quelle que soit la température, ce qui le rend beaucoup plus fiable.</p></div></details></div></div>
 
-            <div class="question-card" data-question="12"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">12</div><div class="question-category">Synthèse</div></div></div><h2 class="question-title" id="q12-title" tabindex="-1">Quel est le défi principal pour l'avenir de l'éclairage urbain ?</h2><div class="options" role="radiogroup" aria-labelledby="q12-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Éclairer plus fort partout</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Concilier efficacité énergétique, biodiversité et services connectés</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Revenir à l'éclairage au gaz</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Supprimer tout éclairage public</div></div><div class="feedback" id="feedback12" tabindex="-1"><p class="feedback-title">Réponse : Concilier efficacité, biodiversité et services</p><p class="feedback-explanation">L'éclairage de demain doit être un compromis intelligent : il doit consommer le moins possible, tout en assurant la sécurité des citoyens, en offrant de nouveaux services et en minimisant son impact sur l'environnement nocturne.</p><div class="context-box"><h4>🔮 Perspective 2030</h4><p>L'avenir s'oriente vers des réseaux d'éclairage entièrement autonomes et auto-adaptatifs, qui ajustent en temps réel la couleur et l'intensité de la lumière en fonction de données multiples (météo, trafic, événements, cycles de la faune...).</p></div></div></div>
+            <div class="start-section">
+                <h4 style="color: var(--accent-color);">💡 Bon à savoir avant de commencer</h4>
+                 <div class="start-update-box" style="border-left-color: var(--accent-color);">
+                    <p>La vidéo de référence date un peu. Depuis, la technologie a bondi ! Si elle montre bien les anciennes lampes, aujourd'hui c'est la <span class="tooltip">LED<span class="tooltip-text">Diode Électroluminescente. Source lumineuse très efficace et durable.</span></span> qui domine. Ce quiz reflète ces évolutions en abordant des thèmes récents :</p>
+                    <ul style="list-style-type: '› '; padding-left: 20px; font-size: 0.9em; margin-top: 10px;">
+                        <li>Le rôle des lampadaires dans les <strong>Smart Cities</strong>.</li>
+                        <li>Les technologies de détection avancées (radars).</li>
+                        <li>Les enjeux de biodiversité liés à la couleur de la lumière.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="start-actions">
+                <button class="btn btn-primary" id="startQuizBtn">🚀 Commencer le Quiz !</button>
+                <button class="btn btn-secondary" id="resumeBtn">🔄 Reprendre la session</button>
+            </div>
+            <footer id="startFooter">Réalisé par David Trafial</footer>
+        </div>
+
+        <div class="quiz-content hidden">
+            <div class="progress-container">
+                <div class="progress-header"><h3>Progression</h3><p id="progressText">Question 1 / 20</p></div>
+                <div class="progress-track">
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                    <div class="progress-dots" id="progressDots"></div>
+                </div>
+            </div>
             
-            <div class="question-card" data-question="13"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">13</div><div class="question-category">Calcul</div></div></div><h2 class="question-title" id="q13-title" tabindex="-1">Une lampe LED de 15W produit 1500 <span class="tooltip">lumens<span class="tooltip-text">Unité de mesure de la quantité totale de lumière visible émise par une source.</span></span>. Quelle est son efficacité lumineuse (en lm/W) ?</h2><div class="options" role="radiogroup" aria-labelledby="q13-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>75 lm/W</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>90 lm/W</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>100 lm/W</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>120 lm/W</div></div><div class="feedback" id="feedback13" tabindex="-1"><p class="feedback-title">Réponse : 100 lm/W</p><p class="feedback-explanation">L'efficacité lumineuse se calcule en divisant le flux lumineux (lumens) par la puissance consommée (Watts).</p><div class="calculation-breakdown">Calcul : 1500 lumens / 15 Watts = <strong>100 lm/W</strong></div><div class="context-box"><h4>💡 Rappel</h4><p><strong>Efficacité (lm/W) = Flux lumineux (lm) ÷ Puissance (W)</strong>. Plus ce chiffre est élevé, plus la lampe convertit efficacement l'électricité en lumière.</p></div></div></div>
-            <div class="question-card" data-question="14"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">14</div><div class="question-category">Maintenance</div></div></div><h2 class="question-title" id="q14-title" tabindex="-1">Combien de lampes classiques (2000h) faut-il pour la durée de vie d'une seule LED (50000h) ?</h2><div class="options" role="radiogroup" aria-labelledby="q14-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>15 fois</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>25 fois</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>30 fois</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>35 fois</div></div><div class="feedback" id="feedback14" tabindex="-1"><p class="feedback-title">Réponse : 25 fois</p><p class="feedback-explanation">On divise la durée de vie de la LED par celle de la lampe classique.</p> <div class="calculation-breakdown">Calcul : 50 000 heures / 2 000 heures = <strong>25</strong></div><div class="context-box"><h4>🌱 Impact</h4><p>Cette longévité exceptionnelle réduit drastiquement les coûts de main-d'œuvre pour le remplacement des ampoules, ainsi que la quantité de déchets générés.</p></div></div></div>
-            <div class="question-card" data-question="15"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">15</div><div class="question-category">Calcul</div></div></div><h2 class="question-title" id="q15-title" tabindex="-1">Une LED de 10W remplace une lampe à incandescence de 60W. Quel est le % d'économie ?</h2><div class="options" role="radiogroup" aria-labelledby="q15-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Environ 83%</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Environ 75%</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Environ 50%</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Environ 90%</div></div><div class="feedback" id="feedback15" tabindex="-1"><p class="feedback-title">Réponse : Environ 83%</p><p class="feedback-explanation">L'économie est de 60W - 10W = 50W. Pour trouver le pourcentage, on divise l'économie par la consommation initiale.</p> <div class="calculation-breakdown">Calcul : ((60W - 10W) / 60W) × 100 ≈ <strong>83.3%</strong></div><div class="context-box"><h4>🔢 Méthode</h4><p><strong>% économie = ( (Consommation initiale - Nouvelle consommation) / Consommation initiale ) × 100</strong></p></div></div></div>
-            <div class="question-card" data-question="16"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">16</div><div class="question-category">Histoire Interactive</div></div></div><h2 class="question-title" id="q16-title" tabindex="-1">Organisez l'histoire ! Glissez-déposez chaque innovation sur la bonne période.</h2><div class="interactive-question-container timeline-container" id="q16-container"><div class="timeline-events" id="q16-events"><div class="draggable-item" draggable="true" data-id="led">Invention de la LED</div><div class="draggable-item" draggable="true" data-id="gaz">Généralisation de l'éclairage au gaz</div><div class="draggable-item" draggable="true" data-id="edison">Invention de l'ampoule à incandescence</div><div class="draggable-item" draggable="true" data-id="smart">Ère des Smart-Cities et du <span class="tooltip">Li-Fi<span class="tooltip-text">Light Fidelity. Technologie de communication sans fil basée sur l'utilisation de la lumière (LED).</span></span></div></div><div class="timeline-slots"><div class="timeline-slot"><div class="timeline-year">Début 19e s.</div><div class="dropzone" data-target="gaz"></div></div><div class="timeline-slot"><div class="timeline-year">Fin 19e s.</div><div class="dropzone" data-target="edison"></div></div><div class="timeline-slot"><div class="timeline-year">Milieu 20e s.</div><div class="dropzone" data-target="led"></div></div><div class="timeline-slot"><div class="timeline-year">Années 2020</div><div class="dropzone" data-target="smart"></div></div></div></div><div class="feedback" id="feedback16" tabindex="-1"><p class="feedback-title">Chronologie de l'éclairage</p><p class="feedback-explanation">L'ordre correct est : Éclairage au gaz (début 19e), Ampoule d'Edison (fin 19e), Invention de la LED (milieu 20e, mais généralisation bien plus tardive), et enfin l'ère des Smart Cities (récente).</p></div></div>
-            <div class="question-card" data-question="17"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">17</div><div class="question-category">Smart City en pratique</div></div></div><h2 class="question-title" id="q17-title" tabindex="-1">Construisez un lampadaire intelligent ! Sélectionnez au moins 4 fonctionnalités.</h2><div class="smart-lamppost-builder" id="q17-builder"><div class="feature-option" data-id="wifi" role="button" tabindex="0" title="Diffuse un signal Wi-Fi ou 5G pour connecter les passants."><div class="feature-icon">📡</div><div>Hotspot Wi-Fi / 5G</div></div><div class="feature-option" data-id="air" role="button" tabindex="0" title="Mesure les polluants (particules fines, NOx...) en temps réel."><div class="feature-icon">🌬️</div><div>Capteur de qualité de l'air</div></div><div class="feature-option" data-id="charge" role="button" tabindex="0" title="Permet de recharger les voitures, scooters ou vélos électriques."><div class="feature-icon">🔌</div><div>Borne de recharge véhicule</div></div><div class="feature-option" data-id="camera" role="button" tabindex="0" title="Assure la sécurité et peut analyser les flux de piétons/véhicules."><div class="feature-icon">📹</div><div>Caméra de sécurité IA</div></div><div class="feature-option" data-id="speaker" role="button" tabindex="0" title="Diffuse des annonces d'urgence (alerte météo, sécurité...)."><div class="feature-icon">📢</div><div>Haut-parleur d'alerte</div></div><div class="feature-option" data-id="parking" role="button" tabindex="0" title="Détecte si une place de stationnement à proximité est libre ou occupée."><div class="feature-icon">🅿️</div><div>Détection de place de parking</div></div></div><div class="feedback" id="feedback17" tabindex="-1"><div class="feedback-correct"><p class="feedback-title">Lampadaire Intelligent assemblé !</p><p class="feedback-explanation">Votre sélection montre que vous avez bien compris comment un simple point lumineux peut devenir un "couteau suisse" technologique au service de la ville.</p><div id="q17-description-box" class="context-box"><h4>Votre lampadaire intelligent inclut :</h4><ul id="q17-description-list"></ul></div></div><div class="feedback-incorrect"><p><strong>Sélectionnez au moins 4 fonctionnalités</strong> pour créer un lampadaire vraiment "intelligent" !</p></div></div></div>
+            <div id="questions-wrapper">
+                 <div class="question-card" data-question="1"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">1</div><div class="question-category">Histoire</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q1-title" tabindex="-1">Quel type d'éclairage dominait les villes jusqu'au XIXème siècle ?</h2><div class="options" role="radiogroup" aria-labelledby="q1-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>L'éclairage électrique</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>L'éclairage au gaz</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>L'éclairage solaire</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>L'éclairage LED</div></div><div class="feedback" id="feedback1" tabindex="-1"><p class="feedback-title">Réponse : L'éclairage au gaz</p><p class="feedback-explanation">Avant l'avènement de l'électricité, le gaz de ville, produit par la distillation de la houille, était la principale source d'éclairage public.</p><div class="context-box"><h4>📚 Contexte</h4><p>Paris fut l'une des premières villes au monde à adopter l'éclairage public au gaz à grande échelle vers 1820, lui valant son surnom de "Ville Lumière".</p></div></div></div>
+            
+            <div class="question-card" data-question="2"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">2</div><div class="question-category">Histoire</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q2-title" tabindex="-1">En quelle année Thomas Edison a-t-il présenté sa première lampe à incandescence durable au public ?</h2><div class="options" role="radiogroup" aria-labelledby="q2-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>1879</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>1881</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>1885</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>1890</div></div><div class="feedback" id="feedback2" tabindex="-1"><p class="feedback-title">Réponse : 1879</p><p class="feedback-explanation">C'est fin 1879 que Thomas Edison a fait la démonstration publique de sa lampe, qui pouvait briller pendant environ 13 heures, une révolution pour l'époque.</p><details><summary>En savoir + sur le filament</summary><div class="details-content"><p>Le filament de cette première lampe était un simple <strong>fil de coton à coudre, carbonisé</strong>. Cette innovation a été ensuite grandement améliorée, notamment avec l'utilisation de bambou du Japon carbonisé, permettant d'atteindre des durées de vie de plusieurs centaines d'heures.</p></div></details></div></div>
+            
+            <div class="question-card" data-question="3"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">3</div><div class="question-category">Infrastructure</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q3-title" tabindex="-1">Combien de points lumineux parsèment Paris (chiffre de l'épisode) ?</h2><div class="options" role="radiogroup" aria-labelledby="q3-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>50 000</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>100 000</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>150 000</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>200 000</div></div><div class="feedback" id="feedback3" tabindex="-1"><p class="feedback-title">Réponse : 150 000 points lumineux</p><p class="feedback-explanation">À l'époque du tournage, Paris comptait ce nombre impressionnant de sources lumineuses pour assurer l'éclairage de ses rues et monuments.</p><div class="context-box"><h4>🔧 Maintenance</h4><p>Aujourd'hui, ce chiffre a évolué et une grande partie de ce parc est convertie en <span class="tooltip">LED<span class="tooltip-text">Diode Électroluminescente.</span></span> et gérée par des systèmes de télégestion pour optimiser la consommation et la maintenance.</p></div></div></div>
+            
+            <div class="question-card" data-question="4"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">4</div><div class="question-category">Technique</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q4-title" tabindex="-1">Selon Jamy, comment une lampe à incandescence produit-elle de la lumière ?</h2><div class="options" role="radiogroup" aria-labelledby="q4-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Par combustion d'un gaz</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>En chauffant un filament jusqu'à l'incandescence</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Par décharge électrique dans un tube</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Par réaction chimique</div></div><div class="feedback" id="feedback4" tabindex="-1"><p class="feedback-title">Réponse : En chauffant un filament jusqu'à l'incandescence</p><p class="feedback-explanation">Le passage du courant électrique dans un filament (souvent en tungstène) le chauffe à une température si élevée qu'il émet de la lumière visible.</p><details><summary>En savoir + sur l'inefficacité</summary><div class="details-content"><p>Ce procédé est très inefficace : <strong>plus de 90% de l'énergie est perdue sous forme de chaleur !</strong> C'est pourquoi ces ampoules sont très chaudes au toucher. En comparaison, une LED moderne convertit jusqu'à 95% de son énergie en lumière, ce qui explique sa faible consommation et pourquoi elle reste froide.</p></div></details></div></div>
+            
+            <div class="question-card" data-question="5"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">5</div><div class="question-category">Ampoules</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q5-title" tabindex="-1">Quelle est la différence principale entre une lampe classique et une lampe halogène ?</h2><div class="options" role="radiogroup" aria-labelledby="q5-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>La lampe halogène a un filament différent</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>La lampe halogène contient un gaz qui permet un filament plus chaud</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>La lampe halogène fonctionne sans électricité</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>La lampe halogène est plus grosse</div></div><div class="feedback" id="feedback5" tabindex="-1"><p class="feedback-title">Réponse : La lampe halogène contient un gaz</p><p class="feedback-explanation">L'ampoule contient un gaz halogéné (iode ou brome) qui, par un cycle chimique, redépose le tungstène évaporé sur le filament. Cela permet au filament de chauffer plus, produisant une lumière plus blanche et vive.</p><details><summary>En savoir + sur le cycle halogène</summary><div class="details-content"><p>Ce cycle a permis d'augmenter la durée de vie (de 1000h à 2000h) et l'efficacité des lampes à incandescence. C'était une amélioration importante, mais elles restent bien moins performantes que les lampes fluocompactes ou les LED qui les ont remplacées.</p></div></details></div></div>
+            
+            <div class="question-card" data-question="6"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">6</div><div class="question-category">Lampes à décharge</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q6-title" tabindex="-1">Qu'est-ce qu'une lampe à décharge selon les explications de Jamy ?</h2><div class="options" role="radiogroup" aria-labelledby="q6-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Une lampe qui se décharge comme une pile</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Une lampe qui produit de la lumière par décharge électrique dans un gaz</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Une lampe qui ne fonctionne que le jour</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Une lampe sans filament</div></div><div class="feedback" id="feedback6" tabindex="-1"><p class="feedback-title">Réponse : Production de lumière par décharge électrique dans un gaz</p><p class="feedback-explanation">Contrairement à l'incandescence, cette technologie n'utilise pas de filament chauffé. Un arc électrique est créé entre deux électrodes, ce qui excite un gaz (sodium, mercure...) qui émet alors de la lumière.</p><div class="context-box"><h4>🚀 Remplacement massif</h4><p>Les lampadaires à la lumière orange caractéristique (lampes à sodium) sont un exemple typique de lampes à décharge. Ils sont massivement remplacés par des LED plus efficaces et polyvalentes.</p></div></div></div>
+            
+            <div class="question-card" data-question="7"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">7</div><div class="question-category">Environnement</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q7-title" tabindex="-1">Quel est l'un des défis environnementaux majeurs de l'éclairage urbain ?</h2><div class="options" role="radiogroup" aria-labelledby="q7-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Le manque de lumière</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>La pollution lumineuse et son impact sur la faune nocturne</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Le coût trop faible</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>L'éclairage trop coloré</div></div><div class="feedback" id="feedback7" tabindex="-1"><p class="feedback-title">Réponse : La pollution lumineuse</p><p class="feedback-explanation">L'éclairage artificiel excessif ou mal dirigé crée un "halo lumineux" au-dessus des villes qui perturbe les écosystèmes, notamment les cycles de vie et de migration des animaux nocturnes (insectes, oiseaux, chauves-souris).</p><details><summary>En savoir + sur les couleurs (Kelvin)</summary><div class="details-content"><p>La "couleur" de la lumière se mesure en <strong>Kelvin (K)</strong>. Une lumière "chaude" (orange, ~2200K) contient peu de lumière bleue et perturbe moins la faune. Une lumière "froide" (blanche-bleutée, > 4000K) est riche en lumière bleue et a un impact plus fort. Les villes privilégient donc des LED de <strong>moins de 3000K</strong> pour protéger la biodiversité.</p></div></details></div></div>
+            
+            <div class="question-card" data-question="8"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">8</div><div class="question-category">Énergie alternative</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q8-title" tabindex="-1">Quelle innovation surprenante permet d'alimenter l'éclairage de manière écologique ?</h2><div class="options" role="radiogroup" aria-labelledby="q8-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Les batteries de sol utilisant les plantes</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>L'énergie du vent uniquement</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Les hamsters dans des roues</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>L'énergie des voitures qui passent</div></div><div class="feedback" id="feedback8" tabindex="-1"><p class="feedback-title">Réponse : Les batteries de sol utilisant les plantes</p><p class="feedback-explanation">Des startups développent des technologies qui exploitent les micro-organismes présents dans le sol autour des racines des plantes. Ces microbes dégradent la matière organique et libèrent des électrons, créant un courant électrique.</p><div class="context-box"><h4>🧬 Biotechnologies</h4><p>Bien qu'encore expérimentale et à faible rendement, cette approche bio-inspirée montre une voie fascinante pour une énergie décentralisée et intégrée à l'environnement urbain.</p></div></div></div>
+            
+            <div class="question-card" data-question="9"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">9</div><div class="question-category">Smart Cities <span class="modern-topic-tag" title="Sujet moderne non couvert par la vidéo de référence.">*</span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q9-title" tabindex="-1">Dans une "ville intelligente", un lampadaire peut maintenant servir à :</h2><div class="options" role="radiogroup" aria-labelledby="q9-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Seulement éclairer les rues</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Mesurer la qualité de l'air, fournir du Wi-Fi et diffuser des infos</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Uniquement décorer la ville</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Remplacer les feux de circulation</div></div><div class="feedback" id="feedback9" tabindex="-1"><p class="feedback-title">Réponse : Mesurer la qualité de l'air, fournir du Wi-Fi...</p><p class="feedback-explanation">Le lampadaire, déjà alimenté et présent partout en ville, est devenu le support idéal pour une multitude de capteurs et services connectés.</p><details><summary>En savoir + sur le Li-Fi</summary><div class="details-content"><p>Certains lampadaires peuvent même transmettre des données via la lumière elle-même ! C'est la technologie <strong>Li-Fi (Light Fidelity)</strong>. En modulant l'intensité de la lumière à une fréquence imperceptible pour l'œil humain, on peut créer une connexion internet très rapide et sécurisée, complémentaire au Wi-Fi.</p></div></details></div></div>
+            
+            <div class="question-card" data-question="10"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">10</div><div class="question-category">Économies</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q10-title" tabindex="-1">Quelle économie d'énergie peut réaliser une ville en passant à l'éclairage <span class="tooltip">LED<span class="tooltip-text">Diode Électroluminescente.</span></span> intelligent ?</h2><div class="options" role="radiogroup" aria-labelledby="q10-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>10 à 20%</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>30 à 40%</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>50 à 75%</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>90 à 100%</div></div><div class="feedback" id="feedback10" tabindex="-1"><p class="feedback-title">Réponse : 50 à 75%</p><p class="feedback-explanation">La combinaison de la haute efficacité des LED (par rapport aux anciennes lampes) et des systèmes de gestion intelligents (qui modulent l'intensité lumineuse selon les besoins) permet de réaliser des économies d'énergie très significatives.</p><div class="context-box"><h4>📈 Retour sur investissement</h4><p>Malgré un coût d'installation élevé, le retour sur investissement est rapide (souvent entre 3 et 7 ans) grâce aux économies sur la facture d'électricité et la réduction des coûts de maintenance.</p></div></div></div>
+            
+            <div class="question-card" data-question="11"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">11</div><div class="question-category">Innovations <span class="modern-topic-tag" title="Sujet moderne non couvert par la vidéo de référence.">*</span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q11-title" tabindex="-1">Quelle technologie de détection améliore la précision de l'éclairage adaptatif ?</h2><div class="options" role="radiogroup" aria-labelledby="q11-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Les capteurs infrarouges classiques</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Les radars à ondes millimétriques</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Les caméras simples</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Les capteurs de température</div></div><div class="feedback" id="feedback11" tabindex="-1"><p class="feedback-title">Réponse : Les radars à ondes millimétriques</p><p class="feedback-explanation">Ces radars avancés sont beaucoup plus précis que les capteurs infrarouges. Ils peuvent détecter la présence, la vitesse et la direction des piétons ou des véhicules, même dans de mauvaises conditions météorologiques.</p><details><summary>En savoir + : Radar vs Infrarouge (PIR)</summary><div class="details-content"><p>Un capteur <strong>infrarouge passif (PIR)</strong> détecte les changements de chaleur. Il peut être trompé par temps chaud ou ne pas détecter une personne immobile. Un <strong>radar</strong> envoie des ondes et analyse leur écho. Il détecte donc le moindre mouvement et la position exacte, quelle que soit la température, ce qui le rend beaucoup plus fiable.</p></div></details></div></div>
+
+            <div class="question-card" data-question="12"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">12</div><div class="question-category">Synthèse <span class="modern-topic-tag" title="Sujet moderne non couvert par la vidéo de référence.">*</span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q12-title" tabindex="-1">Quel est le défi principal pour l'avenir de l'éclairage urbain ?</h2><div class="options" role="radiogroup" aria-labelledby="q12-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Éclairer plus fort partout</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Concilier efficacité énergétique, biodiversité et services connectés</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Revenir à l'éclairage au gaz</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Supprimer tout éclairage public</div></div><div class="feedback" id="feedback12" tabindex="-1"><p class="feedback-title">Réponse : Concilier efficacité, biodiversité et services</p><p class="feedback-explanation">L'éclairage de demain doit être un compromis intelligent : il doit consommer le moins possible, tout en assurant la sécurité des citoyens, en offrant de nouveaux services et en minimisant son impact sur l'environnement nocturne.</p><div class="context-box"><h4>🔮 Perspective 2030</h4><p>L'avenir s'oriente vers des réseaux d'éclairage entièrement autonomes et auto-adaptatifs, qui ajustent en temps réel la couleur et l'intensité de la lumière en fonction de données multiples (météo, trafic, événements, cycles de la faune...).</p></div></div></div>
+            
+            <div class="question-card" data-question="13"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">13</div><div class="question-category">Calcul</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q13-title" tabindex="-1">Une lampe LED de 15W produit 1500 <span class="tooltip">lumens<span class="tooltip-text">Unité de mesure de la quantité totale de lumière visible émise par une source.</span></span>. Quelle est son efficacité lumineuse (en lm/W) ?</h2><div class="options" role="radiogroup" aria-labelledby="q13-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>75 lm/W</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>90 lm/W</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>100 lm/W</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>120 lm/W</div></div><div class="feedback" id="feedback13" tabindex="-1"><p class="feedback-title">Réponse : 100 lm/W</p><p class="feedback-explanation">L'efficacité lumineuse se calcule en divisant le flux lumineux (lumens) par la puissance consommée (Watts).</p><div class="calculation-breakdown">Calcul : 1500 lumens / 15 Watts = <strong>100 lm/W</strong></div><div class="context-box"><h4>💡 Rappel</h4><p><strong>Efficacité (lm/W) = Flux lumineux (lm) ÷ Puissance (W)</strong>. Plus ce chiffre est élevé, plus la lampe convertit efficacement l'électricité en lumière.</p></div></div></div>
+            <div class="question-card" data-question="14"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">14</div><div class="question-category">Maintenance</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q14-title" tabindex="-1">Combien de lampes classiques (2000h) faut-il pour la durée de vie d'une seule LED (50000h) ?</h2><div class="options" role="radiogroup" aria-labelledby="q14-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>15 fois</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>25 fois</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>30 fois</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>35 fois</div></div><div class="feedback" id="feedback14" tabindex="-1"><p class="feedback-title">Réponse : 25 fois</p><p class="feedback-explanation">On divise la durée de vie de la LED par celle de la lampe classique.</p> <div class="calculation-breakdown">Calcul : 50 000 heures / 2 000 heures = <strong>25</strong></div><div class="context-box"><h4>🌱 Impact</h4><p>Cette longévité exceptionnelle réduit drastiquement les coûts de main-d'œuvre pour le remplacement des ampoules, ainsi que la quantité de déchets générés.</p></div></div></div>
+            <div class="question-card" data-question="15"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">15</div><div class="question-category">Calcul</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q15-title" tabindex="-1">Une LED de 10W remplace une lampe à incandescence de 60W. Quel est le % d'économie ?</h2><div class="options" role="radiogroup" aria-labelledby="q15-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Environ 83%</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Environ 75%</div><div class="option" data-answer="c" role="radio" aria-checked="false"><span class="option-number">3</span>Environ 50%</div><div class="option" data-answer="d" role="radio" aria-checked="false"><span class="option-number">4</span>Environ 90%</div></div><div class="feedback" id="feedback15" tabindex="-1"><p class="feedback-title">Réponse : Environ 83%</p><p class="feedback-explanation">L'économie est de 60W - 10W = 50W. Pour trouver le pourcentage, on divise l'économie par la consommation initiale.</p> <div class="calculation-breakdown">Calcul : ((60W - 10W) / 60W) × 100 ≈ <strong>83.3%</strong></div><div class="context-box"><h4>🔢 Méthode</h4><p><strong>% économie = ( (Consommation initiale - Nouvelle consommation) / Consommation initiale ) × 100</strong></p></div></div></div>
+            <div class="question-card" data-question="16"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">16</div><div class="question-category">Histoire Interactive</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q16-title" tabindex="-1">Organisez l'histoire ! Glissez-déposez chaque innovation sur la bonne période.</h2><div class="interactive-question-container timeline-container" id="q16-container"><div class="timeline-events" id="q16-events"><div class="draggable-item" draggable="true" data-id="led">Invention de la LED</div><div class="draggable-item" draggable="true" data-id="gaz">Généralisation de l'éclairage au gaz</div><div class="draggable-item" draggable="true" data-id="edison">Invention de l'ampoule à incandescence</div><div class="draggable-item" draggable="true" data-id="smart">Ère des Smart-Cities et du <span class="tooltip">Li-Fi<span class="tooltip-text">Light Fidelity. Technologie de communication sans fil basée sur l'utilisation de la lumière (LED).</span></span></div></div><div class="timeline-slots"><div class="timeline-slot"><div class="timeline-year">Début 19e s.</div><div class="dropzone" data-target="gaz"></div></div><div class="timeline-slot"><div class="timeline-year">Fin 19e s.</div><div class="dropzone" data-target="edison"></div></div><div class="timeline-slot"><div class="timeline-year">Milieu 20e s.</div><div class="dropzone" data-target="led"></div></div><div class="timeline-slot"><div class="timeline-year">Années 2020</div><div class="dropzone" data-target="smart"></div></div></div></div><div class="feedback" id="feedback16" tabindex="-1"><p class="feedback-title">Chronologie de l'éclairage</p><p class="feedback-explanation">L'ordre correct est : Éclairage au gaz (début 19e), Ampoule d'Edison (fin 19e), Invention de la LED (milieu 20e, mais généralisation bien plus tardive), et enfin l'ère des Smart Cities (récente).</p></div></div>
+            <div class="question-card" data-question="17"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">17</div><div class="question-category">Smart City en pratique <span class="modern-topic-tag" title="Sujet moderne non couvert par la vidéo de référence.">*</span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q17-title" tabindex="-1">Construisez un lampadaire intelligent ! Sélectionnez au moins 4 fonctionnalités.</h2><div class="smart-lamppost-builder" id="q17-builder"><div class="feature-option" data-id="wifi" role="button" tabindex="0" title="Diffuse un signal Wi-Fi ou 5G pour connecter les passants."><div class="feature-icon">📡</div><div>Hotspot Wi-Fi / 5G</div></div><div class="feature-option" data-id="air" role="button" tabindex="0" title="Mesure les polluants (particules fines, NOx...) en temps réel."><div class="feature-icon">🌬️</div><div>Capteur de qualité de l'air</div></div><div class="feature-option" data-id="charge" role="button" tabindex="0" title="Permet de recharger les voitures, scooters ou vélos électriques."><div class="feature-icon">🔌</div><div>Borne de recharge véhicule</div></div><div class="feature-option" data-id="camera" role="button" tabindex="0" title="Assure la sécurité et peut analyser les flux de piétons/véhicules."><div class="feature-icon">📹</div><div>Caméra de sécurité IA</div></div><div class="feature-option" data-id="speaker" role="button" tabindex="0" title="Diffuse des annonces d'urgence (alerte météo, sécurité...)."><div class="feature-icon">📢</div><div>Haut-parleur d'alerte</div></div><div class="feature-option" data-id="parking" role="button" tabindex="0" title="Détecte si une place de stationnement à proximité est libre ou occupée."><div class="feature-icon">🅿️</div><div>Détection de place de parking</div></div></div><div class="feedback" id="feedback17" tabindex="-1"><div class="feedback-correct"><p class="feedback-title">Lampadaire Intelligent assemblé !</p><p class="feedback-explanation">Votre sélection montre que vous avez bien compris comment un simple point lumineux peut devenir un "couteau suisse" technologique au service de la ville.</p><div id="q17-description-box" class="context-box"><h4>Votre lampadaire intelligent inclut :</h4><ul id="q17-description-list"></ul></div></div><div class="feedback-incorrect"><p><strong>Sélectionnez au moins 4 fonctionnalités</strong> pour créer un lampadaire vraiment "intelligent" !</p></div></div></div>
             
             <div class="question-card" data-question="18">
-                <div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div>
-                <div class="question-header">
-                    <div class="question-header-left">
-                        <div class="question-number">18</div>
-                        <div class="question-category">Classement d'Efficacité</div>
-                    </div>
-                </div>
+                <div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div>
+                <div class="question-header"><div class="question-header-left"><div class="question-number">18</div><div class="question-category">Classement d'Efficacité <span class="modern-topic-tag" title="Sujet moderne non couvert par la vidéo de référence.">*</span></div></div><div class="nav-buttons"></div></div>
                 <h2 class="question-title" id="q18-title" tabindex="-1">Classez ces technologies de la <strong>plus efficace</strong> à la <strong>moins efficace</strong>.</h2>
                 <div class="interactive-question-container ranking-container" id="q18-container">
                     <div class="ranking-source dropzone" id="q18-source">
@@ -435,68 +448,48 @@
                 </div>
             </div>
 
-            <div class="question-card" data-question="19"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">19</div><div class="question-category">Mythe ou Réalité</div></div></div><h2 class="question-title" id="q19-title" tabindex="-1">Affirmation : "Grâce à leur faible consommation, les éclairages LED blancs modernes ont toujours un impact environnemental plus faible que les anciennes lampes oranges."</h2><div class="options" role="radiogroup" aria-labelledby="q19-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Vrai</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Faux</div></div><div class="feedback" id="feedback19" tabindex="-1"><p class="feedback-title">Réponse : Faux</p><p class="feedback-explanation">Bien que plus efficaces énergétiquement, les LED blanches froides (riches en lumière bleue) peuvent perturber davantage la faune nocturne et le rythme circadien humain que la lumière orange des anciennes lampes.</p><div class="context-box"><h4>🔬 Énergie vs. Biodiversité</h4><p>C'est un compromis : l'impact environnemental n'est pas qu'énergétique. De plus en plus de villes optent pour des LED à teinte chaude (ambrées, < 3000K) pour un meilleur équilibre.</p></div></div></div>
-            <div class="question-card" data-question="20"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses.</div><div class="question-header"><div class="question-header-left"><div class="question-number">20</div><div class="question-category">Tri Interactif</div></div></div><h2 class="question-title" id="q20-title" tabindex="-1">Triez les caractéristiques : glissez chaque étiquette dans la bonne catégorie.</h2><div class="interactive-question-container sorting-container" id="q20-container"><div class="sorting-source-list dropzone" id="q20-source"><div class="draggable-item" draggable="true" data-category="led">Très longue durée de vie (> 50 000h)</div><div class="draggable-item" draggable="true" data-category="old">Contient du mercure (polluant)</div><div class="draggable-item" draggable="true" data-category="led">Allumage instantané</div><div class="draggable-item" draggable="true" data-category="old">Long temps de préchauffage</div><div class="draggable-item" draggable="true" data-category="led">Excellente efficacité énergétique</div><div class="draggable-item" draggable="true" data-category="old">Lumière monochromatique (orange)</div></div><div class="sorting-bins"><div class="sorting-bin"><h4>💡 LED Moderne</h4><div class="dropzone" data-target="led"></div></div><div class="sorting-bin"><h4>🏮 Ancienne Lampe à Décharge (Sodium)</h4><div class="dropzone" data-target="old"></div></div></div></div><div class="feedback" id="feedback20" tabindex="-1"><p class="feedback-title">Distinction des technologies</p><p class="feedback-explanation">Vous avez trié les caractéristiques des deux générations d'éclairage. Les LED se distinguent par leur efficacité, leur longévité et leur flexibilité, tandis que les lampes à décharge avaient des contraintes comme le temps de chauffe et la présence de matériaux polluants.</p></div></div>
+            <div class="question-card" data-question="19"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">19</div><div class="question-category">Mythe ou Réalité <span class="modern-topic-tag" title="Sujet moderne non couvert par la vidéo de référence.">*</span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q19-title" tabindex="-1">Affirmation : "Grâce à leur faible consommation, les éclairages LED blancs modernes ont toujours un impact environnemental plus faible que les anciennes lampes oranges."</h2><div class="options" role="radiogroup" aria-labelledby="q19-title"><div class="option" data-answer="a" role="radio" aria-checked="false"><span class="option-number">1</span>Vrai</div><div class="option" data-answer="b" role="radio" aria-checked="false"><span class="option-number">2</span>Faux</div></div><div class="feedback" id="feedback19" tabindex="-1"><p class="feedback-title">Réponse : Faux</p><p class="feedback-explanation">Bien que plus efficaces énergétiquement, les LED blanches froides (riches en lumière bleue) peuvent perturber davantage la faune nocturne et le rythme circadien humain que la lumière orange des anciennes lampes.</p><div class="context-box"><h4>🔬 Énergie vs. Biodiversité</h4><p>C'est un compromis : l'impact environnemental n'est pas qu'énergétique. De plus en plus de villes optent pour des LED à teinte chaude (ambrées, < 3000K) pour un meilleur équilibre.</p></div></div></div>
+            <div class="question-card" data-question="20"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">20</div><div class="question-category">Tri Interactif <span class="modern-topic-tag" title="Sujet moderne non couvert par la vidéo de référence.">*</span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q20-title" tabindex="-1">Triez les caractéristiques : glissez chaque étiquette dans la bonne catégorie.</h2><div class="interactive-question-container sorting-container" id="q20-container"><div class="sorting-source-list dropzone" id="q20-source"><div class="draggable-item" draggable="true" data-category="led">Très longue durée de vie (> 50 000h)</div><div class="draggable-item" draggable="true" data-category="old">Contient du mercure (polluant)</div><div class="draggable-item" draggable="true" data-category="led">Allumage instantané</div><div class="draggable-item" draggable="true" data-category="old">Long temps de préchauffage</div><div class="draggable-item" draggable="true" data-category="led">Excellente efficacité énergétique</div><div class="draggable-item" draggable="true" data-category="old">Lumière monochromatique (orange)</div></div><div class="sorting-bins"><div class="sorting-bin"><h4>💡 LED Moderne</h4><div class="dropzone" data-target="led"></div></div><div class="sorting-bin"><h4>🏮 Ancienne Lampe à Décharge (Sodium)</h4><div class="dropzone" data-target="old"></div></div></div></div><div class="feedback" id="feedback20" tabindex="-1"><p class="feedback-title">Distinction des technologies</p><p class="feedback-explanation">Vous avez trié les caractéristiques des deux générations d'éclairage. Les LED se distinguent par leur efficacité, leur longévité et leur flexibilité, tandis que les lampes à décharge avaient des contraintes comme le temps de chauffe et la présence de matériaux polluants.</p></div></div>
+            </div>
         </div>
 
         <div class="results" id="results">
             <div id="confetti-container"></div>
             <h2>🎉 Félicitations ! Questionnaire terminé</h2>
-            <div class="score-circle" id="scoreCircle">
-                <span id="scoreDisplay">0/20</span>
-            </div>
+            <div class="score-circle" id="scoreCircle"><span id="scoreDisplay">0/20</span></div>
             <h3 class="score-title" id="scoreMessage">Votre titre</h3>
             <p id="scoreDescription">Description de votre performance</p>
-            
-            <div class="badges-earned-container" id="badgesEarnedContainer">
-                <h4>🏆 Badges Obtenus</h4>
-                <div id="badges-earned"></div>
-            </div>
-
+            <div class="badges-earned-container" id="badgesEarnedContainer"><h4>🏆 Tableau des Badges</h4><div id="badges-earned"></div></div>
             <div class="key-takeaways">
                 <h4>✨ Ce qu'il faut retenir</h4>
                 <ul>
-                    <li>La technologie <strong>LED</strong> a révolutionné l'éclairage par son efficacité, sa durée de vie et sa flexibilité (couleur, intensité).</li>
+                    <li>L'éclairage a connu une évolution majeure : du gaz aux <strong>LED</strong>, qui dominent aujourd'hui par leur efficacité, leur durée de vie et leur flexibilité (couleur, intensité).</li>
                     <li>Le lampadaire moderne est devenu une <strong>plateforme de services</strong> pour la "Smart City" (Wi-Fi, capteurs, sécurité...).</li>
-                    <li>L'enjeu actuel est de trouver un équilibre entre <strong>efficacité énergétique</strong>, <strong>sécurité</strong> et <strong>protection de la biodiversité</strong> contre la pollution lumineuse.</li>
+                    <li>L'enjeu actuel est de trouver un équilibre entre <strong>efficacité énergétique</strong>, <strong>sécurité des citoyens</strong> et <strong>protection de la biodiversité</strong> contre la pollution lumineuse.</li>
                 </ul>
             </div>
-            
-            <div class="results-summary">
-                <h4>Récapitulatif de vos réponses</h4>
-                <div id="summaryContent"></div>
-            </div>
-
+            <div class="results-summary"><h4>Récapitulatif de vos réponses</h4><div id="summaryContent"></div></div>
             <div class="results-actions">
-                <button class="btn btn-primary" onclick="reviewQuestions()">🧐 Revoir mes réponses</button>
-                <button class="btn btn-secondary" onclick="restartQuiz()">🔄 Recommencer</button>
+                <button class="btn btn-primary" id="resultsReviewBtn">🧐 Revoir mes réponses</button>
+                <button class="btn btn-secondary" id="reviewErrorsBtn">🧐 Revoir mes erreurs</button>
+                <button class="btn btn-secondary" id="resultsRestartBtn">🔄 Recommencer</button>
             </div>
-        </div>
-        
-        <button class="btn btn-primary" id="backToResultsBtn" onclick="showResults(false)" style="display: none; margin: 20px auto;">Retour aux résultats</button>
-        
-        <div class="nav-buttons">
-            <button class="btn-nav" id="prevBtn" title="Précédent (←)" aria-label="Question précédente" disabled>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414L7.828 11z" fill="currentColor"/></svg>
-            </button>
-            <button class="btn-nav" id="nextBtn" title="Suivant (→)" aria-label="Question suivante" disabled>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.172 11l-5.364-5.364 1.414-1.414L22 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2h12.172z" fill="currentColor"/></svg>
-            </button>
+            <footer id="resultsFooter">Réalisé par David Trafial</footer>
         </div>
     </div>
     
-    <div class="video-container" id="videoWidget">
+    <div class="video-container floating-widget minimized" id="videoWidget">
         <div class="video-header" id="videoHeader">
             <span class="dynamic-icon" id="videoStatusIcon">🎬</span>
             <span class="video-title">Vidéo C'est Pas Sorcier</span>
             <div class="video-controls">
-                <button id="minimizeBtn" aria-label="Minimiser la vidéo">_</button>
+                <button id="minimizeBtn" aria-label="Minimiser la vidéo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg></button>
             </div>
         </div>
         <div class="video-content">
              <div class="video-player-container" id="videoPlayerContainer">
-                <div class="play-icon">▶</div>
-             </div>
+                <svg class="play-icon-svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+            </div>
         </div>
     </div>
     
@@ -511,14 +504,14 @@
             </div>
             <h3>🏆 Vos Badges</h3>
             <div class="badges-grid">
-                <div class="badge" title="Terminer l'exercice de la timeline avec succès"><div class="badge-icon" id="badge-history">🕰️</div><p>Historien Précis</p></div>
-                <div class="badge" title="Construire un lampadaire intelligent avec succès"><div class="badge-icon" id="badge-smartcity">🏙️</div><p>Ingénieur Smart City</p></div>
-                <div class="badge" title="Réussir les 3 questions de calcul"><div class="badge-icon" id="badge-calculator">🧮</div><p>Calculateur Rapide</p></div>
-                <div class="badge" title="Réussir les 3 exercices techniques interactifs"><div class="badge-icon" id="badge-expert">🛠️</div><p>Expert Technique</p></div>
-                <div class="badge" title="Obtenir 5 bonnes réponses d'affilée"><div class="badge-icon" id="badge-streak">🔥</div><p>Série Parfaite</p></div>
-                <div class="badge" title="Explorer l'interface (ouvrir stats, voir vidéo, utiliser l'astuce)"><div class="badge-icon" id="badge-curious">🕵️</div><p>Curieux de Nature</p></div>
-                <div class="badge" title="Obtenir un score parfait de 20/20"><div class="badge-icon" id="badge-perfect">🌟</div><p>Grand Chelem</p></div>
-                <div class="badge" title="Terminer le quiz en moins de 10 minutes"><div class="badge-icon" id="badge-sprinter">⚡</div><p>Éclair Rapide</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-history">🕰️</div><p>Historien Précis</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-smartcity">🏙️</div><p>Ingénieur Smart City</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-calculator">🧮</div><p>Calculateur Rapide</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-expert">🛠️</div><p>Expert Technique</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-streak">🔥</div><p>Série Parfaite</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-curious">🕵️</div><p>Curieux de Nature</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-perfect">🌟</div><p>Grand Chelem</p></div>
+                <div class="badge"><div class="badge-icon" id="badge-sprinter">⚡</div><p>Éclair Rapide</p></div>
             </div>
             <div class="reset-button-container">
                 <p>Recommencer le quiz depuis le début ?</p>
@@ -528,612 +521,316 @@
     </div>
     
     <div id="toast-container"></div>
-    
-    <footer>
-        Réalisé par David Trafial
-    </footer>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-    (function() { // <-- IIFE Open
-    // --- VARIABLES GLOBALES & CONSTANTES ---
-    let currentQuestion = 1;
-    let score = 0;
-    let totalQuestions;
-    let answers = []; // Initialized in init()
-    let isAnswered = []; // Initialized in init()
-    let q17_selections = [];
-    let videoPlayer;
-    let timerInterval;
-    let secondsElapsed = 0;
-    let currentStreak = 0;
-    let isReviewing = false;
+    (function() {
+    let currentQuestion = 1; let score = 0; let totalQuestions; let answers = []; let isAnswered = []; let q17_selections = [];
+    let videoPlayer; let timerInterval; let secondsElapsed = 0; let currentStreak = 0; let isReviewing = false;
     let badges = { history: false, smartcity: false, calculator: false, expert: false, streak: false, perfect: false, curious: false, sprinter: false };
     let curiosityTracker = { videoClicked: false, statsOpened: false, hintHovered: false };
     let draggedItem = null;
-
-    const quizSaveKey = 'urbanLightingQuiz_vFinal_24';
+    const quizSaveKey = 'urbanLightingQuiz_vFinal_41';
     const themeStorageKey = 'urbanLightingTheme_v1';
-
     const correctAnswers = { 1: 'b', 2: 'a', 3: 'c', 4: 'b', 5: 'b', 6: 'b', 7: 'b', 8: 'a', 9: 'b', 10: 'c', 11: 'b', 12: 'b', 13: 'c', 14: 'b', 15: 'a', 16: true, 17: true, 18: true, 19: 'b', 20: true };
     const questionTitles = [ "Éclairage dominant au XIXe s.", "Date de l'ampoule d'Edison", "Points lumineux à Paris", "Fonctionnement lampe à incandescence", "Différence lampe classique/halogène", "Principe lampes à décharge", "Défi environnemental majeur", "Innovation d'alimentation écologique", "Rôle de l'éclairage en Smart City", "Économie d'énergie avec les LED", "Technologie de détection avancée", "Défi futur de l'éclairage", "Calcul d'efficacité lumineuse", "Calcul d'économies de maintenance", "Calcul de % d'économie d'énergie", "Timeline interactive de l'histoire", "Constructeur de lampadaire intelligent", "Classement d'Efficacité", "Mythe ou Réalité", "Tri des Caractéristiques" ];
     const featureDetails = { wifi: { name: "Hotspot Wi-Fi / 5G", desc: "Diffuse un signal Wi-Fi ou 5G pour connecter les passants." }, air: { name: "Capteur qualité de l'air", desc: "Mesure les polluants (particules fines, NOx...) en temps réel." }, charge: { name: "Borne de recharge", desc: "Permet de recharger les voitures, scooters ou vélos électriques." }, camera: { name: "Caméra de sécurité IA", desc: "Assure la sécurité et peut analyser les flux de piétons/véhicules." }, speaker: { name: "Haut-parleur d'alerte", desc: "Diffuse des annonces d'urgence (alerte météo, sécurité...)." }, parking: { name: "Détection de parking", desc: "Détecte si une place de stationnement à proximité est libre ou occupée." } };
-    const badgeDetails = { history: { name: "Historien Précis", icon: "🕰️" }, smartcity: { name: "Ingénieur Smart City", icon: "🏙️" }, calculator: { name: "Calculateur Rapide", icon: "🧮" }, expert: { name: "Expert Technique", icon: "🛠️" }, streak: { name: "Série Parfaite", icon: "🔥" }, curious: { name: "Curieux de Nature", icon: "🕵️" }, perfect: { name: "Grand Chelem", icon: "🌟" }, sprinter: { name: "Éclair Rapide", icon: "⚡" } };
+    const badgeDetails = {
+        history: { name: "Historien Précis", icon: "🕰️", description: "Terminer l'exercice de la timeline avec succès" },
+        smartcity: { name: "Ingénieur Smart City", icon: "🏙️", description: "Construire un lampadaire intelligent avec succès" },
+        calculator: { name: "Calculateur Rapide", icon: "🧮", description: "Réussir les 3 questions de calcul" },
+        expert: { name: "Expert Technique", icon: "🛠️", description: "Réussir les exercices interactifs (timeline, classement, tri...)" },
+        streak: { name: "Série Parfaite", icon: "🔥", description: "Obtenir 5 bonnes réponses d'affilée" },
+        curious: { name: "Curieux de Nature", icon: "🕵️", description: "Explorer l'interface (ouvrir stats, voir vidéo, utiliser l'astuce)" },
+        perfect: { name: "Grand Chelem", icon: "🌟", description: "Obtenir un score parfait de 20/20" },
+        sprinter: { name: "Éclair Rapide", icon: "⚡", description: "Terminer le quiz en moins de 10 minutes" }
+    };
     
-    // SVGs pour les boutons
-    const svgArrowRight = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.172 11l-5.364-5.364 1.414-1.414L22 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2h12.172z" fill="currentColor"/></svg>';
-    const svgTrophy = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 16.938V19h5v2H6v-2h5v-2.062A8.001 8.001 0 0 1 4 9V3h16v6a8.001 8.001 0 0 1-7 7.938zM6 5v4a6 6 0 1 0 12 0V5H6zM12 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="currentColor"/></svg>';
-
     const dom = {
-        container: document.querySelector('.container'),
+        mainHeader: document.getElementById('mainHeader'), quizContent: document.querySelector('.quiz-content'),
+        startScreen: document.getElementById('startScreen'), startQuizBtn: document.getElementById('startQuizBtn'), resumeBtn: document.getElementById('resumeBtn'),
         questionsWrapper: document.getElementById('questions-wrapper'),
-        navButtons: document.querySelector('.nav-buttons'),
-        progressContainer: document.querySelector('.progress-container'),
         progressFill: document.getElementById('progressFill'), progressText: document.getElementById('progressText'), progressDotsContainer: document.getElementById('progressDots'),
         currentScore: document.getElementById('currentScore'), totalQuestionsDisplay: document.getElementById('totalQuestionsDisplay'),
-        prevBtn: document.getElementById('prevBtn'), nextBtn: document.getElementById('nextBtn'), resultsScreen: document.getElementById('results'),
-        liveScore: document.getElementById('liveScore'),
-        accuracyBarFill: document.getElementById('accuracyBarFill'),
+        accuracyText: document.getElementById('accuracyText'),
+        resultsScreen: document.getElementById('results'), liveScore: document.getElementById('liveScore'), accuracyBarFill: document.getElementById('accuracyBarFill'),
         statsModalOverlay: document.getElementById('statsModalOverlay'), modalCloseBtn: document.getElementById('modalCloseBtn'),
-        videoWidget: document.getElementById('videoWidget'), videoHeader: document.getElementById('videoHeader'), videoPlayerContainer: document.getElementById('videoPlayerContainer'), videoStatusIcon: document.getElementById('videoStatusIcon'),
+        videoWidget: document.getElementById('videoWidget'), videoPlayerContainer: document.getElementById('videoPlayerContainer'), videoStatusIcon: document.getElementById('videoStatusIcon'),
+        toolWidget: document.getElementById('toolWidget'), homeBtn: document.getElementById('homeBtn'), toolResetBtn: document.getElementById('toolResetBtn'),
         keyboardHint: document.getElementById('keyboardHint'),
-        backToResultsBtn: document.getElementById('backToResultsBtn'),
-        themeToggle: document.getElementById('theme-toggle-switch'),
-        resetQuizBtn: document.getElementById('resetQuizBtn'),
-        timerDisplay: document.getElementById('timerDisplay')
+        themeToggle: document.getElementById('theme-toggle-switch'), resetQuizBtn: document.getElementById('resetQuizBtn'), timerDisplay: document.getElementById('timerDisplay'),
+        resultsReviewBtn: document.getElementById('resultsReviewBtn'),
+        reviewErrorsBtn: document.getElementById('reviewErrorsBtn'),
+        resultsRestartBtn: document.getElementById('resultsRestartBtn')
     };
 
-    // --- GESTION DU THÈME ---
-    function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        dom.themeToggle.checked = (theme === 'light');
-    }
-    function saveThemePreference(theme) {
-        localStorage.setItem(themeStorageKey, theme);
-    }
-    function setupTheme() {
-        const savedTheme = localStorage.getItem(themeStorageKey);
-        const preferredTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        const initialTheme = savedTheme || preferredTheme;
-        applyTheme(initialTheme);
-        dom.themeToggle.addEventListener('change', () => {
-            const newTheme = dom.themeToggle.checked ? 'light' : 'dark';
-            applyTheme(newTheme);
-            saveThemePreference(newTheme);
-        });
-    }
-    
-    // --- UI, FEEDBACK & ANIMATIONS ---
-    function showToast(title, message, icon) {
-        const toastContainer = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.innerHTML = `<span class="toast-icon">${icon}</span><div class="toast-content"><strong>${title}</strong><p>${message}</p></div>`;
-        toastContainer.appendChild(toast);
-        setTimeout(() => toast.remove(), 4000);
-    }
-    function updatePrecisionStars(answeredCount) {
-        const precisionStars = document.getElementById('precisionStars');
-        if (answeredCount === 0) { 
-            precisionStars.innerHTML = '<span>☆</span><span>☆</span><span>☆</span>';
-            return;
-        }
-        const accuracy = (score / answeredCount) * 100;
-        const starCount = accuracy >= 95 ? 3 : (accuracy >= 75 ? 2 : (accuracy >= 50 ? 1 : 0));
-        precisionStars.innerHTML = Array(3).fill(0).map((_, i) => `<span class="star ${i < starCount ? 'filled' : ''}">${i < starCount ? '★' : '☆'}</span>`).join('');
-    }
-    function updateProgress() {
-        const progress = totalQuestions > 1 ? ((currentQuestion - 1) / (totalQuestions - 1)) * 100 : 0;
-        dom.progressFill.style.width = progress + '%';
-        dom.progressText.innerHTML = `Question <strong>${currentQuestion}</strong> / ${totalQuestions}`;
-        Array.from(dom.progressDotsContainer.children).forEach((dot, i) => {
-            dot.classList.remove('active');
-            if (i + 1 === currentQuestion) dot.classList.add('active');
-        });
-    }
+    function applyTheme(theme) { document.documentElement.setAttribute('data-theme', theme); dom.themeToggle.checked = (theme === 'light'); }
+    function saveThemePreference(theme) { localStorage.setItem(themeStorageKey, theme); }
+    function setupTheme() { const sT = localStorage.getItem(themeStorageKey); const pT = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; applyTheme(sT || pT); dom.themeToggle.addEventListener('change', () => { const nT = dom.themeToggle.checked ? 'light' : 'dark'; applyTheme(nT); saveThemePreference(nT); }); }
+    function showToast(title, message, icon) { const tc = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = `<span class="toast-icon">${icon}</span><div class="toast-content"><strong>${title}</strong><p>${message}</p></div>`; tc.appendChild(t); setTimeout(() => t.remove(), 4000); }
     function updateLiveScore() {
         dom.currentScore.textContent = score;
         dom.currentScore.classList.add('updated');
         setTimeout(() => dom.currentScore.classList.remove('updated'), 500);
-        
         const answeredCount = isAnswered.slice(1).filter(Boolean).length;
         const accuracy = answeredCount > 0 ? (score / answeredCount) * 100 : 0;
-        
         dom.accuracyBarFill.style.width = `${accuracy}%`;
-        updatePrecisionStars(answeredCount);
+        dom.accuracyText.textContent = `${Math.round(accuracy)}%`;
     }
-    function updateNavButtons() {
-        dom.prevBtn.disabled = currentQuestion === 1;
-        dom.nextBtn.disabled = isReviewing ? (currentQuestion === totalQuestions) : !isAnswered[currentQuestion];
-        
-        if (currentQuestion === totalQuestions && isAnswered[totalQuestions] && !isReviewing) {
-            dom.nextBtn.innerHTML = svgTrophy;
-            dom.nextBtn.setAttribute('aria-label', 'Voir les résultats');
-            dom.nextBtn.title = 'Voir les résultats';
-        } else {
-            dom.nextBtn.innerHTML = svgArrowRight;
-            dom.nextBtn.setAttribute('aria-label', 'Question suivante');
-            dom.nextBtn.title = 'Suivant (→)';
+    function updateProgress() { const progress = totalQuestions > 1 ? ((currentQuestion - 1) / (totalQuestions - 1)) * 100 : 0; dom.progressFill.style.width = progress + '%'; dom.progressText.innerHTML = `Question <strong>${currentQuestion}</strong> / ${totalQuestions}`; Array.from(dom.progressDotsContainer.children).forEach((dot, i) => { dot.classList.remove('active'); if (i + 1 === currentQuestion) dot.classList.add('active'); }); }
+    
+    function startQuiz(isNewGame = true) {
+        if (isNewGame) {
+            currentQuestion = 1; score = 0; secondsElapsed = 0; currentStreak = 0; isReviewing = false;
+            answers = new Array(totalQuestions + 1).fill(null);
+            isAnswered = new Array(totalQuestions + 1).fill(false);
+            q17_selections = [];
+            badges = { history: false, smartcity: false, calculator: false, expert: false, streak: false, perfect: false, curious: false, sprinter: false };
+            curiosityTracker = { videoClicked: false, statsOpened: false, hintHovered: false };
+            localStorage.removeItem(quizSaveKey);
         }
-        dom.navButtons.classList.toggle('review-mode-active', isReviewing);
+        document.body.classList.add('quiz-active'); dom.startScreen.classList.add('hidden');
+        dom.quizContent.classList.remove('hidden'); dom.mainHeader.classList.add('header-compact');
+        startTimer(); showQuestion(currentQuestion);
     }
 
-    // --- LOGIQUE PRINCIPALE DU QUIZ ---
-    function showQuestion(questionNumber) {
-        const currentActiveCard = document.querySelector('.question-card.active');
-        if (currentActiveCard) {
-            currentActiveCard.classList.add('slide-out');
-            setTimeout(() => {
-                currentActiveCard.classList.remove('active', 'slide-out');
-                displayNewQuestion(questionNumber);
-            }, 400);
-        } else {
-            displayNewQuestion(questionNumber);
-        }
+    function resumeQuiz() {
+        const savedProgress = localStorage.getItem(quizSaveKey); if (!savedProgress) { startQuiz(true); return; }
+        try {
+            const p = JSON.parse(savedProgress);
+            currentQuestion = p.currentQuestion;
+            score = p.score;
+            answers = p.answers;
+            isAnswered = p.isAnswered;
+            secondsElapsed = p.secondsElapsed;
+            badges = p.badges;
+            currentStreak = p.currentStreak;
+            isReviewing = false;
+            q17_selections = p.interactiveStates?.q17 || [];
+            curiosityTracker = p.curiosityTracker || { videoClicked: false, statsOpened: false, hintHovered: false };
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (p.isAnswered[i]) {
+                    const dot = dom.progressDotsContainer.children[i - 1];
+                    if (dot) {
+                        dot.classList.add('clickable', p.answers[i] === correctAnswers[i] ? 'completed-correct' : 'completed-incorrect');
+                    }
+                }
+            }
+            updateLiveScore();
+            startQuiz(false);
+        } catch (e) { console.error("Erreur de chargement de la progression.", e); localStorage.removeItem(quizSaveKey); startQuiz(true); }
     }
+
+    function showQuestion(questionNumber) { const c = document.querySelector('.question-card.active'); if (c) { c.classList.add('slide-out'); setTimeout(() => { c.classList.remove('active', 'slide-out'); displayNewQuestion(questionNumber); }, 400); } else { displayNewQuestion(questionNumber); } }
+    
     function displayNewQuestion(questionNumber) {
-        dom.resultsScreen.classList.remove('show');
-        dom.questionsWrapper.style.display = 'block';
-        dom.progressContainer.style.display = 'block';
-        dom.backToResultsBtn.style.display = isReviewing ? 'block' : 'none';
-
-        const newQuestionCard = document.querySelector(`[data-question="${questionNumber}"]`);
-        if (newQuestionCard) {
-            newQuestionCard.classList.remove('slide-out');
-            newQuestionCard.classList.add('active');
-            newQuestionCard.classList.toggle('review-mode-active', isReviewing);
-            
-            const questionHeader = newQuestionCard.querySelector('.question-header');
-            questionHeader.appendChild(dom.navButtons);
-            dom.navButtons.style.display = 'flex';
-            
+        dom.resultsScreen.classList.remove('show'); dom.quizContent.style.display = 'block';
+        const card = document.querySelector(`[data-question="${questionNumber}"]`);
+        if (card) {
             currentQuestion = parseInt(questionNumber, 10);
+            card.classList.remove('slide-out'); card.classList.add('active'); card.classList.toggle('review-mode-active', isReviewing);
+            
+            if(isAnswered[currentQuestion]) {
+                renderAnsweredState(currentQuestion, answers[currentQuestion]);
+            }
+
+            const navContainer = card.querySelector('.nav-buttons');
+            const prevBtn = navContainer.querySelector('.btn-nav:first-child');
+            const nextBtn = navContainer.querySelector('.btn-nav:last-child');
+            prevBtn.disabled = currentQuestion === 1;
+            nextBtn.disabled = isReviewing ? (currentQuestion === totalQuestions) : !isAnswered[currentQuestion];
+            if (currentQuestion === totalQuestions && isAnswered[totalQuestions] && !isReviewing) {
+                nextBtn.innerHTML = '🏆'; nextBtn.title = 'Voir les résultats';
+            } else {
+                nextBtn.innerHTML = '→'; nextBtn.title = 'Suivant (→)';
+            }
             updateProgress();
-            updateNavButtons();
-            
-            const title = newQuestionCard.querySelector('.question-title');
-            if(title) title.focus({ preventScroll: true });
-            
-            dom.progressContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const title = card.querySelector('.question-title'); if(title) title.focus({ preventScroll: true });
         }
     }
-    function nextQuestion() { if (!dom.nextBtn.disabled) { currentQuestion < totalQuestions ? showQuestion(currentQuestion + 1) : showResults(); } }
-    function previousQuestion() { if (!dom.prevBtn.disabled && currentQuestion > 1) showQuestion(currentQuestion - 1); }
     
-    function handleAnswer(questionNumber, selectedAnswer, element) {
-        if (isAnswered[questionNumber]) return;
-        
-        isAnswered[questionNumber] = true;
-        answers[questionNumber] = selectedAnswer;
-
-        const isCorrect = correctAnswers[questionNumber] === selectedAnswer;
-        if (isCorrect) { score++; currentStreak++; } else { currentStreak = 0; }
-        
-        updateLiveScore();
-        checkBadges();
-        
-        const card = element.closest('.question-card');
-        card.querySelectorAll('.option, .option-visual').forEach(opt => opt.classList.add('disabled'));
-        element.classList.add('selected');
-        if (element.getAttribute('role') === 'radio') {
-            element.setAttribute('aria-checked', 'true');
-        }
-
-        renderAnsweredState(questionNumber, selectedAnswer, true); // Render visual state
-        
-        const feedback = card.querySelector('.feedback');
-        feedback.focus();
-        updateNavButtons();
-        saveProgress();
-    }
+    function nextQuestion(e) { const btn = e.currentTarget; if (!btn.disabled) { currentQuestion < totalQuestions ? showQuestion(currentQuestion + 1) : showResults(); } }
+    function previousQuestion(e) { const btn = e.currentTarget; if (!btn.disabled && currentQuestion > 1) showQuestion(currentQuestion - 1); }
     
-    // --- RÉSULTATS & RÉVISION ---
+    function handleAnswer(questionNumber, selectedAnswer, element) { if (isAnswered[questionNumber]) return; isReviewing = false; isAnswered[questionNumber] = true; answers[questionNumber] = selectedAnswer; const isCorrect = correctAnswers[questionNumber] === selectedAnswer; if (isCorrect) { score++; currentStreak++; } else { currentStreak = 0; } updateLiveScore(); checkBadges(); const card = element.closest('.question-card'); card.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled')); element.classList.add('selected'); if (element.getAttribute('role') === 'radio') element.setAttribute('aria-checked', 'true'); renderAnsweredState(questionNumber, selectedAnswer); const feedback = card.querySelector('.feedback'); feedback.focus(); feedback.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.querySelector('.nav-buttons .btn-nav:last-child').disabled = false; saveProgress(); }
+    
     function showResults(isFirstTime = true) {
         isReviewing = false;
         if (isFirstTime) {
             clearInterval(timerInterval);
             checkBadges(true);
-            generateSummary();
-            localStorage.removeItem(quizSaveKey);
+            saveProgress();
+        }
+        generateSummary(); 
+        document.body.classList.remove('quiz-active'); dom.quizContent.style.display = 'none';
+        dom.resultsScreen.classList.add('show');
+        
+        let message, description; const accuracy = score / totalQuestions;
+        if (accuracy >= 0.85) { message = '🏆 Visionnaire de la Smart City !'; description = 'Excellent ! Vous maîtrisez parfaitement l\'évolution de l\'éclairage urbain.'; if (isFirstTime) triggerConfetti(); } 
+        else if (accuracy >= 0.5) { message = '💡 Technicien Éclairé'; description = 'Bien joué ! Vous avez de solides connaissances. Continuez à explorer !'; } 
+        else { message = 'Novice de la Nuit'; description = 'C\'est un bon début ! N\'hésitez pas à revoir la vidéo pour consolider vos acquis.'; }
+        document.getElementById('scoreMessage').textContent = message; document.getElementById('scoreDescription').textContent = description; document.getElementById('scoreCircle').style.background = `linear-gradient(135deg, var(--primary-color), var(--secondary-color))`;
+        
+        const firstErrorIndex = answers.slice(1).findIndex((ans, i) => ans !== null && ans !== correctAnswers[i + 1]);
+        dom.reviewErrorsBtn.disabled = (firstErrorIndex === -1);
+        if(firstErrorIndex === -1) {
+            dom.reviewErrorsBtn.title = "Félicitations, aucune erreur !";
+        } else {
+            dom.reviewErrorsBtn.title = "Aller à votre première erreur";
         }
 
-        document.getElementById('scoreCircle').style.background = `linear-gradient(135deg, var(--primary-color), var(--secondary-color))`;
-        let message, description;
-        const accuracy = score / totalQuestions;
-        if (accuracy >= 0.85) { 
-            message = '🏆 Visionnaire de la Smart City !'; 
-            description = 'Excellent ! Vous maîtrisez parfaitement l\'évolution de l\'éclairage urbain.';
-            if (isFirstTime) triggerConfetti();
-        } else if (accuracy >= 0.5) { 
-            message = '💡 Technicien Éclairé'; 
-            description = 'Bien joué ! Vous avez de solides connaissances. Continuez à explorer !'; 
-        } else { 
-            message = 'Novice de la Nuit'; 
-            description = 'C\'est un bon début ! N\'hésitez pas à revoir la vidéo pour consolider vos acquis.'; 
-        }
-        document.getElementById('scoreMessage').textContent = message;
-        document.getElementById('scoreDescription').textContent = description;
-        
-        displayEarnedBadges();
-        dom.questionsWrapper.style.display = 'none';
-        dom.navButtons.style.display = 'none';
-        dom.progressContainer.style.display = 'none';
-        dom.resultsScreen.classList.add('show');
-        dom.backToResultsBtn.style.display = 'none';
-        dom.resultsScreen.scrollIntoView({ behavior: 'smooth' });
+        displayEarnedBadges(); dom.resultsScreen.scrollIntoView({ behavior: 'smooth' });
         document.getElementById('scoreDisplay').textContent = `${score}/${totalQuestions}`;
     }
     function generateSummary() {
-        const summaryContent = document.getElementById('summaryContent');
-        summaryContent.innerHTML = questionTitles.map((title, index) => {
-            const i = index + 1;
-            const isCorrect = answers[i] === correctAnswers[i];
-            return `<div class="summary-item" data-question-index="${i}" role="button" tabindex="0">
-                        <span>Q${i}. ${title}</span>
-                        <span class="summary-result ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? '✅' : '❌'}</span>
-                    </div>`;
-        }).join('');
-        const handler = e => {
-            const item = e.target.closest('.summary-item');
-            if(item && (e.type === 'click' || e.key === 'Enter')) reviewQuestion(item.dataset.questionIndex);
-        };
-        summaryContent.addEventListener('click', handler);
-        summaryContent.addEventListener('keydown', handler);
-    }
-    function reviewQuestions() { isReviewing = true; showQuestion(1); }
-    function reviewQuestion(questionIndex) { isReviewing = true; showQuestion(parseInt(questionIndex, 10)); }
-    function restartQuiz() { if (confirm("Êtes-vous sûr de vouloir recommencer ? Votre progression sera perdue.")) { localStorage.removeItem(quizSaveKey); location.reload(); } }
-    function triggerConfetti() {
-        const container = document.getElementById('confetti-container');
-        if (!container) return;
-        container.innerHTML = '';
-        const colors = ['#f39c12', '#e74c3c', '#4abdac', '#2ecc71', '#9b59b6'];
-        for (let i = 0; i < 150; i++) {
-            const c = document.createElement('div');
-            c.classList.add('confetti');
-            c.style.left = `${Math.random() * 100}%`;
-            c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            c.style.animationDelay = `${Math.random() * 2}s`;
-            c.style.animationDuration = `${3 + Math.random() * 2}s`;
-            c.style.transform = `rotate(${Math.random() * 360}deg)`;
-            container.appendChild(c);
-        }
-    }
+        const sc = document.getElementById('summaryContent');
+        sc.innerHTML = questionTitles.map((t, i) => {
+            const n = i + 1;
+            const isCorrect = answers[n] === correctAnswers[n];
+            let resultHtml = `<span class="summary-result ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? '✅' : '❌'}</span>`;
 
-    // --- SAUVEGARDE & CHARGEMENT ---
-    function saveProgress() {
-        const interactiveStates = {
-            q16: Array.from(document.querySelectorAll('#q16-container .dropzone')).map(dz => dz.innerHTML),
-            q17: q17_selections.slice(),
-            q18: Array.from(document.querySelectorAll('#q18-container .dropzone')).map(dz => dz.innerHTML),
-            q20: { source: document.getElementById('q20-source').innerHTML, led: document.querySelector('#q20-container [data-target="led"]').innerHTML, old: document.querySelector('#q20-container [data-target="old"]').innerHTML }
-        };
-        const progress = { currentQuestion, score, answers: answers.slice(), isAnswered: isAnswered.slice(), interactiveStates, secondsElapsed, badges, currentStreak, curiosityTracker };
-        try {
-            localStorage.setItem(quizSaveKey, JSON.stringify(progress));
-        } catch (e) {
-            console.error("Sauvegarde impossible:", e);
-        }
-    }
-    function loadProgress() {
-        const savedProgress = localStorage.getItem(quizSaveKey);
-        if (!savedProgress) return;
-        
-        try {
-            const progress = JSON.parse(savedProgress);
-            Object.assign(window, { ...progress, isReviewing: true });
-            q17_selections = progress.interactiveStates?.q17 || [];
-            curiosityTracker = progress.curiosityTracker || curiosityTracker;
-
-            for (let i = 1; i <= totalQuestions; i++) {
-                if (isAnswered[i]) {
-                    renderAnsweredState(i, answers[i]);
-                    // Restore specific visual state for interactive questions
-                    if (i === 16 && progress.interactiveStates?.q16) {
-                        checkQ16Completion(true, progress.interactiveStates.q16);
-                    } else if (i === 17 && progress.interactiveStates?.q17) {
-                        checkQ17Completion(true);
-                    } else if (i === 18 && progress.interactiveStates?.q18) {
-                        checkQ18Completion(true, progress.interactiveStates.q18);
-                    } else if (i === 20 && progress.interactiveStates?.q20) {
-                        checkQ20Completion(true);
+            if (!isCorrect && isAnswered[n]) {
+                let correctAnswerText = '';
+                const correctAnswerValue = correctAnswers[n];
+                if (typeof correctAnswerValue === 'boolean') {
+                    correctAnswerText = 'Correction en un clic';
+                } else {
+                    const optionElement = document.querySelector(`.question-card[data-question="${n}"] .option[data-answer="${correctAnswerValue}"]`);
+                    if (optionElement) {
+                        correctAnswerText = `R: ${optionElement.innerText.trim().substring(2)}`;
                     }
                 }
-            }
-            updateLiveScore();
-            showQuestion(progress.currentQuestion);
-
-        } catch (e) {
-            console.error("Erreur de chargement de la progression, réinitialisation.", e);
-            localStorage.removeItem(quizSaveKey);
-        }
-    }
-    
-    // NEW: Function to display the visual state of a answered question without re-running the logic
-    function renderAnsweredState(questionNumber, userAnswer, isFromHandleAnswer = false) {
-        const card = document.querySelector(`.question-card[data-question="${questionNumber}"]`);
-        if (!card) return;
-
-        const isCorrect = correctAnswers[questionNumber] === userAnswer;
-        const feedback = card.querySelector('.feedback');
-        const dot = dom.progressDotsContainer.children[questionNumber - 1];
-
-        dot.classList.add('clickable', isCorrect ? 'completed-correct' : 'completed-incorrect');
-        feedback.classList.add(isCorrect ? 'correct' : 'incorrect', 'show');
-        
-        if (card.querySelector('.option')) { // QCM
-            if (!isFromHandleAnswer) {
-                card.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
-                const selectedOpt = card.querySelector(`[data-answer="${userAnswer}"]`);
-                if (selectedOpt) {
-                    selectedOpt.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
-                    if(selectedOpt.getAttribute('role') === 'radio') selectedOpt.setAttribute('aria-checked', 'true');
-                }
-                if (!isCorrect) {
-                    const correctOption = card.querySelector(`[data-answer="${correctAnswers[questionNumber]}"]`);
-                    if (correctOption) correctOption.classList.add('correct');
+                if (correctAnswerText) {
+                    resultHtml += `<small style="margin-left: 10px; color: var(--secondary-text-color);">${correctAnswerText}</small>`;
                 }
             }
-        } else { // Interactive Questions
-            const container = card.querySelector('.interactive-question-container');
-            if (container) container.classList.add('disabled');
-        }
-    }
 
-
-    // --- BADGES & STATS ---
-    function checkCuriosityBadge() {
-        if (badges.curious || [curiosityTracker.videoClicked, curiosityTracker.statsOpened, curiosityTracker.hintHovered].filter(Boolean).length < 2) return;
-        badges.curious = true;
-        showToast("Badge débloqué !", badgeDetails.curious.name, badgeDetails.curious.icon);
-        saveProgress();
+            return `<div class="summary-item" data-question-index="${n}" role="button" tabindex="0">
+                        <span>Q${n}. ${t}</span>
+                        <div>${resultHtml}</div>
+                    </div>`;
+        }).join('');
+        const h = e => { const i = e.target.closest('.summary-item'); if(i && (e.type === 'click' || e.key === 'Enter')) reviewQuestion(i.dataset.questionIndex); };
+        sc.addEventListener('click', h);
+        sc.addEventListener('keydown', h);
     }
-    function checkBadges(isFinalCheck = false) {
-        const conditions = {
-            history: () => answers[16] === true,
-            smartcity: () => answers[17] === true,
-            calculator: () => [13, 14, 15].every(q => answers[q] === correctAnswers[q]),
-            expert: () => [16, 17, 18, 20].every(q => answers[q] === correctAnswers[q] || answers[q] === true),
-            streak: () => currentStreak >= 5,
-            perfect: () => isFinalCheck && score === totalQuestions,
-            sprinter: () => isFinalCheck && secondsElapsed < 600
-        };
-        for (const badgeId in conditions) {
-            if (!badges[badgeId] && conditions[badgeId]()) {
-                badges[badgeId] = true;
-                const toastDetails = badgeDetails[badgeId];
-                if (toastDetails) showToast("Badge débloqué !", toastDetails.name, toastDetails.icon);
-            }
-        }
-    }
+    function reviewQuestions() { document.body.classList.add('quiz-active'); isReviewing = true; showQuestion(1); }
+    function reviewErrors() { const firstErrorIndex = answers.findIndex((ans, i) => i > 0 && ans !== null && ans !== correctAnswers[i]); if(firstErrorIndex !== -1) { reviewQuestion(firstErrorIndex); } }
+    function reviewQuestion(questionIndex) { document.body.classList.add('quiz-active'); isReviewing = true; showQuestion(parseInt(questionIndex, 10)); }
+    function restartQuiz() { if (confirm("Êtes-vous sûr de vouloir recommencer ? Votre progression sera perdue.")) { localStorage.removeItem(quizSaveKey); location.reload(); } }
+    function goHome() { location.reload(); }
+    function triggerConfetti() { const c = document.getElementById('confetti-container'); if (!c) return; c.innerHTML = ''; const cl = ['#f39c12', '#e74c3c', '#4abdac', '#2ecc71', '#9b59b6']; for (let i = 0; i < 150; i++) { const e = document.createElement('div'); e.classList.add('confetti'); e.style.left = `${Math.random() * 100}%`; e.style.backgroundColor = cl[Math.floor(Math.random() * cl.length)]; e.style.animationDelay = `${Math.random() * 2}s`; e.style.animationDuration = `${3 + Math.random() * 2}s`; e.style.transform = `rotate(${Math.random() * 360}deg)`; c.appendChild(e); } }
+    function saveProgress() { const p = { currentQuestion, score, answers: answers.slice(), isAnswered: isAnswered.slice(), interactiveStates: { q17: q17_selections.slice() }, secondsElapsed, badges, currentStreak, curiosityTracker }; try { localStorage.setItem(quizSaveKey, JSON.stringify(p)); } catch (e) { console.error("Sauvegarde impossible:", e); } }
+    function renderAnsweredState(qN, uA) { const card = document.querySelector(`.question-card[data-question="${qN}"]`); if (!card) return; const isC = correctAnswers[qN] === uA; const f = card.querySelector('.feedback'); const d = dom.progressDotsContainer.children[qN - 1]; d.classList.add('clickable', isC ? 'completed-correct' : 'completed-incorrect'); f.classList.add(isC ? 'correct' : 'incorrect', 'show'); if (card.querySelector('.option')) { card.querySelectorAll('.option').forEach(o => { o.classList.add('disabled'); const oA = o.dataset.answer; if(oA === uA) o.classList.add('selected', isC ? 'correct' : 'incorrect'); if(!isC && oA === correctAnswers[qN]) o.classList.add('correct'); }); } else { const container = card.querySelector('.interactive-question-container'); if (container) container.classList.add('disabled'); if (qN === 17) { q17_selections.forEach(id => { const el = card.querySelector(`.feature-option[data-id="${id}"]`); if(el) el.classList.add('selected'); }); const dL = document.getElementById('q17-description-list'); const dB = document.getElementById('q17-description-box'); dL.innerHTML = q17_selections.map(id => `<li>✅ <b>${featureDetails[id].name}:</b> ${featureDetails[id].desc}</li>`).join(''); dB.style.display = 'block'; card.querySelectorAll('.feature-option').forEach(el => el.classList.add('disabled')); } } }
+    function checkCuriosityBadge() { if (badges.curious || [curiosityTracker.videoClicked, curiosityTracker.statsOpened, curiosityTracker.hintHovered].filter(Boolean).length < 2) return; badges.curious = true; showToast("Badge débloqué !", badgeDetails.curious.name, badgeDetails.curious.icon); saveProgress(); }
+    function checkBadges(isFinalCheck = false) { const c = { history: () => answers[16] === true, smartcity: () => answers[17] === true, calculator: () => [13, 14, 15].every(q => answers[q] === correctAnswers[q]), expert: () => [16, 17, 18, 20].every(q => answers[q] === true), streak: () => currentStreak >= 5, perfect: () => isFinalCheck && score === totalQuestions, sprinter: () => isFinalCheck && secondsElapsed < 600 }; for (const b in c) { if (!badges[b] && c[b]()) { badges[b] = true; const d = badgeDetails[b]; if (d) showToast("Badge débloqué !", d.name, d.icon); } } }
     function displayEarnedBadges() {
         const container = document.getElementById('badges-earned');
-        container.innerHTML = '';
-        const earnedBadges = Object.keys(badges).filter(id => badges[id]);
-        
-        if (earnedBadges.length === 0) {
-            container.innerHTML = '<p style="color: var(--secondary-text-color);">Continuez à jouer pour débloquer des badges !</p>';
-        } else {
-            earnedBadges.forEach(badgeId => {
-                const badgeInfo = badgeDetails[badgeId];
-                container.innerHTML += `<div class="badge-earned-item"><span class="badge-icon">${badgeInfo.icon}</span><p>${badgeInfo.name}</p></div>`;
-            });
-        }
+        const allBadgeIds = Object.keys(badgeDetails);
+        let html = '';
+        allBadgeIds.forEach(id => {
+            const badge = badgeDetails[id];
+            const isEarned = badges[id];
+            html += `<div class="badge-earned-item ${!isEarned ? 'unearned' : ''}" title="${badge.description}">
+                        <span class="badge-icon">${badge.icon}</span>
+                        <p>${badge.name}</p>
+                    </div>`;
+        });
+        container.innerHTML = html;
         document.getElementById('badgesEarnedContainer').style.display = 'block';
     }
     function openStatsModal() {
         curiosityTracker.statsOpened = true; checkCuriosityBadge();
-        const answeredCount = isAnswered.slice(1).filter(Boolean).length;
-        document.getElementById('statsAnswered').textContent = `${answeredCount} / ${totalQuestions}`;
-        document.getElementById('statsAccuracy').textContent = `${answeredCount > 0 ? Math.round((score / answeredCount) * 100) : 0}%`;
+        const aC = isAnswered.slice(1).filter(Boolean).length;
+        document.getElementById('statsAnswered').textContent = `${aC} / ${totalQuestions}`;
+        document.getElementById('statsAccuracy').textContent = `${aC > 0 ? Math.round((score / aC) * 100) : 0}%`;
         for (const badgeId in badges) {
-            document.getElementById(`badge-${badgeId}`)?.classList.toggle('unlocked', badges[badgeId]);
+            const badgeElement = document.getElementById(`badge-${badgeId}`);
+            if (badgeElement) {
+                badgeElement.classList.toggle('unlocked', badges[badgeId]);
+                badgeElement.closest('.badge').title = badgeDetails[badgeId].description;
+            }
         }
         dom.statsModalOverlay.classList.add('show');
     }
-    function closeStatsModal() {
-        dom.statsModalOverlay.classList.add('hiding');
-        dom.statsModalOverlay.addEventListener('animationend', () => {
-            dom.statsModalOverlay.classList.remove('show', 'hiding');
-        }, { once: true });
-    }
-
-    // --- QUESTIONS INTERACTIVES ---
-    function setupInteractiveQuestions() {
-        const dragStart = e => { draggedItem = e.target; setTimeout(() => e.target.style.opacity = '0.5', 0); };
-        const dragEnd = () => { if(draggedItem) draggedItem.style.opacity = '1'; draggedItem = null; };
-        const dragOver = e => { e.preventDefault(); e.currentTarget.classList.add('over'); };
-        const dragLeave = e => e.currentTarget.classList.remove('over');
-
-        document.querySelectorAll('.draggable-item').forEach(item => { item.addEventListener('dragstart', dragStart); item.addEventListener('dragend', dragEnd); });
-        document.querySelectorAll('.dropzone').forEach(zone => { zone.addEventListener('dragover', dragOver); zone.addEventListener('dragleave', dragLeave); });
-        
-        const dropHandler = (e, checkFn, conditionFn) => {
-            e.preventDefault(); e.currentTarget.classList.remove('over');
-            if (draggedItem && conditionFn(e.currentTarget)) { e.currentTarget.appendChild(draggedItem); checkFn(); }
-        };
-        
-        document.querySelectorAll('#q16-container .dropzone, #q16-events').forEach(zone => zone.addEventListener('drop', e => dropHandler(e, checkQ16Completion, target => target.classList.contains('dropzone') ? target.children.length === 0 : true)));
-        document.querySelectorAll('#q18-container .dropzone, #q18-source').forEach(zone => zone.addEventListener('drop', e => dropHandler(e, checkQ18Completion, target => target.classList.contains('dropzone') ? target.children.length === 0 : true)));
-        document.querySelectorAll('#q20-container .dropzone').forEach(zone => zone.addEventListener('drop', e => dropHandler(e, checkQ20Completion, () => true)));
-
-        const q17Handler = e => {
-            const feature = e.target.closest('.feature-option:not(.disabled)');
-            if (feature && (e.type === 'click' || e.key === 'Enter' || e.key === ' ')) { if(e.type !== 'click') e.preventDefault(); toggleFeatureSelection(feature); }
-        };
-        dom.questionsWrapper.querySelector('#q17-builder').addEventListener('click', q17Handler);
-        dom.questionsWrapper.querySelector('#q17-builder').addEventListener('keydown', q17Handler);
-    }
-    function checkInteractiveQuestion(qNum, condition, feedbackId, containerId, isCorrectFn) {
-        if (!condition || isAnswered[qNum]) return;
-        isReviewing = false;
-        const container = document.getElementById(containerId);
-        const isAllCorrect = isCorrectFn(container);
-        isAnswered[qNum] = true; answers[qNum] = isAllCorrect;
-        if (isAllCorrect) { score++; currentStreak++; } else { currentStreak = 0; }
-        
-        updateLiveScore(); checkBadges();
-        renderAnsweredState(qNum, isAllCorrect);
-        const feedback = document.getElementById(feedbackId);
-        feedback.focus(); updateNavButtons(); saveProgress();
-    }
-    function checkQ16Completion(isLoading = false, state) {
-        if (isLoading) {
-            document.getElementById('q16-events').innerHTML = "";
-            document.querySelectorAll('#q16-container .dropzone').forEach((dz, idx) => dz.innerHTML = state[idx]);
-        }
-        checkInteractiveQuestion(16, document.getElementById('q16-events').children.length === 0, 'feedback16', 'q16-container', () => {
-            let correctCount = 0;
-            document.querySelectorAll('#q16-container .dropzone').forEach(zone => {
-                const item = zone.children[0]; const isCorrect = item && zone.dataset.target === item.dataset.id;
-                if(isCorrect) correctCount++; zone.classList.add(isCorrect ? 'correct-drop' : 'incorrect-drop');
-            });
-            return correctCount === 4;
-        });
-    }
-    function toggleFeatureSelection(feature) {
-        if (isAnswered[17]) return;
-        feature.classList.toggle('selected');
-        q17_selections = Array.from(document.querySelectorAll('#q17-builder .feature-option.selected')).map(el => el.dataset.id);
-        if (q17_selections.length >= 4) checkQ17Completion();
-    }
-    function checkQ17Completion(isLoading = false) {
-        const isCorrect = q17_selections.length >= 4;
-        if (isLoading && isCorrect) {
-            document.getElementById('q17-description-list').innerHTML = q17_selections.map(id => `<li>✅ <b>${featureDetails[id].name}:</b> ${featureDetails[id].desc}</li>`).join('');
-            document.getElementById('q17-description-box').style.display = 'block';
-        } else if (!isLoading && isCorrect && !isAnswered[17]) {
-            checkInteractiveQuestion(17, true, 'feedback17', 'q17-builder', () => true);
-            document.getElementById('q17-description-list').innerHTML = q17_selections.map(id => `<li>✅ <b>${featureDetails[id].name}:</b> ${featureDetails[id].desc}</li>`).join('');
-            document.getElementById('q17-description-box').style.display = 'block';
-        }
-    }
-    function checkQ18Completion(isLoading = false, state) {
-        if (isLoading) {
-             document.getElementById('q18-source').innerHTML = "";
-            document.querySelectorAll('#q18-container .dropzone').forEach((dz, idx) => dz.innerHTML = state[idx]);
-        }
-         checkInteractiveQuestion(18, document.getElementById('q18-source').children.length === 0, 'feedback18', 'q18-container', () => {
-            const correctOrder = ['led', 'sodium', 'incandescent'];
-            const userOrder = Array.from(document.querySelectorAll('#q18-container .ranking-slot .draggable-item')).map(item => item.dataset.id);
-            return JSON.stringify(correctOrder) === JSON.stringify(userOrder);
-        });
-    }
-    function checkQ20Completion(isLoading = false) {
-        if (isLoading) {
-            renderAnsweredState(20, answers[20]);
-        } else {
-            checkInteractiveQuestion(20, document.getElementById('q20-source').children.length === 0, 'feedback20', 'q20-container', () => 
-                Array.from(document.querySelectorAll('#q20-container .dropzone[data-target] .draggable-item'))
-                     .every(item => item.dataset.category === item.parentElement.dataset.target)
-            );
-        }
-    }
-    
-    // --- INITIALISATION & ÉVÉNEMENTS ---
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            secondsElapsed++;
-            const minutes = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
-            const seconds = (secondsElapsed % 60).toString().padStart(2, '0');
-            const timeString = `${minutes}:${seconds}`;
-            if(dom.timerDisplay) dom.timerDisplay.textContent = timeString;
-            if(document.getElementById('statsTime')) document.getElementById('statsTime').textContent = timeString;
-        }, 1000);
-    }
+    function closeStatsModal() { dom.statsModalOverlay.classList.add('hiding'); dom.statsModalOverlay.addEventListener('animationend', () => { dom.statsModalOverlay.classList.remove('show', 'hiding'); }, { once: true }); }
+    function setupInteractiveQuestions() { const dS = e => { draggedItem = e.target; setTimeout(() => e.target.style.opacity = '0.5', 0); }; const dE = () => { if(draggedItem) draggedItem.style.opacity = '1'; draggedItem = null; }; const dO = e => { e.preventDefault(); e.currentTarget.classList.add('over'); }; const dL = e => e.currentTarget.classList.remove('over'); const dH = (e, cF, cFn) => { e.preventDefault(); e.currentTarget.classList.remove('over'); if (draggedItem && cFn(e.currentTarget)) { e.currentTarget.appendChild(draggedItem); cF(); } }; document.querySelectorAll('.draggable-item').forEach(i => { i.addEventListener('dragstart', dS); i.addEventListener('dragend', dE); }); document.querySelectorAll('.dropzone').forEach(z => { z.addEventListener('dragover', dO); z.addEventListener('dragleave', dL); }); document.querySelectorAll('#q16-container .dropzone, #q16-events').forEach(z => z.addEventListener('drop', e => dH(e, checkQ16Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q18-container .dropzone, #q18-source').forEach(z => z.addEventListener('drop', e => dH(e, checkQ18Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q20-container .dropzone').forEach(z => z.addEventListener('drop', e => dH(e, checkQ20Completion, () => true))); const q17H = e => { const f = e.target.closest('.feature-option:not(.disabled)'); if (f && (e.type === 'click' || e.key === 'Enter' || e.key === ' ')) { if(e.type !== 'click') e.preventDefault(); toggleFeatureSelection(f); } }; dom.questionsWrapper.querySelector('#q17-builder').addEventListener('click', q17H); dom.questionsWrapper.querySelector('#q17-builder').addEventListener('keydown', q17H); }
+    function checkInteractiveQuestion(qN, c, fI, cI, iCF) { if (!c || isAnswered[qN]) return; isReviewing = false; const container = document.getElementById(cI); const iAC = iCF(container); isAnswered[qN] = true; answers[qN] = iAC; if (iAC) { score++; currentStreak++; } else { currentStreak = 0; } updateLiveScore(); checkBadges(); renderAnsweredState(qN, iAC); const f = document.getElementById(fI); f.focus(); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); const nextBtn = document.querySelector(`.question-card[data-question="${qN}"] .nav-buttons .btn-nav:last-child`); if(nextBtn) nextBtn.disabled = false; saveProgress(); }
+    function checkQ16Completion() { checkInteractiveQuestion(16, document.getElementById('q16-events').children.length === 0, 'feedback16', 'q16-container', () => { let cC = 0; document.querySelectorAll('#q16-container .dropzone').forEach(z => { const i = z.children[0]; const isC = i && z.dataset.target === i.dataset.id; if(i) i.classList.add(isC ? 'correct' : 'incorrect'); if(isC) cC++; }); return cC === 4; }); }
+    function toggleFeatureSelection(feature) { if (isAnswered[17]) return; feature.classList.toggle('selected'); q17_selections = Array.from(document.querySelectorAll('#q17-builder .feature-option.selected')).map(el => el.dataset.id); if (q17_selections.length >= 4) { checkQ17Completion(); } }
+    function checkQ17Completion() { if (isAnswered[17]) return; const isC = q17_selections.length >= 4; if (isC) { checkInteractiveQuestion(17, true, 'feedback17', 'q17-builder', () => true); } }
+    function checkQ18Completion() { checkInteractiveQuestion(18, document.getElementById('q18-source').children.length === 0, 'feedback18', 'q18-container', () => { const cO = ['led', 'sodium', 'incandescent']; const uO = []; document.querySelectorAll('#q18-container .ranking-slot .dropzone').forEach(z => { const i = z.children[0]; if(i) { const isC = i.dataset.id === cO[parseInt(z.dataset.rank) - 1]; i.classList.add(isC ? 'correct' : 'incorrect'); uO.push(i.dataset.id); } }); return JSON.stringify(cO) === JSON.stringify(uO); }); }
+    function checkQ20Completion() { checkInteractiveQuestion(20, document.getElementById('q20-source').children.length === 0, 'feedback20', 'q20-container', () => { const aI = Array.from(document.querySelectorAll('#q20-container .dropzone[data-target] .draggable-item')); aI.forEach(i => { const isC = i.dataset.category === i.parentElement.dataset.target; i.classList.add(isC ? 'correct' : 'incorrect'); }); return aI.every(i => i.dataset.category === i.parentElement.dataset.target); }); }
+    function startTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = setInterval(() => { secondsElapsed++; const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0'); const s = (secondsElapsed % 60).toString().padStart(2, '0'); const t = `${m}:${s}`; if(dom.timerDisplay) dom.timerDisplay.textContent = t; if(document.getElementById('statsTime')) document.getElementById('statsTime').textContent = t; }, 1000); }
     function onYouTubeIframeAPIReady() {}
     function createPlayer() {
-        if (videoPlayer) { videoPlayer.playVideo(); return; }
-        curiosityTracker.videoClicked = true; checkCuriosityBadge();
+        if (videoPlayer) {
+            videoPlayer.playVideo();
+            return;
+        }
+        curiosityTracker.videoClicked = true;
+        checkCuriosityBadge();
+        dom.videoPlayerContainer.classList.add('player-active');
         dom.videoPlayerContainer.innerHTML = '<div id="player-iframe"></div>';
         videoPlayer = new YT.Player('player-iframe', {
-            height: '100%', width: '100%', videoId: 'GRwOsXCW2jM',
+            height: '100%',
+            width: '100%',
+            videoId: 'GRwOsXCW2jM',
             playerVars: { 'autoplay': 1, 'rel': 0, 'controls': 1 },
-            events: { 'onStateChange': e => {
-                const isPlaying = e.data === YT.PlayerState.PLAYING;
-                dom.videoStatusIcon.textContent = isPlaying ? '🎶' : '🎬';
-                dom.videoStatusIcon.classList.toggle('playing', isPlaying);
-            }}
+            events: {
+                'onReady': () => {},
+                'onStateChange': e => {
+                    const p = e.data === YT.PlayerState.PLAYING;
+                    dom.videoStatusIcon.textContent = p ? '🎶' : '🎬';
+                }
+            }
         });
     }
     function setupEventListeners() {
-        dom.nextBtn.addEventListener('click', nextQuestion);
-        dom.prevBtn.addEventListener('click', previousQuestion);
+        dom.startQuizBtn.addEventListener('click', () => startQuiz(true)); dom.resumeBtn.addEventListener('click', resumeQuiz);
+        dom.homeBtn.addEventListener('click', goHome); dom.toolResetBtn.addEventListener('click', restartQuiz);
+        dom.resultsReviewBtn.addEventListener('click', reviewQuestions);
+        dom.reviewErrorsBtn.addEventListener('click', reviewErrors);
+        dom.resultsRestartBtn.addEventListener('click', restartQuiz);
 
-        document.addEventListener('click', e => {
-            const option = e.target.closest('.option:not(.disabled)');
-            if (option) {
-                isReviewing = false;
-                const qNum = parseInt(option.closest('.question-card').dataset.question);
-                handleAnswer(qNum, option.dataset.answer, option);
-            }
-            
-            const dot = e.target.closest('.progress-dot.clickable');
-            if (dot) {
-                reviewQuestion(parseInt(dot.dataset.questionIndex));
-            }
+        document.querySelectorAll('.question-card .nav-buttons').forEach(container => {
+            const prevBtn = container.querySelector('.btn-nav:first-child'); const nextBtn = container.querySelector('.btn-nav:last-child');
+            prevBtn.addEventListener('click', previousQuestion); nextBtn.addEventListener('click', nextQuestion);
         });
-
-        document.addEventListener('keydown', e => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            const key = e.key;
-            if (key === 'ArrowRight') { e.preventDefault(); dom.nextBtn.click(); }
-            else if (key === 'ArrowLeft') { e.preventDefault(); dom.prevBtn.click(); }
-            else if (['1', '2', '3', '4'].includes(key)) {
-                const activeCard = document.querySelector('.question-card.active');
-                if (activeCard && activeCard.querySelector('.option:not(.disabled)')) {
-                    const optionToClick = activeCard.querySelector(`.option:nth-child(${key})`);
-                    if(optionToClick && !optionToClick.classList.contains('disabled')) { e.preventDefault(); optionToClick.click(); }
-                }
-            } else if (key === 'Escape' && dom.statsModalOverlay.classList.contains('show')) {
-                closeStatsModal();
-            }
+        document.addEventListener('click', e => { 
+            const o = e.target.closest('.option:not(.disabled)'); if (o) { isReviewing = false; const qN = parseInt(o.closest('.question-card').dataset.question); handleAnswer(qN, o.dataset.answer, o); } 
+            const d = e.target.closest('.progress-dot.clickable'); if (d) { reviewQuestion(parseInt(d.dataset.questionIndex)); }
+            if (e.target.matches('.review-banner .btn-link-review')) { showResults(false); }
         });
-        
-        dom.liveScore.addEventListener('click', openStatsModal);
-        dom.keyboardHint.addEventListener('mouseover', () => { curiosityTracker.hintHovered = true; checkCuriosityBadge(); }, { once: true });
-        dom.videoPlayerContainer.addEventListener('click', createPlayer, { once: true });
-        
+        document.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return; const k = e.key; if (k === 'ArrowRight') { e.preventDefault(); document.querySelector('.question-card.active .nav-buttons .btn-nav:last-child').click(); } else if (k === 'ArrowLeft') { e.preventDefault(); document.querySelector('.question-card.active .nav-buttons .btn-nav:first-child').click(); } else if (['1', '2', '3', '4'].includes(k)) { const aC = document.querySelector('.question-card.active'); if (aC && aC.querySelector('.option:not(.disabled)')) { const o = aC.querySelector(`.option:nth-child(${k})`); if(o && !o.classList.contains('disabled')) { e.preventDefault(); o.click(); } } } else if (k === 'Escape' && dom.statsModalOverlay.classList.contains('show')) { closeStatsModal(); } });
+        dom.liveScore.addEventListener('click', openStatsModal); dom.keyboardHint.addEventListener('mouseover', () => { curiosityTracker.hintHovered = true; checkCuriosityBadge(); }, { once: true });
+        dom.videoPlayerContainer.addEventListener('click', createPlayer);
         dom.modalCloseBtn.addEventListener('click', closeStatsModal);
         dom.statsModalOverlay.addEventListener('click', e => { if (e.target === dom.statsModalOverlay) closeStatsModal(); });
-
         document.getElementById('minimizeBtn').addEventListener('click', (e) => { e.stopPropagation(); dom.videoWidget.classList.toggle('minimized'); });
-        dom.videoHeader.addEventListener('click', () => { if (dom.videoWidget.classList.contains('minimized')) dom.videoWidget.classList.remove('minimized'); });
+        dom.videoWidget.addEventListener('click', () => { if (dom.videoWidget.classList.contains('minimized')) dom.videoWidget.classList.remove('minimized'); });
         dom.resetQuizBtn.addEventListener('click', restartQuiz);
     }
     function init() {
-        totalQuestions = document.querySelectorAll('.question-card').length;
-        answers = new Array(totalQuestions + 1).fill(null);
-        isAnswered = new Array(totalQuestions + 1).fill(false);
-        
+        totalQuestions = document.querySelectorAll('.question-card').length; answers = new Array(totalQuestions + 1).fill(null); isAnswered = new Array(totalQuestions + 1).fill(false);
         dom.totalQuestionsDisplay.textContent = totalQuestions;
-        dom.progressDotsContainer.innerHTML = questionTitles.map((title, i) => 
-            `<div class="progress-dot" data-question-index="${i + 1}" data-tooltip="Q${i + 1}: ${title}"></div>`
-        ).join('');
-        
-        setupTheme();
-        setupEventListeners();
-        setupInteractiveQuestions();
-        
-        dom.container.appendChild(dom.navButtons);
-        dom.navButtons.style.display = 'none';
-        
+        dom.progressDotsContainer.innerHTML = questionTitles.map((title, i) => `<div class="progress-dot" data-question-index="${i + 1}" data-tooltip="Q${i + 1}: ${title}"></div>`).join('');
+        document.querySelectorAll('.question-card .nav-buttons').forEach(container => { container.innerHTML = `<button class="btn-nav" title="Précédent (←)" aria-label="Question précédente" disabled>←</button> <button class="btn-nav" title="Suivant (→)" aria-label="Question suivante" disabled>→</button>`; });
+        setupTheme(); setupEventListeners(); setupInteractiveQuestions();
         const savedProgress = localStorage.getItem(quizSaveKey);
-        if(savedProgress) {
-            const resumeBtn = document.getElementById('resumeNotification');
-            resumeBtn.classList.add('show');
-            resumeBtn.addEventListener('click', () => { loadProgress(); resumeBtn.classList.remove('show'); }, { once: true });
-            setTimeout(() => resumeBtn.classList.remove('show'), 8000);
+        if(savedProgress) { 
+            dom.resumeBtn.style.display = 'inline-flex'; 
+            dom.startQuizBtn.textContent = 'Recommencer';
+            dom.startQuizBtn.classList.remove('btn-primary');
+            dom.startQuizBtn.classList.add('btn-secondary');
+            dom.resumeBtn.classList.remove('btn-secondary');
+            dom.resumeBtn.classList.add('btn-primary');
         }
-        
-        startTimer();
-        showQuestion(1);
         updateLiveScore();
     }
-    
     document.addEventListener('DOMContentLoaded', init);
-    
-    })(); // <-- IIFE Close
+    })();
     </script>
 </body>
 </html>
