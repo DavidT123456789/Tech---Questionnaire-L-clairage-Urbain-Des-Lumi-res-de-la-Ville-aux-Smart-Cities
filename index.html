@@ -93,7 +93,7 @@
         #startQuizBtn { font-size: 1.2em; padding: 15px 40px; }
         #resumeBtn { display: none; font-size: 1.15em; }
         .quiz-content.hidden { display: none; }
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: all 0.3s ease; }
+        .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 30px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: all 0.3s ease; }
         .btn:active { transform: translateY(-1px) scale(0.98); }
         .btn-primary { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.4); }
@@ -107,11 +107,11 @@
         
         .live-score-widget { top: 20px; right: 20px; width: 84px; height: 92px; cursor: pointer; text-align: center; overflow: hidden; padding:0; }
         .live-score-widget:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px var(--card-shadow-hover); }
-        .widget-inner-flipper { position: relative; width: 100%; height: 200%; top: 0; transition: transform 0.4s ease-in-out; }
+        .widget-inner-flipper { position: relative; width: 100%; height: 200%; top: 0; transition: transform 0.4s ease-in-out; pointer-events: none; }
         .live-score-widget:hover .widget-inner-flipper { transform: translateY(-50%); }
-        .score-display-area, .badge-count-display { width: 100%; height: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .score-display-area { padding-top: 5px; }
-        .badge-count-display { gap: 4px; }
+        .score-display-area, .badge-count-display { position: absolute; width: 100%; height: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-display-area { top: 0; }
+        .badge-count-display { top: 50%; gap: 4px; }
         .badge-count-display .badge-icon { font-size: 2em; line-height: 1; }
         #badgeCount { font-weight: bold; font-size: 1.1em; }
         
@@ -160,10 +160,13 @@
             pointer-events: none;
             bottom: 130%;
         }
+        .btn:hover .tooltip-text, .btn:focus-visible .tooltip-text,
         .tool-action-btn:hover .tooltip-text, .tool-action-btn:focus-visible .tooltip-text,
         .badge-earned-item:hover .tooltip-text, .badge-earned-item:focus-visible .tooltip-text,
         .progress-dot:hover .tooltip-text, .progress-dot:focus-visible .tooltip-text,
-        .tooltip:hover .tooltip-text, .tooltip:focus-visible .tooltip-text {
+        .tooltip:hover .tooltip-text, .tooltip:focus-visible .tooltip-text,
+        .stat-item h4:hover + .tooltip-text, 
+        .stat-item h4:focus-visible + .tooltip-text {
             visibility: visible;
             opacity: 1;
             transition-delay: 0.4s;
@@ -173,7 +176,7 @@
         .tooltip-text.bottom { bottom: auto; top: 130%; }
         .tooltip-text.bottom::after { top: auto; bottom: 100%; transform: translateX(-50%) rotate(180deg); }
         .tooltip { border-bottom: 1px dotted var(--accent-color); color: var(--accent-color); cursor: help; position: relative; }
-        .tooltip.no-underline { border-bottom: none; }
+        .tooltip.no-underline { border-bottom: none; cursor: default; }
         
         .keyboard-hint { bottom: 20px; left: 20px; position: fixed; align-items: center; border-radius: 25px; cursor: pointer; overflow: hidden; width: 45px; height: 45px; padding: 0; transition: width 0.4s ease-in-out; }
         .keyboard-hint:hover { width: 400px; }
@@ -260,7 +263,8 @@
         .ranking-slot .rank-label { font-weight: bold; width: 130px; text-align: right; }
         .ranking-slot .dropzone { flex: 1; min-height: 45px; border-radius: 8px; }
         details { margin-top: 15px; background: var(--option-bg); border-radius: 8px; padding: 5px 15px; border-left: 3px solid var(--accent-color); }
-        summary { cursor: pointer; font-weight: bold; padding: 10px 0; outline: none; display: flex; align-items: center; justify-content: space-between; }
+        summary { cursor: pointer; font-weight: bold; padding: 10px 0; outline: none; display: flex; align-items: center; justify-content: space-between; transition: background-color 0.3s ease; }
+        summary:hover, summary:focus-visible { background-color: var(--option-hover-bg); }
         summary::-webkit-details-marker { display: none; }
         summary::after { content: '▼'; font-size: 0.8em; transition: transform 0.3s ease; }
         details[open] summary::after { transform: rotate(180deg); }
@@ -278,7 +282,7 @@
         .results-stat-widget strong { color: var(--main-text-color); font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 1.1em; }
         .results-stat-widget .timer-icon svg { width: 20px; height: 20px; fill: currentColor; }
         .results-summary { margin-top: 30px; text-align: left; }
-        .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .summary-header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 10px; }
         .summary-filters { display: flex; gap: 8px; }
         .summary-filters button { font-size: 0.85em; padding: 5px 12px; border: 1px solid var(--glass-border); background: var(--option-bg); color: var(--main-text-color); border-radius: 15px; cursor: pointer; transition: background-color 0.2s; }
         .summary-filters button.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
@@ -310,16 +314,10 @@
         .key-takeaways li { margin-bottom: 10px; }
         .category-performance { background: rgba(var(--primary-color-rgb), 0.1); border-left-color: var(--primary-color); }
         .category-performance-title { color: var(--primary-color); }
-        #category-performance-list { list-style: none; padding: 0; }
-        .category-perf-item { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 8px 0; border-bottom: 1px solid var(--glass-border); }
-        .category-perf-item:last-child { border-bottom: none; }
-        .category-perf-name { font-weight: bold; }
-        .category-perf-score { font-weight: bold; font-size: 1.1em; }
         .badges-earned-container { margin: 30px 0; padding: 20px; background: rgba(var(--primary-color-rgb), 0.1); border-left: 4px solid var(--primary-color); border-radius: 8px; text-align: left; }
         #badges-earned { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
         .badge-earned-item { display: flex; flex-direction: column; align-items: center; position: relative; }
         #badges-earned .badge-earned-item { width: 130px; }
-        .badges-grid .badge-earned-item { width: 120px; }
         .badge-earned-item .badge-icon { display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease; }
         #badges-earned .badge-icon { font-size: 4em; width: 90px; height: 90px; }
         .badges-grid .badge-icon { font-size: 3.2em; width: 75px; height: 75px; }
@@ -342,20 +340,19 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease-out; padding: 20px; }
         html[data-theme='light'] .modal-overlay { background: rgba(244, 246, 248, 0.7); }
         .modal-overlay.show { display: flex; opacity: 1; }
-        .stats-modal { background: var(--card-bg); color: var(--main-text-color); padding: 30px; border-radius: 20px; width: 100%; max-width: 600px; box-shadow: 0 10px 30px var(--card-shadow); position: relative; transition: background-color 0.3s ease, color 0.3s ease; transform: scale(0.95); opacity: 0; max-height: 90vh; overflow-y: auto; }
+        .stats-modal { background: var(--card-bg); color: var(--main-text-color); padding: 30px; border-radius: 20px; width: 100%; max-width: 600px; box-shadow: 0 10px 30px var(--card-shadow); position: relative; transition: background-color 0.3s ease, color 0.3s ease; transform: scale(0.95); opacity: 0; max-height: 90vh; overflow-y: auto; overflow-x: hidden;}
         .modal-overlay.show .stats-modal { animation: modal-fade-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .modal-overlay.hiding .stats-modal { animation: modal-fade-out 0.3s ease-out forwards; }
         @keyframes modal-fade-in { to { transform: scale(1); opacity: 1; } }
         @keyframes modal-fade-out { from { transform: scale(1); opacity: 1; } to { transform: scale(0.95); opacity: 0; } }
         .modal-close-btn { position: absolute; top: 15px; right: 15px; background: var(--option-hover-bg); color: var(--main-text-color); border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1.2em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s, transform 0.3s; }
         .modal-close-btn:hover { transform: rotate(90deg); }
-        .stats-modal h3 { margin-top: 30px; }
+        .stats-modal h3 { font-size: 1.2em; margin-top: 25px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; gap: 10px; }
         .stats-modal h3:first-of-type { margin-top: 0; }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px 20px; text-align: center; margin-top: 20px; }
-        .stats-grid.performance-grid { grid-template-columns: repeat(3, 1fr); }
-        .stat-item h4 { color: var(--primary-color); }
-        .badges-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; }
-        .badges-grid .badge-earned-item { position: relative; }
+        .stat-item { position: relative; } 
+        .stat-item h4 { font-size: 0.9em; margin-bottom: 2px; font-weight: bold; cursor: help; }
+        .stat-item p { font-size: 1.1em; font-weight: bold; }
+        .badges-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 20px; }
         .badge p { font-size: 0.8em; margin-top: 5px; font-weight: bold; }
         #confetti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 10; }
         .confetti { position: absolute; width: 10px; height: 10px; background-color: #f00; opacity: 1; animation: fall 5s linear forwards; }
@@ -427,7 +424,7 @@
         .video-player-container.player-active .video-thumbnail-overlay, .video-player-container.player-active .video-play-button { display: none; }
         
         #toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column-reverse; gap: 10px; align-items: center; pointer-events: none;}
-        .toast { display: flex; align-items: center; gap: 15px; background: var(--tooltip-bg); color: var(--tooltip-text-color); padding: 12px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: toast-in-out 4s ease-in-out forwards; border: 1px solid var(--tooltip-border); }
+        .toast { display: flex; align-items: center; gap: 15px; background: var(--tooltip-bg); color: var(--tooltip-text-color); padding: 12px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: toast-in-out 4s ease-in-out forwards; border: 1px solid var(--tooltip-border); pointer-events: all; }
         @keyframes toast-in-out { 0% { transform: translateY(100px) scale(0.9); opacity: 0; } 15% { transform: translateY(0) scale(1); opacity: 1; } 85% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(100px) scale(0.9); opacity: 0; } }
         
         #startFooter, #resultsFooter {
@@ -451,7 +448,6 @@
         #results #badges-earned .badge-earned-item {
             flex: 1;
             max-width: 120px;
-            width: auto;
         }
         #results #badges-earned .badge-icon {
             font-size: 3.2em;
@@ -517,25 +513,43 @@
             border: 1px solid var(--glass-border);
             padding: 0;
         }
-        .results-accordion summary {
-            padding: 15px 20px;
-            font-size: 1.1em;
-            color: var(--main-text-color);
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .results-accordion summary:hover,
-        .results-accordion summary:focus-visible {
-            background-color: var(--option-hover-bg);
-        }
         .results-accordion .results-summary {
             margin-top: 0;
             padding: 0 20px 20px 20px;
         }
+        .summary-header {
+            justify-content: flex-start;
+        }
+        
+        /* --- MODIFICATIONS MODALE STATS --- */
+        .stats-grid.performance-grid { 
+            display: flex; 
+            justify-content: space-between;
+            gap: 20px; 
+            align-items: flex-start;
+        }
+        .stats-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+            flex: 1;
+        }
+        .stats-column:nth-child(1) .stat-item h4 { color: var(--primary-color); }
+        .stats-column:nth-child(2) .stat-item h4 { color: var(--accent-color); }
+        .stats-column:nth-child(3) .stat-item h4 { color: var(--secondary-color); }
+        
+        .badges-grid {
+             grid-template-columns: repeat(4, 1fr);
+             gap: 15px;
+        }
+        .badges-grid .badge-earned-item {
+            width: auto;
+        }
     </style>
 </head>
 <body>
-    <div class="live-score-widget floating-widget" id="liveScoreWidget" aria-live="polite" onclick="openStatsModal()" title="Voir les statistiques">
+    <div class="live-score-widget floating-widget" id="liveScoreWidget">
         <div class="widget-inner-flipper">
             <div class="score-display-area">
                 <div class="score-progress-circle" id="scoreProgressCircle">
@@ -756,7 +770,6 @@
                 <summary>Récapitulatif de vos réponses</summary>
                 <div class="results-summary">
                     <div class="summary-header">
-                        <h4>Détail de vos réponses</h4>
                         <div class="summary-filters">
                             <button class="active" data-filter="all">Toutes</button>
                             <button data-filter="correct">Succès</button>
@@ -768,10 +781,22 @@
             </details>
 
             <div class="results-actions">
-                <button class="btn btn-secondary" id="homeResultsBtn">🏠 Accueil</button>
-                <button class="btn btn-secondary" id="resultsReviewBtn">🧐 Revoir toutes mes réponses</button>
-                <button class="btn btn-primary" id="reviewErrorsBtn">🧐 Revoir mes erreurs</button>
-                <button class="btn btn-secondary" id="resultsRestartBtn">🔄 Recommencer</button>
+                <button class="btn btn-secondary" id="homeResultsBtn">
+                    🏠 Accueil
+                    <span class="tooltip-text bottom">Retourner à l'écran d'accueil</span>
+                </button>
+                <button class="btn btn-secondary" id="resultsReviewBtn">
+                    🧐 Revoir toutes mes réponses
+                    <span class="tooltip-text bottom">Parcourir l'ensemble du quiz avec vos réponses.</span>
+                </button>
+                <button class="btn btn-primary" id="reviewErrorsBtn">
+                    🧐 Revoir mes erreurs
+                    <span class="tooltip-text bottom"></span>
+                </button>
+                <button class="btn btn-secondary" id="resultsRestartBtn">
+                    🔄 Recommencer
+                     <span class="tooltip-text bottom">Lancer une nouvelle session du quiz. Votre progression sera effacée.</span>
+                </button>
             </div>
             <footer id="resultsFooter">Réalisé par David Trafial</footer>
         </div>
@@ -803,17 +828,44 @@
     <div class="modal-overlay" id="statsModalOverlay">
         <div class="stats-modal">
             <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fermer les statistiques">✖</button>
-            <h3>📊 Vos Statistiques de Performance</h3>
+            <h3>📊 Statistiques de la Session</h3>
             <div class="stats-grid performance-grid">
-                <div class="stat-item"><h4>Précision</h4><p id="statsAccuracy">--%</p></div>
-                <div class="stat-item"><h4>Répondues</h4><p id="statsAnswered">0 / 20</p></div>
-                <div class="stat-item"><h4>Série en Cours</h4><p id="statsCurrentStreak">0</p></div>
-                <div class="stat-item"><h4>Meilleure Série</h4><p id="statsBestStreak">0</p></div>
-                <div class="stat-item"><h4>Temps Total</h4><p id="statsTime">00:00</p></div>
-                <div class="stat-item"><h4>Moy. / Q.</h4><p id="statsAvgTime">-- s</p></div>
-            </div>
-            <div class="stats-grid" style="grid-template-columns: 1fr; margin-top: 0;">
-                 <div class="stat-item"><h4>Réponse la plus Rapide</h4><p id="statsFastestQ">--</p></div>
+                <div class="stats-column">
+                    <div class="stat-item">
+                        <h4 class="tooltip no-underline">Répondues</h4>
+                        <span class="tooltip-text bottom">Nombre de questions auxquelles vous avez répondu.</span>
+                        <p id="statsAnswered">0 / 20</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 class="tooltip no-underline">Précision</h4>
+                        <span class="tooltip-text bottom">Pourcentage de bonnes réponses sur les questions répondues.</span>
+                        <p id="statsAccuracy">--%</p>
+                    </div>
+                </div>
+                <div class="stats-column">
+                    <div class="stat-item">
+                        <h4 class="tooltip no-underline">Série Actuelle</h4>
+                        <span class="tooltip-text bottom">Nombre de bonnes réponses consécutives actuelles.</span>
+                        <p id="statsCurrentStreak">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 class="tooltip no-underline">Meilleure Série</h4>
+                         <span class="tooltip-text bottom">Plus grand nombre de bonnes réponses consécutives obtenues durant ce test.</span>
+                        <p id="statsBestStreak">0</p>
+                    </div>
+                </div>
+                <div class="stats-column">
+                    <div class="stat-item">
+                        <h4 class="tooltip no-underline">Temps Total</h4>
+                        <span class="tooltip-text bottom">Durée totale de votre session de quiz.</span>
+                        <p id="statsTime">00:00</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 class="tooltip no-underline">Temps Moy. / Q.</h4>
+                        <span class="tooltip-text bottom">Temps moyen passé pour répondre à chaque question.</span>
+                        <p id="statsAvgTime">-- s</p>
+                    </div>
+                </div>
             </div>
             <h3>🏆 Vos Badges</h3>
             <div class="badges-grid" id="modalBadgesGrid">
@@ -831,17 +883,15 @@
     'use strict';
     
     // --- State & Constants ---
-    let currentQuestion = 1; let score = 0; let totalQuestions; let answers = []; let isAnswered = []; let q17_selections = [];
-    let videoPlayer; let isYouTubeApiReady = false; let youtubeApiQueue = []; let timerInterval; let secondsElapsed = 0; 
-    let currentStreak = 0; let bestStreak = 0;
-    let questionTimestamps = []; let fastestAnswer = { time: Infinity, qNum: null };
-    let isReviewing = false; let reviewingErrorsOnly = false; let errorIndices = [];
-    let attemptCount = 0;
-    let badges = { history: false, smartcity: false, calculator: false, expert: false, streak: false, perfect: false, curious: false, sprinter: false };
-    let curiosityTracker = { videoClicked: false, statsOpened: false, hintHovered: false };
+    let totalQuestions;
+    let timerInterval;
+    let videoPlayer; 
+    let isYouTubeApiReady = false; 
+    let youtubeApiQueue = [];
     let draggedItem = null;
-    
-    const quizSaveKey = 'urbanLightingQuiz_vFinal_65'; // Incremented version key
+    let reviewScrollPosition = 0;
+
+    const quizSaveKey = 'urbanLightingQuiz_vFinal_75'; // Incremented version key for state reset
     const themeStorageKey = 'urbanLightingTheme_v1';
     const attemptCountKey = 'urbanLightingQuiz_attempts_v1';
     const badgeStorageKey = 'urbanLightingQuiz_badges_v1';
@@ -888,6 +938,22 @@
         modalBadgesGrid: document.getElementById('modalBadgesGrid')
     };
 
+    // --- Centralized State ---
+    let state = {};
+    const getDefaultState = () => ({
+        currentQuestion: 1, score: 0, secondsElapsed: 0,
+        currentStreak: 0, bestStreak: 0,
+        answers: new Array(totalQuestions + 1).fill(null),
+        isAnswered: new Array(totalQuestions + 1).fill(false),
+        questionTimestamps: [],
+        quizCompleted: false,
+        isReviewing: false, reviewingErrorsOnly: false, errorIndices: [],
+        interactiveStates: {},
+        attemptCount: parseInt(localStorage.getItem(attemptCountKey), 10) || 0,
+        badges: { history: false, smartcity: false, calculator: false, expert: false, streak: false, perfect: false, curious: false, sprinter: false },
+        curiosityTracker: { videoClicked: false, statsOpened: false, hintHovered: false }
+    });
+
     // --- Core UI & Logic Functions ---
     function applyTheme(theme) { document.documentElement.setAttribute('data-theme', theme); dom.themeToggle.checked = (theme === 'light'); }
     function saveThemePreference(theme) { localStorage.setItem(themeStorageKey, theme); }
@@ -895,9 +961,9 @@
     function showToast(title, message, icon) { const tc = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = `<span style="font-size: 1.5em;">${icon}</span><div><strong>${title}</strong><div style="font-size:0.9em;">${message}</div></div>`; tc.appendChild(t); setTimeout(() => t.remove(), 4000); }
     
     function updateLiveScore() {
-        dom.currentScore.textContent = score;
-        const answeredCount = isAnswered.slice(1).filter(Boolean).length;
-        const accuracy = answeredCount > 0 ? (score / answeredCount) * 100 : 0;
+        dom.currentScore.textContent = state.score;
+        const answeredCount = state.isAnswered.slice(1).filter(Boolean).length;
+        const accuracy = answeredCount > 0 ? (state.score / answeredCount) * 100 : 0;
         dom.scoreProgressCircle.style.setProperty('--p', accuracy);
         dom.scoreProgressCircle.classList.add('updated-score');
         setTimeout(() => dom.scoreProgressCircle.classList.remove('updated-score'), 500);
@@ -905,66 +971,101 @@
     
     function updateProgressDot(qNum, isCorrect) {
         const dot = dom.progressDotsContainer.children[qNum - 1];
-        if (dot) { dot.classList.add('clickable', isCorrect ? 'completed-correct' : 'completed-incorrect'); }
+        if (dot) {
+            dot.classList.add('clickable');
+            dot.classList.add(isCorrect ? 'completed-correct' : 'completed-incorrect');
+        }
     }
 
-    function updateProgress() { const progress = totalQuestions > 1 ? ((currentQuestion - 1) / (totalQuestions - 1)) * 100 : 0; dom.progressFill.style.width = progress + '%'; dom.progressText.innerHTML = `Question <strong>${currentQuestion}</strong> / ${totalQuestions}`; Array.from(dom.progressDotsContainer.children).forEach((dot, i) => { dot.classList.remove('active'); if (i + 1 === currentQuestion) dot.classList.add('active'); }); }
+    function updateProgress() { const progress = totalQuestions > 1 ? ((state.currentQuestion - 1) / (totalQuestions - 1)) * 100 : 0; dom.progressFill.style.width = progress + '%'; dom.progressText.innerHTML = `Question <strong>${state.currentQuestion}</strong> / ${totalQuestions}`; Array.from(dom.progressDotsContainer.children).forEach((dot, i) => { dot.classList.remove('active'); if (i + 1 === state.currentQuestion) dot.classList.add('active'); }); }
     
-    function startQuiz(isNewGame = true) {
-        if (isNewGame) {
-            localStorage.removeItem(quizSaveKey);
-            currentQuestion = 1; score = 0; secondsElapsed = 0; currentStreak = 0; bestStreak = 0; 
-            questionTimestamps = []; fastestAnswer = { time: Infinity, qNum: null };
-            isReviewing = false; reviewingErrorsOnly = false;
-            answers = new Array(totalQuestions + 1).fill(null);
-            isAnswered = new Array(totalQuestions + 1).fill(false);
-            q17_selections = [];
-            // Reset visual state of cards
-            document.querySelectorAll('.question-card').forEach(card => {
-                card.querySelectorAll('.option').forEach(opt => {
-                    opt.classList.remove('disabled', 'selected', 'correct', 'incorrect', 'glow');
-                });
-                const feedback = card.querySelector('.feedback');
-                if (feedback) feedback.classList.remove('show', 'correct', 'incorrect');
-            });
-            startTimer();
-        } else {
-            updateTimerDisplay();
-        }
-        
+    function resetInteractiveQuestions() {
+        INTERACTIVE_QUESTIONS.forEach(qNum => {
+            const container = document.querySelector(`.question-card[data-question="${qNum}"] .interactive-question-container`);
+            if (container) {
+                container.classList.remove('disabled');
+                const source = document.getElementById(`q${qNum}-source`) || document.getElementById(`q${qNum}-events`);
+                if(source) {
+                    container.querySelectorAll('.draggable-item').forEach(item => source.appendChild(item));
+                }
+            }
+        });
+    }
+    
+    function transitionToQuizView() {
         document.body.classList.remove('results-visible');
-        document.body.classList.add('quiz-active'); 
+        document.body.classList.add('quiz-active');
         dom.startScreen.classList.add('hidden');
-        dom.quizContent.classList.remove('hidden'); dom.mainHeader.classList.add('header-compact');
-        showQuestion(currentQuestion, 'forward');
+        dom.quizContent.classList.remove('hidden');
+        dom.mainHeader.classList.add('header-compact');
+    }
+
+    function startNewQuiz() {
+        let savedBadges = state.badges;
+        let attemptCount = state.attemptCount + 1;
+        
+        state = getDefaultState(); // Reset everything
+        state.attemptCount = attemptCount;
+        state.badges = savedBadges;
+        
+        localStorage.setItem(attemptCountKey, state.attemptCount);
+        localStorage.removeItem(quizSaveKey); // Clear old session.
+        
+        resetInteractiveQuestions();
+        document.querySelectorAll('.question-card').forEach(card => {
+            card.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('disabled', 'selected', 'correct', 'incorrect', 'glow');
+                opt.setAttribute('aria-checked', 'false');
+            });
+
+            card.querySelectorAll('.feature-option').forEach(opt => {
+                opt.classList.remove('selected', 'disabled');
+            });
+
+            // FIX: Reset the styling for draggable items from previous sessions.
+            card.querySelectorAll('.draggable-item').forEach(item => {
+                item.classList.remove('correct', 'incorrect');
+            });
+
+            const q17DescBox = card.querySelector('#q17-description-box');
+            if (q17DescBox) {
+                q17DescBox.style.display = 'none';
+                q17DescBox.querySelector('#q17-description-list').innerHTML = '';
+            }
+
+            const feedback = card.querySelector('.feedback');
+            if (feedback) feedback.classList.remove('show', 'correct', 'incorrect');
+        });
+        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => {
+            dot.className = 'progress-dot'; // Reset classes
+        });
+        
+        transitionToQuizView();
+        startTimer();
+        showQuestion(state.currentQuestion, 'forward');
     }
 
     function resumeQuiz() {
         const savedProgress = localStorage.getItem(quizSaveKey); if (!savedProgress) { startNewQuiz(); return; }
         try {
             const p = JSON.parse(savedProgress);
-            currentQuestion = p.currentQuestion; score = p.score; answers = p.answers; isAnswered = p.isAnswered; 
-            secondsElapsed = Number(p.secondsElapsed) || 0; 
-            currentStreak = p.currentStreak || 0; 
-            bestStreak = p.bestStreak || 0;
-            questionTimestamps = p.questionTimestamps || [];
-            fastestAnswer = p.fastestAnswer || { time: Infinity, qNum: null };
-            q17_selections = p.interactiveStates?.[`q${Q_LAMP_BUILDER}`] || [];
-            curiosityTracker = p.curiosityTracker || { videoClicked: false, statsOpened: false, hintHovered: false };
+            Object.assign(state, p);
             
-            for (let i = 1; i <= totalQuestions; i++) { if (p.isAnswered[i]) { const isC = p.answers[i] === correctAnswers[i] || (INTERACTIVE_QUESTIONS.includes(i) && p.answers[i] === true); updateProgressDot(i, isC); } }
+            for (let i = 1; i <= totalQuestions; i++) { if (state.isAnswered[i]) { const isC = state.answers[i] === correctAnswers[i]; updateProgressDot(i, isC); } }
             updateLiveScore();
-            startQuiz(false);
-            startTimer();
+            updateTimerDisplay();
+
+            transitionToQuizView();
+            
+            if (state.quizCompleted) {
+                reviewQuestions();
+            } else {
+                startTimer();
+                showQuestion(state.currentQuestion, 'forward');
+            }
         } catch (e) { console.error("Erreur de chargement de la progression.", e); localStorage.removeItem(quizSaveKey); startNewQuiz(); }
     }
     
-    function startNewQuiz() {
-        attemptCount++;
-        localStorage.setItem(attemptCountKey, attemptCount);
-        startQuiz(true);
-    }
-
     function showQuestion(questionNumber, direction = 'forward') {
         const currentCard = document.querySelector('.question-card.active');
         if (currentCard) {
@@ -986,13 +1087,13 @@
         dom.resultsScreen.classList.remove('show'); dom.quizContent.style.display = 'block';
         const card = document.querySelector(`[data-question="${questionNumber}"]`);
         if (card) {
-            currentQuestion = parseInt(questionNumber, 10);
-            if (!isAnswered[currentQuestion]) {
-                questionTimestamps[currentQuestion] = { start: Date.now() };
+            state.currentQuestion = parseInt(questionNumber, 10);
+            if (!state.isAnswered[state.currentQuestion]) {
+                state.questionTimestamps[state.currentQuestion] = { start: Date.now() };
             }
 
             const optionsContainer = card.querySelector('.options');
-            if (optionsContainer && !isAnswered[currentQuestion]) {
+            if (optionsContainer && !state.isAnswered[state.currentQuestion]) {
                 const options = Array.from(optionsContainer.children);
                 for (let i = options.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -1010,48 +1111,88 @@
             card.classList.add('active');
             if (direction === 'backward') { card.classList.add('slide-from-left'); } 
             else { card.classList.remove('slide-from-left'); }
-            card.classList.toggle('review-mode-active', isReviewing);
+            card.classList.toggle('review-mode-active', state.isReviewing);
             
-            if(isAnswered[currentQuestion]) { renderAnsweredState(currentQuestion, answers[currentQuestion]); }
+            if (state.isAnswered[state.currentQuestion]) { 
+                renderAnsweredState(state.currentQuestion, state.answers[state.currentQuestion]); 
+                if (INTERACTIVE_QUESTIONS.includes(state.currentQuestion)) {
+                    restoreInteractiveState(state.currentQuestion);
+                }
+            }
 
             const navContainer = card.querySelector('.nav-buttons');
             const prevBtn = navContainer.querySelector('.btn-nav:first-child'); 
             const nextBtn = navContainer.querySelector('.btn-nav:last-child');
             
             let isPrevDisabled = true; let isNextDisabled = true;
-            if (isReviewing) {
-                if (reviewingErrorsOnly) {
-                    const currentIndexInErrors = errorIndices.indexOf(currentQuestion);
+            if (state.isReviewing) {
+                if (state.reviewingErrorsOnly) {
+                    const currentIndexInErrors = state.errorIndices.indexOf(state.currentQuestion);
                     isPrevDisabled = currentIndexInErrors <= 0;
-                    isNextDisabled = currentIndexInErrors >= errorIndices.length - 1;
+                    isNextDisabled = currentIndexInErrors >= state.errorIndices.length - 1;
                 } else {
-                    isPrevDisabled = currentQuestion <= 1;
-                    isNextDisabled = currentQuestion >= totalQuestions;
+                    isPrevDisabled = state.currentQuestion <= 1;
+                    isNextDisabled = state.currentQuestion >= totalQuestions;
                 }
             } else {
-                 isPrevDisabled = currentQuestion <= 1;
-                 isNextDisabled = !isAnswered[currentQuestion];
+                 isPrevDisabled = state.currentQuestion <= 1;
+                 isNextDisabled = !state.isAnswered[state.currentQuestion];
             }
             prevBtn.disabled = isPrevDisabled;
             nextBtn.disabled = isNextDisabled;
 
-            if (currentQuestion === totalQuestions && isAnswered[totalQuestions] && !isReviewing) { nextBtn.innerHTML = '🏆'; nextBtn.title = 'Voir les résultats'; } 
-            else { nextBtn.innerHTML = '→'; nextBtn.title = 'Suivant (→)'; }
+            if (state.currentQuestion === totalQuestions && state.isAnswered[totalQuestions] && !state.isReviewing) { nextBtn.innerHTML = '🏆'; } 
+            else { nextBtn.innerHTML = '→'; }
             
             updateProgress();
             const title = card.querySelector('.question-title'); if(title) title.focus({ preventScroll: true });
         }
     }
     
-    function handleAnswer(questionNumber, selectedAnswer, element) { if (isAnswered[questionNumber]) return;
-        const duration = Date.now() - questionTimestamps[questionNumber].start;
-        questionTimestamps[questionNumber].duration = duration;
+    function processAnswerResult(isCorrect) {
+        if (isCorrect) {
+            state.score++;
+            state.currentStreak++;
+            if (state.currentStreak > state.bestStreak) { state.bestStreak = state.currentStreak; }
+        } else {
+            state.currentStreak = 0;
+        }
+        updateLiveScore(); 
+        checkBadges();
+        saveProgress();
+    }
+    
+    function handleAnswer(questionNumber, selectedAnswer, element) { if (state.isAnswered[questionNumber]) return;
+        state.questionTimestamps[questionNumber].duration = Date.now() - state.questionTimestamps[questionNumber].start;
         
-        isAnswered[questionNumber] = true; answers[questionNumber] = selectedAnswer; const isCorrect = correctAnswers[questionNumber] === selectedAnswer; if (isCorrect) { score++; currentStreak++; if(duration < fastestAnswer.time) { fastestAnswer = { time: duration, qNum: questionNumber }; } } else { currentStreak = 0; } if(currentStreak > bestStreak) { bestStreak = currentStreak; } updateLiveScore(); checkBadges(); const card = element.closest('.question-card'); card.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled')); element.classList.add('selected'); if (element.getAttribute('role') === 'radio') element.setAttribute('aria-checked', 'true'); renderAnsweredState(questionNumber, selectedAnswer); const feedback = card.querySelector('.feedback'); feedback.focus(); feedback.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.querySelector('.nav-buttons .btn-nav:last-child').disabled = false; saveProgress(); }
+        state.isAnswered[questionNumber] = true; 
+        state.answers[questionNumber] = selectedAnswer; 
+        const isCorrect = correctAnswers[questionNumber] === selectedAnswer; 
+        if (isCorrect) element.classList.add('glow');
+        processAnswerResult(isCorrect);
+        
+        const card = element.closest('.question-card'); 
+        card.querySelectorAll('.option').forEach(opt => {
+            opt.classList.add('disabled');
+            opt.setAttribute('aria-checked', 'false');
+        }); 
+        element.classList.add('selected'); 
+        if (element.getAttribute('role') === 'radio') element.setAttribute('aria-checked', 'true'); 
+        renderAnsweredState(questionNumber, selectedAnswer); 
+        const feedback = card.querySelector('.feedback'); 
+        feedback.focus(); 
+        feedback.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+        card.querySelector('.nav-buttons .btn-nav:last-child').disabled = false; 
+    }
     
     function showResults(isFirstTime = true) {
-        isReviewing = false; reviewingErrorsOnly = false;
-        if (isFirstTime) { clearInterval(timerInterval); checkBadges(true); saveProgress(); }
+        state.isReviewing = false; state.reviewingErrorsOnly = false;
+        if (isFirstTime) { 
+            state.quizCompleted = true;
+            clearInterval(timerInterval); 
+            checkBadges(true); 
+            saveProgress(); 
+        }
         generateSummary(); 
         const categoryData = generateCategoryPerformance();
         document.body.classList.remove('quiz-active');
@@ -1059,16 +1200,16 @@
         dom.quizContent.style.display = 'none';
         dom.resultsScreen.classList.add('show');
         
-        let message, description; const accuracy = score / totalQuestions;
+        let message, description; const accuracy = state.score / totalQuestions;
         const scoreCircle = document.getElementById('scoreCircle');
         
         const finalTimeWidgetStrong = document.querySelector('#finalTimeWidget strong');
-        const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
-        const s = (secondsElapsed % 60).toString().padStart(2, '0');
+        const m = Math.floor(state.secondsElapsed / 60).toString().padStart(2, '0');
+        const s = (state.secondsElapsed % 60).toString().padStart(2, '0');
         if(finalTimeWidgetStrong) finalTimeWidgetStrong.textContent = `${m}:${s}`;
 
         const attemptCounterWidgetStrong = document.querySelector('#attemptCounterWidget strong');
-        if(attemptCounterWidgetStrong) attemptCounterWidgetStrong.textContent = attemptCount;
+        if(attemptCounterWidgetStrong) attemptCounterWidgetStrong.textContent = state.attemptCount;
 
         if (accuracy >= 0.8) { message = '🏆 Visionnaire de la Smart City !'; description = 'Excellent ! Vous maîtrisez parfaitement l\'évolution de l\'éclairage urbain.'; scoreCircle.style.background = `linear-gradient(135deg, var(--success-color), var(--accent-color))`; if (isFirstTime) triggerConfetti(); } 
         else if (accuracy >= 0.5) { message = '💡 Technicien Éclairé'; description = 'Bien joué ! Vous avez de solides connaissances. Continuez à explorer !'; scoreCircle.style.background = `linear-gradient(135deg, var(--primary-color), var(--secondary-color))`; } 
@@ -1076,15 +1217,26 @@
         document.getElementById('scoreMessage').textContent = message; document.getElementById('scoreDescription').textContent = description;
         document.getElementById('personalizedFeedback').innerHTML = generatePersonalizedFeedback(categoryData);
         
-        const firstErrorIndex = answers.slice(1).findIndex((ans, i) => ans !== null && ans !== correctAnswers[i + 1]);
+        const firstErrorIndex = state.answers.slice(1).findIndex((ans, i) => ans !== null && ans !== correctAnswers[i + 1]);
         dom.reviewErrorsBtn.disabled = (firstErrorIndex === -1);
-        dom.reviewErrorsBtn.title = (firstErrorIndex === -1) ? "Félicitations, aucune erreur !" : "Aller à votre première erreur";
+        const reviewErrorsBtnTooltip = dom.reviewErrorsBtn.querySelector('.tooltip-text');
+        if(reviewErrorsBtnTooltip) reviewErrorsBtnTooltip.textContent = (firstErrorIndex === -1) ? "Félicitations, aucune erreur !" : "Parcourir uniquement les questions où vous avez fait une erreur.";
 
         displayEarnedBadges(); 
         const resultsTitle = document.getElementById('results-title');
-        window.scrollTo({ top: dom.resultsScreen.offsetTop, behavior: 'smooth' });
+
+        if (isFirstTime) {
+             window.scrollTo({ top: dom.resultsScreen.offsetTop, behavior: 'smooth' });
+        } else if (reviewScrollPosition > 0) {
+            // FIX: Use a timeout to ensure the scroll happens after the browser has rendered the page.
+            setTimeout(() => {
+                window.scrollTo({ top: reviewScrollPosition, behavior: 'auto' });
+                reviewScrollPosition = 0; // Reset after use
+            }, 0);
+        }
+        
         resultsTitle.focus({ preventScroll: true });
-        document.getElementById('scoreDisplay').textContent = `${score}/${totalQuestions}`;
+        document.getElementById('scoreDisplay').textContent = `${state.score}/${totalQuestions}`;
     }
 
     function renderAnsweredState(qN, uA) { 
@@ -1100,8 +1252,7 @@
                 const oA = o.dataset.answer; 
                 if(oA === uA) o.classList.add('selected', isC ? 'correct' : 'incorrect'); 
                 const isCorrectAnswer = oA === correctAnswers[qN];
-                if(isCorrectAnswer) o.classList.add('correct'); 
-                if(!isC && isCorrectAnswer) o.classList.add('glow');
+                if(isCorrectAnswer) o.classList.add('correct');
             }); 
         } else {
             const container = card.querySelector('.interactive-question-container'); 
@@ -1126,9 +1277,10 @@
             }
 
             if (qN === Q_LAMP_BUILDER) {
-                q17_selections.forEach(id => { const el = card.querySelector(`.feature-option[data-id="${id}"]`); if(el) el.classList.add('selected'); }); 
+                const selections = state.interactiveStates[`q${qN}`]?.selections || [];
+                selections.forEach(id => { const el = card.querySelector(`.feature-option[data-id="${id}"]`); if(el) el.classList.add('selected'); }); 
                 const dL = document.getElementById('q17-description-list'); const dB = document.getElementById('q17-description-box'); 
-                dL.innerHTML = q17_selections.map(id => `<li>✅ <b>${featureDetails[id].name}:</b> ${featureDetails[id].desc}</li>`).join(''); 
+                dL.innerHTML = selections.map(id => `<li>✅ <b>${featureDetails[id].name}:</b> ${featureDetails[id].desc}</li>`).join(''); 
                 dB.style.display = 'block'; 
                 card.querySelectorAll('.feature-option').forEach(el => el.classList.add('disabled')); 
             }
@@ -1136,52 +1288,105 @@
     }
     
     // --- Navigation & Helper Functions ---
+    function navigateToQuestion(targetQuestion) {
+        if (!state.isReviewing) return;
+        const current = state.currentQuestion;
+        if (targetQuestion === current) return;
+
+        const direction = targetQuestion > current ? 'forward' : 'backward';
+        showQuestion(targetQuestion, direction);
+    }
+    
     function nextQuestion(e) {
         const btn = e.currentTarget;
         if (btn.disabled) return;
-        if (reviewingErrorsOnly) {
-            const currentIndexInErrors = errorIndices.indexOf(currentQuestion);
-            if (currentIndexInErrors < errorIndices.length - 1) {
-                showQuestion(errorIndices[currentIndexInErrors + 1], 'forward');
+
+        // UX Improvement for Q17: Check if enough features are selected
+        if (state.currentQuestion === Q_LAMP_BUILDER && !state.isAnswered[Q_LAMP_BUILDER]) {
+            const selections = Array.from(document.querySelectorAll(`#q${Q_LAMP_BUILDER}-builder .feature-option.selected`));
+            if (selections.length < 4) {
+                showToast("Sélection requise", "Veuillez sélectionner au moins 4 fonctionnalités pour continuer.", "⚠️");
+                return;
+            }
+        }
+
+        if (state.reviewingErrorsOnly) {
+            const currentIndexInErrors = state.errorIndices.indexOf(state.currentQuestion);
+            if (currentIndexInErrors < state.errorIndices.length - 1) {
+                showQuestion(state.errorIndices[currentIndexInErrors + 1], 'forward');
             } else {
                 showResults(false);
             }
         } else {
-            currentQuestion < totalQuestions ? showQuestion(currentQuestion + 1, 'forward') : showResults(true);
+            state.currentQuestion < totalQuestions ? showQuestion(state.currentQuestion + 1, 'forward') : showResults(true);
         }
     }
 
     function previousQuestion(e) {
         const btn = e.currentTarget;
         if (btn.disabled) return;
-        if (reviewingErrorsOnly) {
-            const currentIndexInErrors = errorIndices.indexOf(currentQuestion);
+        if (state.reviewingErrorsOnly) {
+            const currentIndexInErrors = state.errorIndices.indexOf(state.currentQuestion);
             if (currentIndexInErrors > 0) {
-                showQuestion(errorIndices[currentIndexInErrors - 1], 'backward');
+                showQuestion(state.errorIndices[currentIndexInErrors - 1], 'backward');
             }
         } else {
-            if (currentQuestion > 1) showQuestion(currentQuestion - 1, 'backward');
+            if (state.currentQuestion > 1) showQuestion(state.currentQuestion - 1, 'backward');
         }
     }
     
-    function generateSummary() { const sc = document.getElementById('summaryContent'); sc.innerHTML = questionTitles.map((t, i) => { const n = i + 1; const isCorrect = answers[n] === correctAnswers[n]; let resultHtml = `<span class="summary-result ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? '✅' : '❌'}</span>`; if (!isAnswered[n]) { resultHtml = `<span class="summary-result" style="background: var(--secondary-text-color)">--</span>`; } else if (!isCorrect) { let cAT = ''; const cAV = correctAnswers[n]; if (typeof cAV === 'boolean') { cAT = 'Réponse interactive'; } else { const oE = document.querySelector(`.question-card[data-question="${n}"] .option[data-answer="${cAV}"]`); if (oE) { cAT = `R: ${oE.innerText.trim().substring(2)}`; } } if (cAT) { resultHtml += `<small style="margin-left: 10px; color: var(--secondary-text-color);">${cAT}</small>`; } } return `<div class="summary-item" data-question-index="${n}" data-correct="${isAnswered[n] ? isCorrect : 'none'}" role="button" tabindex="0"><span>Q${n}. ${t}</span><div>${resultHtml}</div></div>`; }).join(''); const h = e => { const i = e.target.closest('.summary-item'); if(i && (e.type === 'click' || e.key === 'Enter')) reviewQuestion(i.dataset.questionIndex); }; sc.addEventListener('click', h); sc.addEventListener('keydown', h); }
+    function generateSummary() { 
+        const sc = document.getElementById('summaryContent'); 
+        sc.innerHTML = questionTitles.map((t, i) => { const n = i + 1; const isCorrect = state.answers[n] === correctAnswers[n]; let resultHtml = `<span class="summary-result ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? '✅' : '❌'}</span>`; if (!state.isAnswered[n]) { resultHtml = `<span class="summary-result" style="background: var(--secondary-text-color)">--</span>`; } else if (!isCorrect) { let cAT = ''; const cAV = correctAnswers[n]; if (typeof cAV === 'boolean') { cAT = 'Réponse interactive'; } else { const oE = document.querySelector(`.question-card[data-question="${n}"] .option[data-answer="${cAV}"]`); if (oE) { cAT = `R: ${oE.innerText.trim().substring(2)}`; } } if (cAT) { resultHtml += `<small style="margin-left: 10px; color: var(--secondary-text-color);">${cAT}</small>`; } } return `<div class="summary-item" data-question-index="${n}" data-correct="${state.isAnswered[n] ? isCorrect : 'none'}" role="button" tabindex="0"><span>Q${n}. ${t}</span><div>${resultHtml}</div></div>`; }).join(''); 
+        
+        // Add event listener to the container (event delegation)
+        const h = e => { 
+            const item = e.target.closest('.summary-item'); 
+            if(item && (e.type === 'click' || e.key === 'Enter')) { 
+                reviewScrollPosition = window.scrollY; // Save scroll position before navigating away
+                reviewQuestion(item.dataset.questionIndex); 
+            } 
+        }; 
+        sc.addEventListener('click', h); 
+        sc.addEventListener('keydown', h); 
+    }
     
+    // Review a specific question, called from the summary list
+    function reviewQuestion(questionNumber) {
+        state.isReviewing = true;
+        state.reviewingErrorsOnly = false;
+        
+        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => {
+            if (state.isAnswered[parseInt(dot.dataset.questionIndex, 10)]) {
+                dot.classList.add('clickable');
+            }
+        });
+        
+        transitionToQuizView();
+        showQuestion(questionNumber, 'forward');
+    }
+
+    // Review all questions, called from the "Revoir toutes mes réponses" button
     function reviewQuestions() { 
-        isReviewing = true; 
-        reviewingErrorsOnly = false; 
-        document.body.classList.remove('results-visible');
-        document.body.classList.add('quiz-active'); 
+        state.isReviewing = true; 
+        state.reviewingErrorsOnly = false;
+        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => {
+            if (state.isAnswered[parseInt(dot.dataset.questionIndex, 10)]) {
+                dot.classList.add('clickable');
+            }
+        });
+        transitionToQuizView();
         showQuestion(1, 'forward'); 
     }
     
     function reviewErrors() {
-        isReviewing = true; 
-        reviewingErrorsOnly = true;
-        errorIndices = answers.map((ans, i) => (i > 0 && ans !== null && ans !== correctAnswers[i]) ? i : -1).filter(i => i !== -1);
-        if(errorIndices.length > 0) {
-            document.body.classList.remove('results-visible');
-            document.body.classList.add('quiz-active');
-            showQuestion(errorIndices[0], 'forward');
+        state.isReviewing = true; 
+        state.reviewingErrorsOnly = true;
+        state.errorIndices = state.answers.map((ans, i) => (i > 0 && ans !== null && ans !== correctAnswers[i]) ? i : -1).filter(i => i !== -1);
+        if(state.errorIndices.length > 0) {
+            dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => dot.classList.add('clickable'));
+            transitionToQuizView();
+            showQuestion(state.errorIndices[0], 'forward');
         }
     }
 
@@ -1191,44 +1396,48 @@
         dom.quizContent.classList.add('hidden');
         dom.startScreen.classList.remove('hidden');
         dom.mainHeader.classList.remove('header-compact');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if(timerInterval) clearInterval(timerInterval);
+        updateStartScreenButtons();
     }
 
-    function reviewQuestion(questionIndex) { isReviewing = true; reviewingErrorsOnly = false; document.body.classList.remove('results-visible'); document.body.classList.add('quiz-active'); showQuestion(parseInt(questionIndex, 10), 'forward'); }
-    function navigateToQuestion(index) { showQuestion(parseInt(index, 10), index > currentQuestion ? 'forward' : 'backward'); }
+    function updateStartScreenButtons() {
+        const savedProgress = localStorage.getItem(quizSaveKey);
+        if (savedProgress) {
+            dom.resumeBtn.style.display = 'inline-flex';
+            dom.startQuizBtn.textContent = 'Recommencer';
+            dom.startQuizBtn.classList.replace('btn-primary', 'btn-secondary');
+            dom.resumeBtn.classList.replace('btn-secondary', 'btn-primary');
+        } else {
+            dom.resumeBtn.style.display = 'none';
+            dom.startQuizBtn.textContent = '🚀 Commencer le Quiz !';
+            dom.startQuizBtn.classList.replace('btn-secondary', 'btn-primary');
+        }
+    }
 
-    function restartQuiz() { if (confirm("Êtes-vous sûr de vouloir tout réinitialiser et recharger la page ? Vos badges ne seront pas affectés.")) { localStorage.removeItem(quizSaveKey); location.reload(); } }
+    function restartQuiz() { if (confirm("Êtes-vous sûr de vouloir réinitialiser le quiz ? Votre progression sera perdue.")) { localStorage.removeItem(quizSaveKey); returnToStartScreen(); } }
     
     function triggerConfetti() { const c = document.getElementById('confetti-container'); if (!c) return; c.innerHTML = ''; const s = getComputedStyle(document.documentElement); const cl = [s.getPropertyValue('--primary-color'), s.getPropertyValue('--secondary-color'), s.getPropertyValue('--accent-color'), s.getPropertyValue('--success-color')]; for (let i = 0; i < 150; i++) { const e = document.createElement('div'); e.classList.add('confetti'); e.style.left = `${Math.random() * 100}%`; e.style.backgroundColor = cl[Math.floor(Math.random() * cl.length)]; e.style.animationDelay = `${Math.random() * 2}s`; e.style.animationDuration = `${3 + Math.random() * 2}s`; e.style.transform = `rotate(${Math.random() * 360}deg)`; c.appendChild(e); } }
-    function saveProgress() { const p = { currentQuestion, score, answers: answers.slice(), isAnswered: isAnswered.slice(), interactiveStates: { [`q${Q_LAMP_BUILDER}`]: q17_selections.slice() }, secondsElapsed, currentStreak, bestStreak, questionTimestamps, fastestAnswer, curiosityTracker }; try { localStorage.setItem(quizSaveKey, JSON.stringify(p)); } catch (e) { console.error("Sauvegarde impossible:", e); } }
+    function saveProgress() { try { localStorage.setItem(quizSaveKey, JSON.stringify(state)); } catch (e) { console.error("Sauvegarde impossible:", e); } }
 
     // --- Badges, Stats & Modals ---
-    function getEarnedBadgeCount() { return Object.values(badges).filter(Boolean).length; }
+    function getEarnedBadgeCount() { return Object.values(state.badges).filter(Boolean).length; }
     function updateBadgeCountDisplay() { const earned = getEarnedBadgeCount(); const total = Object.keys(badgeDetails).length; const badgeCountEl = document.getElementById('badgeCount'); if (badgeCountEl) { badgeCountEl.textContent = `${earned} / ${total}`; } }
-    function checkCuriosityBadge() { if (badges.curious || dom.resultsScreen.classList.contains('show') || [curiosityTracker.videoClicked, curiosityTracker.statsOpened, curiosityTracker.hintHovered].filter(Boolean).length < 2) return; badges.curious = true; showToast("Badge débloqué !", badgeDetails.curious.description, badgeDetails.curious.icon); localStorage.setItem(badgeStorageKey, JSON.stringify(badges)); updateBadgeCountDisplay(); }
-    function checkBadges(isFinalCheck = false) { let newBadgeEarned = false; if(currentStreak > bestStreak) { bestStreak = currentStreak; } const c = { history: () => answers[Q_TIMELINE] === true, smartcity: () => answers[Q_LAMP_BUILDER] === true, calculator: () => [13, 14, 15].every(q => answers[q] === correctAnswers[q]), expert: () => [Q_TIMELINE, Q_RANKING, Q_SORTING].every(q => answers[q] === true), streak: () => bestStreak >= 5, perfect: () => isFinalCheck && score === totalQuestions, sprinter: () => isFinalCheck && secondsElapsed < 600 }; for (const b in c) { if (!badges[b] && c[b]()) { badges[b] = true; newBadgeEarned = true; const d = badgeDetails[b]; if (d) showToast("Badge débloqué !", d.description, d.icon); } } if(newBadgeEarned) { localStorage.setItem(badgeStorageKey, JSON.stringify(badges)); updateBadgeCountDisplay(); } }
-    function displayEarnedBadges() { const container = document.getElementById('badges-earned'); container.innerHTML = Object.keys(badgeDetails).map(id => `<div class="badge-earned-item ${!badges[id] ? 'unearned' : ''}"><span class="badge-icon">${badgeDetails[id].icon}</span><p>${badgeDetails[id].name}</p><span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span></div>`).join(''); document.getElementById('badgesEarnedContainer').style.display = 'block'; }
+    function checkCuriosityBadge() { if (state.badges.curious || dom.resultsScreen.classList.contains('show') || [state.curiosityTracker.videoClicked, state.curiosityTracker.statsOpened, state.curiosityTracker.hintHovered].filter(Boolean).length < 2) return; state.badges.curious = true; showToast("Badge débloqué !", badgeDetails.curious.description, badgeDetails.curious.icon); localStorage.setItem(badgeStorageKey, JSON.stringify(state.badges)); updateBadgeCountDisplay(); }
+    function checkBadges(isFinalCheck = false) { let newBadgeEarned = false; const c = { history: () => state.answers[Q_TIMELINE] === true, smartcity: () => state.answers[Q_LAMP_BUILDER] === true, calculator: () => [13, 14, 15].every(q => state.answers[q] === correctAnswers[q]), expert: () => [Q_TIMELINE, Q_RANKING, Q_SORTING].every(q => state.answers[q] === true), streak: () => state.bestStreak >= 5, perfect: () => isFinalCheck && state.score === totalQuestions, sprinter: () => isFinalCheck && state.secondsElapsed < 600 }; for (const b in c) { if (!state.badges[b] && c[b]()) { state.badges[b] = true; newBadgeEarned = true; const d = badgeDetails[b]; if (d) showToast("Badge débloqué !", d.description, d.icon); } } if(newBadgeEarned) { localStorage.setItem(badgeStorageKey, JSON.stringify(state.badges)); updateBadgeCountDisplay(); } }
+    function displayEarnedBadges() { const container = document.getElementById('badges-earned'); container.innerHTML = Object.keys(badgeDetails).map(id => `<div class="badge-earned-item ${!state.badges[id] ? 'unearned' : ''}"><span class="badge-icon">${badgeDetails[id].icon}</span><p>${badgeDetails[id].name}</p><span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span></div>`).join(''); document.getElementById('badgesEarnedContainer').style.display = 'block'; }
     function openStatsModal() { 
-        curiosityTracker.statsOpened = true; checkCuriosityBadge(); 
-        const aC = isAnswered.slice(1).filter(Boolean).length; 
+        state.curiosityTracker.statsOpened = true; checkCuriosityBadge(); 
+        const aC = state.isAnswered.slice(1).filter(Boolean).length; 
         document.getElementById('statsAnswered').textContent = `${aC} / ${totalQuestions}`; 
-        document.getElementById('statsAccuracy').textContent = `${aC > 0 ? Math.round((score / aC) * 100) : 0}%`; 
-        document.getElementById('statsCurrentStreak').textContent = currentStreak;
-        document.getElementById('statsBestStreak').textContent = bestStreak;
+        document.getElementById('statsAccuracy').textContent = `${aC > 0 ? Math.round((state.score / aC) * 100) : 0}%`; 
+        document.getElementById('statsCurrentStreak').textContent = state.currentStreak;
+        document.getElementById('statsBestStreak').textContent = state.bestStreak;
         
-        const answeredTimes = questionTimestamps.filter(t => t && t.duration).map(t => t.duration);
+        const answeredTimes = state.questionTimestamps.filter(t => t && t.duration).map(t => t.duration);
         const avgTime = answeredTimes.length > 0 ? (answeredTimes.reduce((a, b) => a + b, 0) / answeredTimes.length / 1000).toFixed(2) : '--';
         document.getElementById('statsAvgTime').textContent = `${avgTime} s`;
-
-        const fastestQEl = document.getElementById('statsFastestQ');
-        if (fastestAnswer.qNum !== null) {
-            const fastTime = (fastestAnswer.time / 1000).toFixed(2);
-            fastestQEl.innerHTML = `Q${fastestAnswer.qNum} en <strong>${fastTime}s</strong>`;
-        } else {
-            fastestQEl.textContent = '--';
-        }
         
-        dom.modalBadgesGrid.innerHTML = Object.keys(badgeDetails).map(id => { const isUnlocked = badges[id]; return `<div class="badge-earned-item ${!isUnlocked ? 'unearned' : ''}"> <div class="badge-icon">${badgeDetails[id].icon}</div> <p>${badgeDetails[id].name}</p> <span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span> </div>`; }).join(''); 
+        dom.modalBadgesGrid.innerHTML = Object.keys(badgeDetails).map(id => { const isUnlocked = state.badges[id]; return `<div class="badge-earned-item ${!isUnlocked ? 'unearned' : ''}"> <div class="badge-icon">${badgeDetails[id].icon}</div> <p>${badgeDetails[id].name}</p> <span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span> </div>`; }).join(''); 
         dom.statsModalOverlay.classList.add('show'); 
     }
     function closeStatsModal() { dom.statsModalOverlay.classList.add('hiding'); dom.statsModalOverlay.addEventListener('animationend', () => { dom.statsModalOverlay.classList.remove('show', 'hiding'); }, { once: true }); }
@@ -1240,7 +1449,7 @@
             const qNum = parseInt(card.dataset.question, 10);
             if (!categories[cat]) { categories[cat] = { total: 0, correct: 0, name: cat }; }
             categories[cat].total++;
-            if (answers[qNum] === correctAnswers[qNum]) { categories[cat].correct++; }
+            if (state.answers[qNum] === correctAnswers[qNum]) { categories[cat].correct++; }
         });
 
         const container = document.getElementById('category-performance-list');
@@ -1279,18 +1488,39 @@
 
     // --- Interactive Questions Logic ---
     function setupInteractiveQuestions() { const dS = e => { draggedItem = e.target; setTimeout(() => e.target.classList.add('dragging'), 0); }; const dE = () => { if(draggedItem) { draggedItem.classList.remove('dragging'); draggedItem = null; } }; const dO = e => { e.preventDefault(); e.currentTarget.classList.add('over'); }; const dL = e => e.currentTarget.classList.remove('over'); const dH = (e, cF, cFn) => { e.preventDefault(); e.currentTarget.classList.remove('over'); if (draggedItem && cFn(e.currentTarget)) { e.currentTarget.appendChild(draggedItem); cF(); } }; document.querySelectorAll('.draggable-item').forEach(i => { i.addEventListener('dragstart', dS); i.addEventListener('dragend', dE); }); document.querySelectorAll('.dropzone').forEach(z => { z.addEventListener('dragover', dO); z.addEventListener('dragleave', dL); }); document.querySelectorAll('#q16-container .dropzone, #q16-events').forEach(z => z.addEventListener('drop', e => dH(e, checkQ16Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q18-container .dropzone, #q18-source').forEach(z => z.addEventListener('drop', e => dH(e, checkQ18Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q20-container .dropzone').forEach(z => z.addEventListener('drop', e => dH(e, checkQ20Completion, () => true))); const q17H = e => { const f = e.target.closest('.feature-option:not(.disabled)'); if (f && (e.type === 'click' || e.key === 'Enter' || e.key === ' ')) { if(e.type !== 'click') e.preventDefault(); toggleFeatureSelection(f); } }; dom.questionsWrapper.querySelector(`#q${Q_LAMP_BUILDER}-builder`).addEventListener('click', q17H); dom.questionsWrapper.querySelector(`#q${Q_LAMP_BUILDER}-builder`).addEventListener('keydown', q17H); document.querySelectorAll('.btn-autocomplete').forEach(btn => btn.addEventListener('click', e => { const qN = parseInt(e.target.closest('.question-card').dataset.question, 10); handleAutoComplete(qN); })); }
-    function checkInteractiveQuestion(qN, c, fI, cI, iCF) { if (!c || isAnswered[qN]) return;
-        const container = document.getElementById(cI); const iAC = iCF(container); isAnswered[qN] = true; answers[qN] = iAC; if (iAC) { score++; currentStreak++; } else { currentStreak = 0; } if(currentStreak > bestStreak) { bestStreak = currentStreak; } updateLiveScore(); checkBadges(); renderAnsweredState(qN, iAC); const f = document.getElementById(fI); f.focus(); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); const nextBtn = document.querySelector(`.question-card[data-question="${qN}"] .nav-buttons .btn-nav:last-child`); if(nextBtn) nextBtn.disabled = false; saveProgress(); }
-    function checkQ16Completion() { checkInteractiveQuestion(Q_TIMELINE, document.getElementById('q16-events').children.length === 0, 'feedback16', 'q16-container', () => { let cC = 0; document.querySelectorAll('#q16-container .dropzone').forEach(z => { const i = z.children[0]; if(i && z.dataset.target === i.dataset.id) cC++; }); return cC === 4; }); }
-    function toggleFeatureSelection(feature) { if (isAnswered[Q_LAMP_BUILDER]) return; feature.classList.toggle('selected'); q17_selections = Array.from(document.querySelectorAll(`#q${Q_LAMP_BUILDER}-builder .feature-option.selected`)).map(el => el.dataset.id); if (q17_selections.length >= 4) { checkQ17Completion(); } }
-    function checkQ17Completion() { if (isAnswered[Q_LAMP_BUILDER]) return; const isC = q17_selections.length >= 4; if (isC) { checkInteractiveQuestion(Q_LAMP_BUILDER, true, `feedback${Q_LAMP_BUILDER}`, `q${Q_LAMP_BUILDER}-builder`, () => true); } }
-    function checkQ18Completion() { checkInteractiveQuestion(Q_RANKING, document.getElementById('q18-source').children.length === 0, `feedback${Q_RANKING}`, `q${Q_RANKING}-container`, () => { const cO = ['led', 'sodium', 'incandescent']; const uO = Array.from(document.querySelectorAll(`#q${Q_RANKING}-container .ranking-slot .dropzone .draggable-item`)).map(i => i.dataset.id); return JSON.stringify(cO) === JSON.stringify(uO); }); }
-    function checkQ20Completion() { checkInteractiveQuestion(Q_SORTING, document.getElementById('q20-source').children.length === 0, `feedback${Q_SORTING}`, `q${Q_SORTING}-container`, () => { const aI = Array.from(document.querySelectorAll(`#q${Q_SORTING}-container .dropzone[data-target] .draggable-item`)); return aI.length === 6 && aI.every(i => i.dataset.category === i.parentElement.dataset.target); }); }
+    function checkInteractiveQuestion(qN, c, fI, cI, iCF, sF) { if (!c || state.isAnswered[qN]) return;
+        const container = document.getElementById(cI); const iAC = iCF(container); state.isAnswered[qN] = true; state.answers[qN] = iAC; state.interactiveStates[`q${qN}`] = sF(container);
+        processAnswerResult(iAC);
+        renderAnsweredState(qN, iAC); const f = document.getElementById(fI); f.focus(); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); const nextBtn = document.querySelector(`.question-card[data-question="${qN}"] .nav-buttons .btn-nav:last-child`); if(nextBtn) nextBtn.disabled = false;  }
+    function checkQ16Completion() { checkInteractiveQuestion(Q_TIMELINE, document.getElementById('q16-events').children.length === 0, 'feedback16', 'q16-container', () => { let cC = 0; document.querySelectorAll('#q16-container .dropzone').forEach(z => { const i = z.children[0]; if(i && z.dataset.target === i.dataset.id) cC++; }); return cC === 4; }, () => ({ slots: Array.from(document.querySelectorAll('#q16-container .dropzone')).map(z => z.children[0]?.dataset.id || null) })); }
+    function toggleFeatureSelection(feature) { if (state.isAnswered[Q_LAMP_BUILDER]) return; feature.classList.toggle('selected'); const selections = Array.from(document.querySelectorAll(`#q${Q_LAMP_BUILDER}-builder .feature-option.selected`)).map(el => el.dataset.id); if (selections.length >= 4) { checkQ17Completion(selections); } }
+    function checkQ17Completion(selections) { if (state.isAnswered[Q_LAMP_BUILDER]) return; const isC = selections.length >= 4; if (isC) { checkInteractiveQuestion(Q_LAMP_BUILDER, true, `feedback${Q_LAMP_BUILDER}`, `q${Q_LAMP_BUILDER}-builder`, () => true, () => ({ selections })); } }
+    function checkQ18Completion() { checkInteractiveQuestion(Q_RANKING, document.getElementById('q18-source').children.length === 0, `feedback${Q_RANKING}`, `q${Q_RANKING}-container`, () => { const cO = ['led', 'sodium', 'incandescent']; const uO = Array.from(document.querySelectorAll(`#q${Q_RANKING}-container .ranking-slot .dropzone .draggable-item`)).map(i => i.dataset.id); return JSON.stringify(cO) === JSON.stringify(uO); }, () => ({ slots: Array.from(document.querySelectorAll(`#q${Q_RANKING}-container .ranking-slot .dropzone`)).map(z => z.children[0]?.dataset.id || null) })); }
+    function checkQ20Completion() { checkInteractiveQuestion(Q_SORTING, document.getElementById('q20-source').children.length === 0, `feedback${Q_SORTING}`, `q${Q_SORTING}-container`, () => { const aI = Array.from(document.querySelectorAll(`#q${Q_SORTING}-container .dropzone[data-target] .draggable-item`)); return aI.length === 6 && aI.every(i => i.dataset.category === i.parentElement.dataset.target); }, () => ({ bins: { led: Array.from(document.querySelectorAll(`#q20-container .dropzone[data-target="led"] .draggable-item`)).map(i => i.innerText), old: Array.from(document.querySelectorAll(`#q20-container .dropzone[data-target="old"] .draggable-item`)).map(i => i.innerText) } }) ); }
+    function restoreInteractiveState(qNum) {
+        const iState = state.interactiveStates[`q${qNum}`]; if (!iState) return;
+        const card = document.querySelector(`.question-card[data-question="${qNum}"]`);
+        
+        const placeItem = (itemId, targetSelector) => {
+            const item = card.querySelector(`.draggable-item[data-id="${itemId}"]`);
+            const target = card.querySelector(targetSelector);
+            if (item && target) target.appendChild(item);
+        };
+        const placeItemByText = (itemText, targetSelector) => {
+            const items = Array.from(card.querySelectorAll('.draggable-item'));
+            const item = items.find(i => i.innerText === itemText);
+            const target = card.querySelector(targetSelector);
+            if (item && target) target.appendChild(item);
+        };
+
+        if (qNum === Q_TIMELINE && iState.slots) { iState.slots.forEach((itemId, i) => { if (itemId) placeItem(itemId, `.timeline-slot:nth-child(${i + 1}) .dropzone`); }); }
+        if (qNum === Q_RANKING && iState.slots) { iState.slots.forEach((itemId, i) => { if (itemId) placeItem(itemId, `.ranking-slot:nth-child(${i + 1}) .dropzone`); }); }
+        if (qNum === Q_SORTING && iState.bins) { iState.bins.led.forEach(text => placeItemByText(text, '.dropzone[data-target="led"]')); iState.bins.old.forEach(text => placeItemByText(text, '.dropzone[data-target="old"]')); }
+    }
     
-    function handleAutoComplete(qN) { if (isAnswered[qN]) return; 
-        isAnswered[qN] = true; answers[qN] = true; 
-        currentStreak = 0; 
-        if(currentStreak > bestStreak) { bestStreak = currentStreak; }
+    function handleAutoComplete(qN) { if (state.isAnswered[qN]) return; 
+        state.isAnswered[qN] = true; state.answers[qN] = true; 
+        state.currentStreak = 0; 
         updateLiveScore(); checkBadges(); 
         const card = document.querySelector(`.question-card[data-question="${qN}"]`); 
         const f = card.querySelector('.feedback'); 
@@ -1313,8 +1543,8 @@
 
     // --- Timer & Video ---
     function updateTimerDisplay() {
-        const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
-        const s = (secondsElapsed % 60).toString().padStart(2, '0');
+        const m = Math.floor(state.secondsElapsed / 60).toString().padStart(2, '0');
+        const s = (state.secondsElapsed % 60).toString().padStart(2, '0');
         const t = `${m}:${s}`;
         if(dom.timerDisplay) dom.timerDisplay.textContent = t;
         const statsTime = document.getElementById('statsTime');
@@ -1325,7 +1555,7 @@
         if (timerInterval) clearInterval(timerInterval);
         updateTimerDisplay(); // Display initial time immediately
         timerInterval = setInterval(() => { 
-            secondsElapsed++; 
+            state.secondsElapsed++; 
             updateTimerDisplay();
         }, 1000); 
     }
@@ -1341,7 +1571,7 @@
             videoPlayer.playVideo();
             return;
         }
-        curiosityTracker.videoClicked = true;
+        state.curiosityTracker.videoClicked = true;
         checkCuriosityBadge();
         
         dom.videoPlayerContainer.classList.add('player-loading');
@@ -1376,10 +1606,7 @@
         dom.homeResultsBtn.addEventListener('click', returnToStartScreen);
         dom.resultsReviewBtn.addEventListener('click', reviewQuestions);
         dom.reviewErrorsBtn.addEventListener('click', reviewErrors);
-        dom.resultsRestartBtn.addEventListener('click', () => {
-            localStorage.removeItem(quizSaveKey);
-            location.reload();
-        });
+        dom.resultsRestartBtn.addEventListener('click', startNewQuiz);
 
         dom.questionsWrapper.addEventListener('click', e => {
             const option = e.target.closest('.option:not(.disabled)');
@@ -1407,14 +1634,22 @@
             }
         });
 
+        dom.progressDotsContainer.addEventListener('click', e => {
+            const dot = e.target.closest('.progress-dot');
+            if (dot && dot.classList.contains('clickable')) {
+                navigateToQuestion(parseInt(dot.dataset.questionIndex, 10));
+            }
+        });
+
         document.addEventListener('click', e => {
-            if (e.target.matches('.review-banner .btn-link-review')) { showResults(false); }
-            const dot = e.target.closest('.progress-dot.clickable');
-            if (dot) navigateToQuestion(parseInt(dot.dataset.questionIndex, 10));
+            if (e.target.matches('.review-banner .btn-link-review')) { 
+                showResults(false); 
+            }
         });
 
         document.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return; const k = e.key; if (k === 'ArrowRight') { e.preventDefault(); document.querySelector('.question-card.active .nav-buttons .btn-nav:last-child')?.click(); } else if (k === 'ArrowLeft') { e.preventDefault(); document.querySelector('.question-card.active .nav-buttons .btn-nav:first-child')?.click(); } else if (['1', '2', '3', '4'].includes(k)) { const aC = document.querySelector('.question-card.active'); if (aC && aC.querySelector('.option:not(.disabled)')) { const optionNode = aC.querySelector(`.options .option:nth-child(${k})`); if (optionNode && !optionNode.classList.contains('disabled')) { e.preventDefault(); optionNode.click(); } } } else if (k === 'Escape' && dom.statsModalOverlay.classList.contains('show')) { closeStatsModal(); } });
-        dom.liveScoreWidget.addEventListener('click', openStatsModal); dom.keyboardHint.addEventListener('mouseover', () => { curiosityTracker.hintHovered = true; checkCuriosityBadge(); }, { once: true });
+        dom.liveScoreWidget.addEventListener('click', openStatsModal);
+        dom.keyboardHint.addEventListener('mouseover', () => { state.curiosityTracker.hintHovered = true; checkCuriosityBadge(); }, { once: true });
         dom.videoPlayerContainer.addEventListener('click', createPlayer);
         dom.modalCloseBtn.addEventListener('click', closeStatsModal);
         dom.statsModalOverlay.addEventListener('click', e => { if (e.target === dom.statsModalOverlay) closeStatsModal(); });
@@ -1444,14 +1679,13 @@
     
     function init() {
         totalQuestions = document.querySelectorAll('.question-card').length;
-        attemptCount = parseInt(localStorage.getItem(attemptCountKey), 10) || 0;
+        state = getDefaultState();
+        
         const savedBadges = localStorage.getItem(badgeStorageKey);
         if(savedBadges) {
-            try { badges = JSON.parse(savedBadges); } catch(e) { console.error("Error parsing badges", e); }
+            try { state.badges = JSON.parse(savedBadges); } catch(e) { console.error("Error parsing badges", e); }
         }
         
-        answers = new Array(totalQuestions + 1).fill(null);
-        isAnswered = new Array(totalQuestions + 1).fill(false);
         dom.totalQuestionsDisplay.textContent = totalQuestions;
 
         dom.progressDotsContainer.innerHTML = questionTitles.map((title, i) =>
@@ -1470,9 +1704,7 @@
         setupEventListeners();
         setupInteractiveQuestions();
         updateBadgeCountDisplay();
-        
-        const savedProgress = localStorage.getItem(quizSaveKey);
-        if(savedProgress) { dom.resumeBtn.style.display = 'inline-flex'; dom.startQuizBtn.textContent = 'Recommencer'; dom.startQuizBtn.classList.replace('btn-primary', 'btn-secondary'); dom.resumeBtn.classList.replace('btn-secondary', 'btn-primary'); }
+        updateStartScreenButtons();
         
         updateLiveScore();
     }
