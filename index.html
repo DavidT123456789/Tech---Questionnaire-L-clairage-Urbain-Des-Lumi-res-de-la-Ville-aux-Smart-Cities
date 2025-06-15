@@ -107,11 +107,11 @@
         
         .live-score-widget { top: 20px; right: 20px; width: 84px; height: 92px; cursor: pointer; text-align: center; overflow: hidden; padding:0; }
         .live-score-widget:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px var(--card-shadow-hover); }
-        .widget-inner-flipper { position: relative; width: 100%; height: 200%; top: 0; transition: transform 0.4s ease-in-out; }
+        .widget-inner-flipper { position: relative; width: 100%; height: 100%; transition: transform 0.4s ease-in-out; }
         .live-score-widget:hover .widget-inner-flipper { transform: translateY(-50%); }
-        .score-display-area, .badge-count-display { width: 100%; height: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .score-display-area { padding-top: 5px; }
-        .badge-count-display { gap: 4px; }
+        .score-display-area, .badge-count-display { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-display-area { top: 0; }
+        .badge-count-display { top: 100%; gap: 4px; }
         .badge-count-display .badge-icon { font-size: 2em; line-height: 1; }
         #badgeCount { font-weight: bold; font-size: 1.1em; }
         
@@ -351,7 +351,7 @@
         .modal-close-btn:hover { transform: rotate(90deg); }
         .stats-modal h3 { margin-top: 30px; }
         .stats-modal h3:first-of-type { margin-top: 0; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; text-align: center; margin-top: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px; text-align: center; margin-top: 20px; }
         .stat-item h4 { color: var(--primary-color); }
         .badges-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; }
         .badges-grid .badge-earned-item { position: relative; }
@@ -408,6 +408,9 @@
         .video-controls button:hover { background: rgba(255,255,255,0.4); }
         .video-content { padding: 0; background: #000; border-radius: 8px; overflow: hidden; }
         .video-player-container { width: 100%; height: 145px; background-image: url('https://i.ytimg.com/vi/GRwOsXCW2jM/hqdefault.jpg'); background-size: cover; background-position: center; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; }
+        .video-player-container.player-loading::after { content: ''; position: absolute; width: 30px; height: 30px; border: 4px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .video-player-container.player-loading .video-play-button, .video-player-container.player-loading .video-thumbnail-overlay { display: none; }
         .video-player-container iframe { width: 100%; height: 100%; border: none; }
         .video-container.minimized .video-title, .video-container.minimized .video-controls, .video-container.minimized .video-content { display: none; }
         .dynamic-icon { transition: transform 0.3s ease; display: inline-block; font-size: 1.8em; }
@@ -435,8 +438,8 @@
             border-top: 1px solid var(--glass-border);
         }
 
-        @media (max-width: 768px) { .video-container { width: 250px; } .floating-widget { font-size: 0.8em; padding: 8px 12px; } .keyboard-hint:hover { width: 300px; } body.quiz-active .tool-widget:hover { width: 180px; } }
-        @media (max-width: 480px) { .header:not(.header-compact) h1 { font-size: 1.8em; } .start-actions { flex-direction: column; } }
+        @media (max-width: 768px) { .video-container { width: 250px; } .floating-widget { font-size: 0.8em; padding: 8px 12px; } .keyboard-hint:hover { width: 300px; } body.quiz-active .tool-widget:hover { width: 180px; } .results-stat-widget { top: 15px; font-size: 0.9em;} #finalTimeWidget { left: 15px; } #attemptCounterWidget { right: 15px; } }
+        @media (max-width: 480px) { .header:not(.header-compact) h1 { font-size: 1.8em; } .start-actions { flex-direction: column; } .results-stat-widget { display: none; }}
 
         /* --- MODIFICATIONS PAGE BILAN --- */
         #results #badges-earned {
@@ -803,7 +806,14 @@
             <div class="stats-grid">
                 <div class="stat-item"><h4>Précision</h4><p id="statsAccuracy">--%</p></div>
                 <div class="stat-item"><h4>Répondues</h4><p id="statsAnswered">0 / 20</p></div>
-                <div class="stat-item"><h4>Temps</h4><p id="statsTime">00:00</p></div>
+                <div class="stat-item"><h4>Série en Cours</h4><p id="statsCurrentStreak">0</p></div>
+                <div class="stat-item"><h4>Meilleure Série</h4><p id="statsBestStreak">0</p></div>
+            </div>
+            <h3>⏱️ Analyse du Temps</h3>
+            <div class="stats-grid">
+                <div class="stat-item"><h4>Temps Total</h4><p id="statsTime">00:00</p></div>
+                <div class="stat-item"><h4>Moy. / Q.</h4><p id="statsAvgTime">-- s</p></div>
+                <div class="stat-item" style="grid-column: span 2;"><h4>Réponse la plus Rapide</h4><p id="statsFastestQ">--</p></div>
             </div>
             <h3>🏆 Vos Badges</h3>
             <div class="badges-grid" id="modalBadgesGrid">
@@ -822,7 +832,9 @@
     
     // --- State & Constants ---
     let currentQuestion = 1; let score = 0; let totalQuestions; let answers = []; let isAnswered = []; let q17_selections = [];
-    let videoPlayer; let isYouTubeApiReady = false; let timerInterval; let secondsElapsed = 0; let currentStreak = 0; 
+    let videoPlayer; let isYouTubeApiReady = false; let youtubeApiQueue = []; let timerInterval; let secondsElapsed = 0; 
+    let currentStreak = 0; let bestStreak = 0;
+    let questionTimestamps = []; let fastestAnswer = { time: Infinity, qNum: null };
     let isReviewing = false; let reviewingErrorsOnly = false; let errorIndices = [];
     let attemptCount = 0;
     let badges = { history: false, smartcity: false, calculator: false, expert: false, streak: false, perfect: false, curious: false, sprinter: false };
@@ -901,14 +913,16 @@
     function startQuiz(isNewGame = true) {
         if (isNewGame) {
             localStorage.removeItem(quizSaveKey);
-            currentQuestion = 1; score = 0; secondsElapsed = 0; currentStreak = 0; isReviewing = false; reviewingErrorsOnly = false;
+            currentQuestion = 1; score = 0; secondsElapsed = 0; currentStreak = 0; bestStreak = 0; 
+            questionTimestamps = []; fastestAnswer = { time: Infinity, qNum: null };
+            isReviewing = false; reviewingErrorsOnly = false;
             answers = new Array(totalQuestions + 1).fill(null);
             isAnswered = new Array(totalQuestions + 1).fill(false);
             q17_selections = [];
             // Reset visual state of cards
             document.querySelectorAll('.question-card').forEach(card => {
                 card.querySelectorAll('.option').forEach(opt => {
-                    opt.classList.remove('disabled', 'selected', 'correct', 'incorrect');
+                    opt.classList.remove('disabled', 'selected', 'correct', 'incorrect', 'glow');
                 });
                 const feedback = card.querySelector('.feedback');
                 if (feedback) feedback.classList.remove('show', 'correct', 'incorrect');
@@ -931,7 +945,10 @@
             const p = JSON.parse(savedProgress);
             currentQuestion = p.currentQuestion; score = p.score; answers = p.answers; isAnswered = p.isAnswered; 
             secondsElapsed = Number(p.secondsElapsed) || 0; 
-            currentStreak = p.currentStreak; isReviewing = false; reviewingErrorsOnly = false;
+            currentStreak = p.currentStreak || 0; 
+            bestStreak = p.bestStreak || 0;
+            questionTimestamps = p.questionTimestamps || [];
+            fastestAnswer = p.fastestAnswer || { time: Infinity, qNum: null };
             q17_selections = p.interactiveStates?.[`q${Q_LAMP_BUILDER}`] || [];
             curiosityTracker = p.curiosityTracker || { videoClicked: false, statsOpened: false, hintHovered: false };
             
@@ -970,6 +987,9 @@
         const card = document.querySelector(`[data-question="${questionNumber}"]`);
         if (card) {
             currentQuestion = parseInt(questionNumber, 10);
+            if (!isAnswered[currentQuestion]) {
+                questionTimestamps[currentQuestion] = { start: Date.now() };
+            }
 
             const optionsContainer = card.querySelector('.options');
             if (optionsContainer && !isAnswered[currentQuestion]) {
@@ -1023,7 +1043,11 @@
         }
     }
     
-    function handleAnswer(questionNumber, selectedAnswer, element) { if (isAnswered[questionNumber]) return; isAnswered[questionNumber] = true; answers[questionNumber] = selectedAnswer; const isCorrect = correctAnswers[questionNumber] === selectedAnswer; if (isCorrect) { score++; currentStreak++; } else { currentStreak = 0; } updateLiveScore(); checkBadges(); const card = element.closest('.question-card'); card.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled')); element.classList.add('selected'); if (element.getAttribute('role') === 'radio') element.setAttribute('aria-checked', 'true'); renderAnsweredState(questionNumber, selectedAnswer); const feedback = card.querySelector('.feedback'); feedback.focus(); feedback.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.querySelector('.nav-buttons .btn-nav:last-child').disabled = false; saveProgress(); }
+    function handleAnswer(questionNumber, selectedAnswer, element) { if (isAnswered[questionNumber]) return;
+        const duration = Date.now() - questionTimestamps[questionNumber].start;
+        questionTimestamps[questionNumber].duration = duration;
+        
+        isAnswered[questionNumber] = true; answers[questionNumber] = selectedAnswer; const isCorrect = correctAnswers[questionNumber] === selectedAnswer; if (isCorrect) { score++; currentStreak++; if(duration < fastestAnswer.time) { fastestAnswer = { time: duration, qNum: questionNumber }; } } else { currentStreak = 0; } if(currentStreak > bestStreak) { bestStreak = currentStreak; } updateLiveScore(); checkBadges(); const card = element.closest('.question-card'); card.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled')); element.classList.add('selected'); if (element.getAttribute('role') === 'radio') element.setAttribute('aria-checked', 'true'); renderAnsweredState(questionNumber, selectedAnswer); const feedback = card.querySelector('.feedback'); feedback.focus(); feedback.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.querySelector('.nav-buttons .btn-nav:last-child').disabled = false; saveProgress(); }
     
     function showResults(isFirstTime = true) {
         isReviewing = false; reviewingErrorsOnly = false;
@@ -1075,7 +1099,9 @@
                 o.classList.add('disabled'); 
                 const oA = o.dataset.answer; 
                 if(oA === uA) o.classList.add('selected', isC ? 'correct' : 'incorrect'); 
-                if(!isC && oA === correctAnswers[qN]) o.classList.add('correct'); 
+                const isCorrectAnswer = oA === correctAnswers[qN];
+                if(isCorrectAnswer) o.classList.add('correct'); 
+                if(!isC && isCorrectAnswer) o.classList.add('glow');
             }); 
         } else {
             const container = card.querySelector('.interactive-question-container'); 
@@ -1173,16 +1199,38 @@
 
     function restartQuiz() { if (confirm("Êtes-vous sûr de vouloir tout réinitialiser et recharger la page ? Vos badges ne seront pas affectés.")) { localStorage.removeItem(quizSaveKey); location.reload(); } }
     
-    function triggerConfetti() { const c = document.getElementById('confetti-container'); if (!c) return; c.innerHTML = ''; const cl = ['#f39c12', '#e74c3c', '#4abdac', '#2ecc71', '#9b59b6']; for (let i = 0; i < 150; i++) { const e = document.createElement('div'); e.classList.add('confetti'); e.style.left = `${Math.random() * 100}%`; e.style.backgroundColor = cl[Math.floor(Math.random() * cl.length)]; e.style.animationDelay = `${Math.random() * 2}s`; e.style.animationDuration = `${3 + Math.random() * 2}s`; e.style.transform = `rotate(${Math.random() * 360}deg)`; c.appendChild(e); } }
-    function saveProgress() { const p = { currentQuestion, score, answers: answers.slice(), isAnswered: isAnswered.slice(), interactiveStates: { [`q${Q_LAMP_BUILDER}`]: q17_selections.slice() }, secondsElapsed, currentStreak, curiosityTracker }; try { localStorage.setItem(quizSaveKey, JSON.stringify(p)); } catch (e) { console.error("Sauvegarde impossible:", e); } }
+    function triggerConfetti() { const c = document.getElementById('confetti-container'); if (!c) return; c.innerHTML = ''; const s = getComputedStyle(document.documentElement); const cl = [s.getPropertyValue('--primary-color'), s.getPropertyValue('--secondary-color'), s.getPropertyValue('--accent-color'), s.getPropertyValue('--success-color')]; for (let i = 0; i < 150; i++) { const e = document.createElement('div'); e.classList.add('confetti'); e.style.left = `${Math.random() * 100}%`; e.style.backgroundColor = cl[Math.floor(Math.random() * cl.length)]; e.style.animationDelay = `${Math.random() * 2}s`; e.style.animationDuration = `${3 + Math.random() * 2}s`; e.style.transform = `rotate(${Math.random() * 360}deg)`; c.appendChild(e); } }
+    function saveProgress() { const p = { currentQuestion, score, answers: answers.slice(), isAnswered: isAnswered.slice(), interactiveStates: { [`q${Q_LAMP_BUILDER}`]: q17_selections.slice() }, secondsElapsed, currentStreak, bestStreak, questionTimestamps, fastestAnswer, curiosityTracker }; try { localStorage.setItem(quizSaveKey, JSON.stringify(p)); } catch (e) { console.error("Sauvegarde impossible:", e); } }
 
     // --- Badges, Stats & Modals ---
     function getEarnedBadgeCount() { return Object.values(badges).filter(Boolean).length; }
     function updateBadgeCountDisplay() { const earned = getEarnedBadgeCount(); const total = Object.keys(badgeDetails).length; const badgeCountEl = document.getElementById('badgeCount'); if (badgeCountEl) { badgeCountEl.textContent = `${earned} / ${total}`; } }
     function checkCuriosityBadge() { if (badges.curious || dom.resultsScreen.classList.contains('show') || [curiosityTracker.videoClicked, curiosityTracker.statsOpened, curiosityTracker.hintHovered].filter(Boolean).length < 2) return; badges.curious = true; showToast("Badge débloqué !", badgeDetails.curious.description, badgeDetails.curious.icon); localStorage.setItem(badgeStorageKey, JSON.stringify(badges)); updateBadgeCountDisplay(); }
-    function checkBadges(isFinalCheck = false) { let newBadgeEarned = false; const c = { history: () => answers[Q_TIMELINE] === true, smartcity: () => answers[Q_LAMP_BUILDER] === true, calculator: () => [13, 14, 15].every(q => answers[q] === correctAnswers[q]), expert: () => [Q_TIMELINE, Q_RANKING, Q_SORTING].every(q => answers[q] === true), streak: () => currentStreak >= 5, perfect: () => isFinalCheck && score === totalQuestions, sprinter: () => isFinalCheck && secondsElapsed < 600 }; for (const b in c) { if (!badges[b] && c[b]()) { badges[b] = true; newBadgeEarned = true; const d = badgeDetails[b]; if (d) showToast("Badge débloqué !", d.description, d.icon); } } if(newBadgeEarned) { localStorage.setItem(badgeStorageKey, JSON.stringify(badges)); updateBadgeCountDisplay(); } }
+    function checkBadges(isFinalCheck = false) { let newBadgeEarned = false; if(currentStreak > bestStreak) { bestStreak = currentStreak; } const c = { history: () => answers[Q_TIMELINE] === true, smartcity: () => answers[Q_LAMP_BUILDER] === true, calculator: () => [13, 14, 15].every(q => answers[q] === correctAnswers[q]), expert: () => [Q_TIMELINE, Q_RANKING, Q_SORTING].every(q => answers[q] === true), streak: () => bestStreak >= 5, perfect: () => isFinalCheck && score === totalQuestions, sprinter: () => isFinalCheck && secondsElapsed < 600 }; for (const b in c) { if (!badges[b] && c[b]()) { badges[b] = true; newBadgeEarned = true; const d = badgeDetails[b]; if (d) showToast("Badge débloqué !", d.description, d.icon); } } if(newBadgeEarned) { localStorage.setItem(badgeStorageKey, JSON.stringify(badges)); updateBadgeCountDisplay(); } }
     function displayEarnedBadges() { const container = document.getElementById('badges-earned'); container.innerHTML = Object.keys(badgeDetails).map(id => `<div class="badge-earned-item ${!badges[id] ? 'unearned' : ''}"><span class="badge-icon">${badgeDetails[id].icon}</span><p>${badgeDetails[id].name}</p><span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span></div>`).join(''); document.getElementById('badgesEarnedContainer').style.display = 'block'; }
-    function openStatsModal() { curiosityTracker.statsOpened = true; checkCuriosityBadge(); const aC = isAnswered.slice(1).filter(Boolean).length; document.getElementById('statsAnswered').textContent = `${aC} / ${totalQuestions}`; document.getElementById('statsAccuracy').textContent = `${aC > 0 ? Math.round((score / aC) * 100) : 0}%`; dom.modalBadgesGrid.innerHTML = Object.keys(badgeDetails).map(id => { const isUnlocked = badges[id]; return `<div class="badge-earned-item ${!isUnlocked ? 'unearned' : ''}"> <div class="badge-icon">${badgeDetails[id].icon}</div> <p>${badgeDetails[id].name}</p> <span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span> </div>`; }).join(''); dom.statsModalOverlay.classList.add('show'); }
+    function openStatsModal() { 
+        curiosityTracker.statsOpened = true; checkCuriosityBadge(); 
+        const aC = isAnswered.slice(1).filter(Boolean).length; 
+        document.getElementById('statsAnswered').textContent = `${aC} / ${totalQuestions}`; 
+        document.getElementById('statsAccuracy').textContent = `${aC > 0 ? Math.round((score / aC) * 100) : 0}%`; 
+        document.getElementById('statsCurrentStreak').textContent = currentStreak;
+        document.getElementById('statsBestStreak').textContent = bestStreak;
+        
+        const answeredTimes = questionTimestamps.filter(t => t && t.duration).map(t => t.duration);
+        const avgTime = answeredTimes.length > 0 ? (answeredTimes.reduce((a, b) => a + b, 0) / answeredTimes.length / 1000).toFixed(2) : '--';
+        document.getElementById('statsAvgTime').textContent = `${avgTime} s`;
+
+        const fastestQEl = document.getElementById('statsFastestQ');
+        if (fastestAnswer.qNum !== null) {
+            const fastTime = (fastestAnswer.time / 1000).toFixed(2);
+            fastestQEl.innerHTML = `Q${fastestAnswer.qNum} en <strong>${fastTime}s</strong>`;
+        } else {
+            fastestQEl.textContent = '--';
+        }
+        
+        dom.modalBadgesGrid.innerHTML = Object.keys(badgeDetails).map(id => { const isUnlocked = badges[id]; return `<div class="badge-earned-item ${!isUnlocked ? 'unearned' : ''}"> <div class="badge-icon">${badgeDetails[id].icon}</div> <p>${badgeDetails[id].name}</p> <span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span> </div>`; }).join(''); 
+        dom.statsModalOverlay.classList.add('show'); 
+    }
     function closeStatsModal() { dom.statsModalOverlay.classList.add('hiding'); dom.statsModalOverlay.addEventListener('animationend', () => { dom.statsModalOverlay.classList.remove('show', 'hiding'); }, { once: true }); }
     
     function generateCategoryPerformance() {
@@ -1232,7 +1280,7 @@
     // --- Interactive Questions Logic ---
     function setupInteractiveQuestions() { const dS = e => { draggedItem = e.target; setTimeout(() => e.target.classList.add('dragging'), 0); }; const dE = () => { if(draggedItem) { draggedItem.classList.remove('dragging'); draggedItem = null; } }; const dO = e => { e.preventDefault(); e.currentTarget.classList.add('over'); }; const dL = e => e.currentTarget.classList.remove('over'); const dH = (e, cF, cFn) => { e.preventDefault(); e.currentTarget.classList.remove('over'); if (draggedItem && cFn(e.currentTarget)) { e.currentTarget.appendChild(draggedItem); cF(); } }; document.querySelectorAll('.draggable-item').forEach(i => { i.addEventListener('dragstart', dS); i.addEventListener('dragend', dE); }); document.querySelectorAll('.dropzone').forEach(z => { z.addEventListener('dragover', dO); z.addEventListener('dragleave', dL); }); document.querySelectorAll('#q16-container .dropzone, #q16-events').forEach(z => z.addEventListener('drop', e => dH(e, checkQ16Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q18-container .dropzone, #q18-source').forEach(z => z.addEventListener('drop', e => dH(e, checkQ18Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q20-container .dropzone').forEach(z => z.addEventListener('drop', e => dH(e, checkQ20Completion, () => true))); const q17H = e => { const f = e.target.closest('.feature-option:not(.disabled)'); if (f && (e.type === 'click' || e.key === 'Enter' || e.key === ' ')) { if(e.type !== 'click') e.preventDefault(); toggleFeatureSelection(f); } }; dom.questionsWrapper.querySelector(`#q${Q_LAMP_BUILDER}-builder`).addEventListener('click', q17H); dom.questionsWrapper.querySelector(`#q${Q_LAMP_BUILDER}-builder`).addEventListener('keydown', q17H); document.querySelectorAll('.btn-autocomplete').forEach(btn => btn.addEventListener('click', e => { const qN = parseInt(e.target.closest('.question-card').dataset.question, 10); handleAutoComplete(qN); })); }
     function checkInteractiveQuestion(qN, c, fI, cI, iCF) { if (!c || isAnswered[qN]) return;
-        const container = document.getElementById(cI); const iAC = iCF(container); isAnswered[qN] = true; answers[qN] = iAC; if (iAC) { score++; currentStreak++; } else { currentStreak = 0; } updateLiveScore(); checkBadges(); renderAnsweredState(qN, iAC); const f = document.getElementById(fI); f.focus(); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); const nextBtn = document.querySelector(`.question-card[data-question="${qN}"] .nav-buttons .btn-nav:last-child`); if(nextBtn) nextBtn.disabled = false; saveProgress(); }
+        const container = document.getElementById(cI); const iAC = iCF(container); isAnswered[qN] = true; answers[qN] = iAC; if (iAC) { score++; currentStreak++; } else { currentStreak = 0; } if(currentStreak > bestStreak) { bestStreak = currentStreak; } updateLiveScore(); checkBadges(); renderAnsweredState(qN, iAC); const f = document.getElementById(fI); f.focus(); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); const nextBtn = document.querySelector(`.question-card[data-question="${qN}"] .nav-buttons .btn-nav:last-child`); if(nextBtn) nextBtn.disabled = false; saveProgress(); }
     function checkQ16Completion() { checkInteractiveQuestion(Q_TIMELINE, document.getElementById('q16-events').children.length === 0, 'feedback16', 'q16-container', () => { let cC = 0; document.querySelectorAll('#q16-container .dropzone').forEach(z => { const i = z.children[0]; if(i && z.dataset.target === i.dataset.id) cC++; }); return cC === 4; }); }
     function toggleFeatureSelection(feature) { if (isAnswered[Q_LAMP_BUILDER]) return; feature.classList.toggle('selected'); q17_selections = Array.from(document.querySelectorAll(`#q${Q_LAMP_BUILDER}-builder .feature-option.selected`)).map(el => el.dataset.id); if (q17_selections.length >= 4) { checkQ17Completion(); } }
     function checkQ17Completion() { if (isAnswered[Q_LAMP_BUILDER]) return; const isC = q17_selections.length >= 4; if (isC) { checkInteractiveQuestion(Q_LAMP_BUILDER, true, `feedback${Q_LAMP_BUILDER}`, `q${Q_LAMP_BUILDER}-builder`, () => true); } }
@@ -1242,6 +1290,7 @@
     function handleAutoComplete(qN) { if (isAnswered[qN]) return; 
         isAnswered[qN] = true; answers[qN] = true; 
         currentStreak = 0; 
+        if(currentStreak > bestStreak) { bestStreak = currentStreak; }
         updateLiveScore(); checkBadges(); 
         const card = document.querySelector(`.question-card[data-question="${qN}"]`); 
         const f = card.querySelector('.feedback'); 
@@ -1280,8 +1329,42 @@
             updateTimerDisplay();
         }, 1000); 
     }
-    window.onYouTubeIframeAPIReady = function() { isYouTubeApiReady = true; };
-    function createPlayer() { if (!isYouTubeApiReady) { showToast("API non prête", "L'API YouTube n'est pas encore chargée, veuillez patienter.", "⏳"); return; } if (videoPlayer) { videoPlayer.playVideo(); return; } curiosityTracker.videoClicked = true; checkCuriosityBadge(); dom.videoPlayerContainer.classList.add('player-active'); dom.videoPlayerContainer.innerHTML = '<div id="player-iframe"></div>'; videoPlayer = new YT.Player('player-iframe', { height: '100%', width: '100%', videoId: 'GRwOsXCW2jM', playerVars: { 'autoplay': 1, 'rel': 0, 'controls': 1 }, events: { 'onStateChange': e => { dom.videoStatusIcon.textContent = (e.data === YT.PlayerState.PLAYING) ? '🎶' : '🎬'; } } }); }
+
+    window.onYouTubeIframeAPIReady = function() {
+        isYouTubeApiReady = true;
+        while(youtubeApiQueue.length) {
+            youtubeApiQueue.shift()();
+        }
+    };
+    function createPlayer() {
+        if (videoPlayer) {
+            videoPlayer.playVideo();
+            return;
+        }
+        curiosityTracker.videoClicked = true;
+        checkCuriosityBadge();
+        
+        dom.videoPlayerContainer.classList.add('player-loading');
+        
+        const createAction = () => {
+            dom.videoPlayerContainer.classList.remove('player-loading');
+            dom.videoPlayerContainer.classList.add('player-active');
+            dom.videoPlayerContainer.innerHTML = '<div id="player-iframe"></div>';
+            videoPlayer = new YT.Player('player-iframe', {
+                height: '100%',
+                width: '100%',
+                videoId: 'GRwOsXCW2jM',
+                playerVars: { 'autoplay': 1, 'rel': 0, 'controls': 1 },
+                events: { 'onStateChange': e => { dom.videoStatusIcon.textContent = (e.data === YT.PlayerState.PLAYING) ? '🎶' : '🎬'; } }
+            });
+        };
+        
+        if (isYouTubeApiReady) {
+            createAction();
+        } else {
+            youtubeApiQueue.push(createAction);
+        }
+    }
 
     // --- Event Listeners & Initialization ---
     function setupEventListeners() {
