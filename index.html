@@ -107,11 +107,11 @@
         
         .live-score-widget { top: 20px; right: 20px; width: 84px; height: 92px; cursor: pointer; text-align: center; overflow: hidden; padding:0; }
         .live-score-widget:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px var(--card-shadow-hover); }
-        .widget-inner-flipper { position: relative; width: 100%; height: 100%; transition: transform 0.4s ease-in-out; }
+        .widget-inner-flipper { position: relative; width: 100%; height: 200%; top: 0; transition: transform 0.4s ease-in-out; }
         .live-score-widget:hover .widget-inner-flipper { transform: translateY(-50%); }
-        .score-display-area, .badge-count-display { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .score-display-area { top: 0; }
-        .badge-count-display { top: 100%; gap: 4px; }
+        .score-display-area, .badge-count-display { width: 100%; height: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-display-area { padding-top: 5px; }
+        .badge-count-display { gap: 4px; }
         .badge-count-display .badge-icon { font-size: 2em; line-height: 1; }
         #badgeCount { font-weight: bold; font-size: 1.1em; }
         
@@ -351,7 +351,8 @@
         .modal-close-btn:hover { transform: rotate(90deg); }
         .stats-modal h3 { margin-top: 30px; }
         .stats-modal h3:first-of-type { margin-top: 0; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px; text-align: center; margin-top: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px 20px; text-align: center; margin-top: 20px; }
+        .stats-grid.performance-grid { grid-template-columns: repeat(3, 1fr); }
         .stat-item h4 { color: var(--primary-color); }
         .badges-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; }
         .badges-grid .badge-earned-item { position: relative; }
@@ -803,17 +804,16 @@
         <div class="stats-modal">
             <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fermer les statistiques">✖</button>
             <h3>📊 Vos Statistiques</h3>
-            <div class="stats-grid">
+            <div class="stats-grid performance-grid">
                 <div class="stat-item"><h4>Précision</h4><p id="statsAccuracy">--%</p></div>
                 <div class="stat-item"><h4>Répondues</h4><p id="statsAnswered">0 / 20</p></div>
                 <div class="stat-item"><h4>Série en Cours</h4><p id="statsCurrentStreak">0</p></div>
                 <div class="stat-item"><h4>Meilleure Série</h4><p id="statsBestStreak">0</p></div>
-            </div>
-            <h3>⏱️ Analyse du Temps</h3>
-            <div class="stats-grid">
                 <div class="stat-item"><h4>Temps Total</h4><p id="statsTime">00:00</p></div>
                 <div class="stat-item"><h4>Moy. / Q.</h4><p id="statsAvgTime">-- s</p></div>
-                <div class="stat-item" style="grid-column: span 2;"><h4>Réponse la plus Rapide</h4><p id="statsFastestQ">--</p></div>
+            </div>
+            <div class="stats-grid" style="grid-template-columns: 1fr;">
+                 <div class="stat-item"><h4>Réponse la plus Rapide</h4><p id="statsFastestQ">--</p></div>
             </div>
             <h3>🏆 Vos Badges</h3>
             <div class="badges-grid" id="modalBadgesGrid">
