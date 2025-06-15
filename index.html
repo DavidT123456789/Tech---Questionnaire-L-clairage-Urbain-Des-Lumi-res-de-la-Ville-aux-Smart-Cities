@@ -339,10 +339,10 @@
         .badge-earned-item:not(.unearned):hover .badge-icon, .badge-earned-item:not(.unearned):focus-visible .badge-icon { transform: scale(1.1); background-color: rgba(var(--primary-color-rgb), 0.25); box-shadow: 0 0 20px rgba(var(--primary-color-rgb), 0.7); border-color: rgba(var(--primary-color-rgb), 0.6); }
         .results-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease-out; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease-out; padding: 20px; }
         html[data-theme='light'] .modal-overlay { background: rgba(244, 246, 248, 0.7); }
         .modal-overlay.show { display: flex; opacity: 1; }
-        .stats-modal { background: var(--card-bg); color: var(--main-text-color); padding: 30px; border-radius: 20px; width: 90%; max-width: 600px; box-shadow: 0 10px 30px var(--card-shadow); position: relative; transition: background-color 0.3s ease, color 0.3s ease; transform: scale(0.95); opacity: 0; }
+        .stats-modal { background: var(--card-bg); color: var(--main-text-color); padding: 30px; border-radius: 20px; width: 100%; max-width: 600px; box-shadow: 0 10px 30px var(--card-shadow); position: relative; transition: background-color 0.3s ease, color 0.3s ease; transform: scale(0.95); opacity: 0; max-height: 90vh; overflow-y: auto; }
         .modal-overlay.show .stats-modal { animation: modal-fade-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .modal-overlay.hiding .stats-modal { animation: modal-fade-out 0.3s ease-out forwards; }
         @keyframes modal-fade-in { to { transform: scale(1); opacity: 1; } }
@@ -803,7 +803,7 @@
     <div class="modal-overlay" id="statsModalOverlay">
         <div class="stats-modal">
             <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fermer les statistiques">✖</button>
-            <h3>📊 Vos Statistiques</h3>
+            <h3>📊 Vos Statistiques de Performance</h3>
             <div class="stats-grid performance-grid">
                 <div class="stat-item"><h4>Précision</h4><p id="statsAccuracy">--%</p></div>
                 <div class="stat-item"><h4>Répondues</h4><p id="statsAnswered">0 / 20</p></div>
@@ -812,7 +812,7 @@
                 <div class="stat-item"><h4>Temps Total</h4><p id="statsTime">00:00</p></div>
                 <div class="stat-item"><h4>Moy. / Q.</h4><p id="statsAvgTime">-- s</p></div>
             </div>
-            <div class="stats-grid" style="grid-template-columns: 1fr;">
+            <div class="stats-grid" style="grid-template-columns: 1fr; margin-top: 0;">
                  <div class="stat-item"><h4>Réponse la plus Rapide</h4><p id="statsFastestQ">--</p></div>
             </div>
             <h3>🏆 Vos Badges</h3>
@@ -1359,7 +1359,8 @@
             });
         };
         
-        if (isYouTubeApiReady) {
+        if (isYouTubeApiReady || (window.YT && window.YT.Player)) {
+            isYouTubeApiReady = true;
             createAction();
         } else {
             youtubeApiQueue.push(createAction);
