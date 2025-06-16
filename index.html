@@ -6,6 +6,14 @@
     <title>L'Éclairage Urbain : Des Lumières de la Ville aux Smart Cities</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3Epath %7B fill: %233498db; %7D @media (prefers-color-scheme: dark) %7B path %7B fill: %23f7b733; %7D %7D%3C/style%3E%3Cpath d='M44,87.5 C44,90.261 46.239,92.5 49,92.5 L51,92.5 C53.761,92.5 56,90.261 56,87.5 L56,83.5 L44,83.5 L44,87.5 Z M66.3,74.7 C66.3,74.7 75,66.9 75,54.5 C75,41.512 64.988,31.5 52,31.5 L48,31.5 C35.012,31.5 25,41.512 25,54.5 C25,66.9 33.7,74.7 33.7,74.7 L33.7,79.5 L66.3,79.5 L66.3,74.7 Z'/%3E%3C/svg%3E" type="image/svg+xml">
 
+    <!-- AJOUT : Pré-connexion aux domaines YouTube pour un chargement plus rapide du lecteur -->
+    <link rel="preconnect" href="https://www.youtube.com">
+    <link rel="preconnect" href="https://i.ytimg.com">
+    <link rel="preconnect" href="https://s.ytimg.com">
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net">
+    <link rel="preconnect" href="https://static.doubleclick.net">
+    <!-- FIN DE L'AJOUT -->
+
     <style>
         @property --p { syntax: '<number>'; inherits: true; initial-value: 0; }
         :root {
@@ -262,13 +270,46 @@
         .ranking-slot { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .ranking-slot .rank-label { font-weight: bold; width: 130px; text-align: right; }
         .ranking-slot .dropzone { flex: 1; min-height: 45px; border-radius: 8px; }
-        details { margin-top: 15px; background: var(--option-bg); border-radius: 8px; padding: 5px 15px; border-left: 3px solid var(--accent-color); }
-        summary { cursor: pointer; font-weight: bold; padding: 10px 0; outline: none; display: flex; align-items: center; justify-content: space-between; transition: background-color 0.3s ease; }
-        summary:hover, summary:focus-visible { background-color: var(--option-hover-bg); }
-        summary::-webkit-details-marker { display: none; }
-        summary::after { content: '▼'; font-size: 0.8em; transition: transform 0.3s ease; }
-        details[open] summary::after { transform: rotate(180deg); }
-        .details-content { padding: 10px 0 10px 0; font-size: 0.95em; }
+        
+        /* --- CORRECTIF ACCORDÉON --- */
+        details {
+            margin-top: 15px;
+            background: var(--option-bg);
+            border-radius: 8px;
+            padding: 0; /* MODIFIÉ */
+            border-left: 3px solid var(--accent-color);
+            overflow: hidden; /* AJOUTÉ */
+        }
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px 15px; /* MODIFIÉ */
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease;
+        }
+        summary:hover, summary:focus-visible {
+            background-color: var(--option-hover-bg);
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        .details-content {
+            padding: 10px 15px; /* MODIFIÉ */
+            font-size: 0.95em;
+        }
+        /* --- FIN CORRECTIF --- */
+
         .details-content ul { list-style-type: '• '; padding-left: 20px; }
         .details-content li { margin-bottom: 5px; }
         .results { text-align: center; padding: 30px; background: var(--card-bg); border-radius: 20px; display: none; position: relative; transition: background-color 0.3s ease; }
@@ -1198,6 +1239,7 @@
         document.body.classList.remove('quiz-active');
         document.body.classList.add('results-visible');
         dom.quizContent.style.display = 'none';
+        dom.mainHeader.classList.remove('header-compact'); // AJOUT : Agrandir l'en-tête
         dom.resultsScreen.classList.add('show');
         
         let message, description; const accuracy = state.score / totalQuestions;
@@ -1310,6 +1352,11 @@
             }
         }
 
+        if (state.isReviewing && state.currentQuestion === totalQuestions) {
+            showResults(false);
+            return;
+        }
+
         if (state.reviewingErrorsOnly) {
             const currentIndexInErrors = state.errorIndices.indexOf(state.currentQuestion);
             if (currentIndexInErrors < state.errorIndices.length - 1) {
@@ -1405,6 +1452,7 @@
         if (savedProgress) {
             dom.resumeBtn.style.display = 'inline-flex';
             dom.startQuizBtn.textContent = 'Recommencer';
+            // Swap classes to make "Resume" the primary action
             dom.startQuizBtn.classList.replace('btn-primary', 'btn-secondary');
             dom.resumeBtn.classList.replace('btn-secondary', 'btn-primary');
         } else {
