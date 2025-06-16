@@ -166,7 +166,6 @@
             border: 1px solid var(--tooltip-border);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             pointer-events: none;
-            bottom: 130%;
         }
         .btn:hover .tooltip-text, .btn:focus-visible .tooltip-text,
         .tool-action-btn:hover .tooltip-text, .tool-action-btn:focus-visible .tooltip-text,
@@ -255,11 +254,13 @@
         html[data-theme='light'] .video-timestamp-hint button { color: var(--secondary-color); }
         .context-box { background: rgba(var(--primary-color-rgb), 0.1); border-left: 5px solid var(--primary-color); padding: 15px; margin: 15px 0; border-radius: 5px; }
         .nav-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-nav { background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); width: 45px; height: 45px; border-radius: 50%; transition: all 0.2s ease-out; display: flex; align-items: center; justify-content: center; color: var(--main-text-color); font-size: 1.5em; }
+        .btn-nav { background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); width: 45px; height: 45px; border-radius: 50%; transition: all 0.2s ease-out; display: flex; align-items: center; justify-content: center; color: var(--main-text-color); }
         .btn-nav:not(:disabled) { cursor: pointer; }
         .btn-nav:not(:disabled):hover { background: var(--option-hover-bg); transform: scale(1.1); }
         .btn-nav:not(:disabled):active { transform: scale(0.95); transition-duration: 0.1s; }
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; backdrop-filter: none; }
+        /* AJOUT : Style pour les SVG dans les boutons de navigation */
+        .btn-nav svg { width: 24px; height: 24px; }
         .nav-buttons .btn-nav:last-child:not(:disabled) { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; border: none; box-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.4); }
         .nav-buttons.review-mode-active .btn-nav:last-child { background: var(--glass-bg); color: var(--main-text-color); border: 1px solid var(--glass-border); box-shadow: none; }
         .nav-buttons.review-mode-active .btn-nav:not(:disabled):hover { background: var(--option-hover-bg); transform: scale(1.1); }
@@ -359,7 +360,14 @@
         #badges-earned { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
         .badge-earned-item { display: flex; flex-direction: column; align-items: center; position: relative; }
         #badges-earned .badge-earned-item { width: 130px; }
-        .badge-earned-item .badge-icon { display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease; }
+        .badge-earned-item .badge-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            overflow: hidden; /* MODIFIÉ : Correction pour les coins carrés des emojis sur mobile */
+        }
         #badges-earned .badge-icon { font-size: 4em; width: 90px; height: 90px; }
         .badges-grid .badge-icon { font-size: 3.2em; width: 75px; height: 75px; }
         .badge-earned-item p { font-size: 0.85em; text-align: center; margin-top: 8px; color: var(--main-text-color); font-weight: bold; }
@@ -943,6 +951,11 @@
     const Q_SORTING = 20;
     const INTERACTIVE_QUESTIONS = [Q_TIMELINE, Q_LAMP_BUILDER, Q_RANKING, Q_SORTING];
 
+    // MODIFIÉ : Ajout des constantes SVG pour les flèches de navigation
+    const ARROW_LEFT_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
+    const ARROW_RIGHT_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+
+
     const correctAnswers = { 1: 'b', 2: 'b', 3: 'c', 4: 'b', 5: 'b', 6: 'b', 7: 'b', 8: 'a', 9: 'b', 10: 'c', 11: 'b', 12: 'b', 13: 'c', 14: 'b', 15: 'a', [Q_TIMELINE]: true, [Q_LAMP_BUILDER]: true, [Q_RANKING]: true, 19: 'b', [Q_SORTING]: true };
     const questionTitles = [ "Éclairage dominant au XIXe s.", "Révolution d'Edison (vidéo)", "Points lumineux à Paris (vidéo)", "Fonctionnement lampe à incandescence", "Différence lampe classique/halogène", "Principe lampes à décharge", "Défi environnemental majeur", "Innovation d'alimentation écologique", "Rôle de l'éclairage en Smart City", "Économie d'énergie avec les LED", "Technologie de détection avancée", "Défi futur de l'éclairage", "Calcul d'efficacité lumineuse", "Calcul d'économies de maintenance", "Calcul de % d'économie d'énergie", "Timeline interactive de l'histoire", "Constructeur de lampadaire intelligent", "Classement d'Efficacité", "Mythe ou Réalité", "Tri des Caractéristiques" ];
     const featureDetails = { wifi: { name: "Hotspot Wi-Fi / 5G", desc: "Diffuse un signal Wi-Fi ou 5G pour connecter les passants." }, air: { name: "Capteur qualité de l'air", desc: "Mesure les polluants (particules fines, NOx...) en temps réel." }, charge: { name: "Borne de recharge", desc: "Permet de recharger les voitures, scooters ou vélos électriques." }, camera: { name: "Caméra de sécurité IA", desc: "Assure la sécurité et peut analyser les flux de piétons/véhicules." }, speaker: { name: "Haut-parleur d'alerte", desc: "Diffuse des annonces d'urgence (alerte météo, sécurité...)." }, parking: { name: "Détection de parking", desc: "Détecte si une place de stationnement à proximité est libre ou occupée." } };
@@ -1183,7 +1196,7 @@
             nextBtn.disabled = isNextDisabled;
 
             if (state.currentQuestion === totalQuestions && state.isAnswered[totalQuestions] && !state.isReviewing) { nextBtn.innerHTML = '🏆'; } 
-            else { nextBtn.innerHTML = '→'; }
+            else { nextBtn.innerHTML = ARROW_RIGHT_SVG; } // MODIFIÉ : Utilisation du SVG
             
             updateProgress();
             const title = card.querySelector('.question-title'); if(title) title.focus({ preventScroll: true });
@@ -1743,7 +1756,8 @@
         ).join('');
 
         dom.questionsWrapper.querySelectorAll('.question-card .nav-buttons').forEach(c => {
-            c.innerHTML = `<button class="btn-nav" title="Précédent (←)" aria-label="Précédent" disabled>←</button> <button class="btn-nav" title="Suivant (→)" aria-label="Suivant" disabled>→</button>`;
+            // MODIFIÉ : Utilisation des constantes SVG pour créer les boutons
+            c.innerHTML = `<button class="btn-nav" title="Précédent (←)" aria-label="Précédent" disabled>${ARROW_LEFT_SVG}</button> <button class="btn-nav" title="Suivant (→)" aria-label="Suivant" disabled>${ARROW_RIGHT_SVG}</button>`;
             c.querySelector('.btn-nav:first-child').addEventListener('click', previousQuestion);
             c.querySelector('.btn-nav:last-child').addEventListener('click', nextQuestion);
         });
