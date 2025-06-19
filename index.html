@@ -6,13 +6,11 @@
     <title>L'Éclairage Urbain : Des Lumières de la Ville aux Smart Cities</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3Epath %7B fill: %233498db; %7D @media (prefers-color-scheme: dark) %7B path %7B fill: %23f7b733; %7D %7D%3C/style%3E%3Cpath d='M44,87.5 C44,90.261 46.239,92.5 49,92.5 L51,92.5 C53.761,92.5 56,90.261 56,87.5 L56,83.5 L44,83.5 L44,87.5 Z M66.3,74.7 C66.3,74.7 75,66.9 75,54.5 C75,41.512 64.988,31.5 52,31.5 L48,31.5 C35.012,31.5 25,41.512 25,54.5 C25,66.9 33.7,74.7 33.7,74.7 L33.7,79.5 L66.3,79.5 L66.3,74.7 Z'/%3E%3C/svg%3E" type="image/svg+xml">
 
-    <!-- AJOUT : Pré-connexion aux domaines YouTube pour un chargement plus rapide du lecteur -->
     <link rel="preconnect" href="https://www.youtube.com">
     <link rel="preconnect" href="https://i.ytimg.com">
     <link rel="preconnect" href="https://s.ytimg.com">
     <link rel="preconnect" href="https://googleads.g.doubleclick.net">
     <link rel="preconnect" href="https://static.doubleclick.net">
-    <!-- FIN DE L'AJOUT -->
 
     <style>
         @property --p { syntax: '<number>'; inherits: true; initial-value: 0; }
@@ -23,7 +21,7 @@
             --bg-color: #1B263B; --card-bg: #233142; --main-text-color: #E0E1DD;
             --secondary-text-color: #A0A0A0; --footer-text-color: rgba(224, 225, 221, 0.5);
             --glass-bg: rgba(35, 49, 66, 0.8); --glass-border: rgba(224, 225, 221, 0.2);
-            --card-shadow: rgba(0, 0, 0, 0.4); --card-shadow-hover: rgba(0, 0, 0, 0.5);
+            --card-shadow: rgba(0, 0, 0, 0.25); --card-shadow-hover: rgba(0, 0, 0, 0.5);
             --option-bg: rgba(224, 225, 221, 0.05); --option-hover-bg: rgba(224, 225, 221, 0.1);
             --progress-track-bg: #1B263B;
             --tooltip-bg: var(--card-bg); --tooltip-border: rgba(var(--primary-color-rgb), 0.5); --tooltip-text-color: var(--main-text-color);
@@ -33,7 +31,7 @@
             --secondary-color: #2980b9; --bg-color: #f4f6f8;
             --card-bg: #ffffff; --main-text-color: #2c3e50; --secondary-text-color: #6c757d;
             --footer-text-color: rgba(0, 0, 0, 0.5); --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(0, 0, 0, 0.1); --card-shadow: rgba(44, 62, 80, 0.15);
+            --glass-border: rgba(0, 0, 0, 0.1); --card-shadow: rgba(44, 62, 80, 0.1);
             --card-shadow-hover: rgba(44, 62, 80, 0.25);
             --option-bg: rgba(52, 152, 219, 0.05); --option-hover-bg: rgba(52, 152, 219, 0.1);
             --progress-track-bg: #e9ecef;
@@ -51,8 +49,8 @@
         html[data-theme='dark'] strong, html[data-theme='dark'] b { color: var(--primary-color); }
         .header { 
             text-align: center; background: var(--card-bg); 
-            padding: 30px; border-radius: 20px; margin-bottom: 30px; 
-            box-shadow: 0 15px 35px var(--card-shadow); border: 1px solid var(--glass-border); 
+            padding: 30px; border-radius: 20px; margin-bottom: 20px; 
+            box-shadow: 0 4px 15px var(--card-shadow); border: 1px solid var(--glass-border); 
             transition: all 0.4s ease-in-out; 
             display: flex; justify-content: space-between; align-items: center;
             position: relative; overflow: hidden;
@@ -61,8 +59,11 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(to right, rgba(27, 38, 59, 0.95), rgba(27, 38, 59, 0.7)), url('https://img.freepik.com/vecteurs-premium/beau-coucher-soleil-mer-horizon-coucher-soleil-ocean_104785-1072.jpg?w=826');
             background-size: cover; background-position: center;
-            opacity: 1; transition: opacity 0.5s ease-in-out;
+            opacity: 1; transition: opacity 0.5s ease-in-out, filter 1s ease;
             z-index: 0;
+        }
+        body.all-badges-unlocked .header-bg-image {
+            filter: drop-shadow(0 0 15px var(--primary-color));
         }
         html[data-theme='light'] .header-bg-image {
              background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)), url('https://img.freepik.com/vecteurs-premium/beau-coucher-soleil-mer-horizon-coucher-soleil-ocean_104785-1072.jpg?w=826');
@@ -111,12 +112,15 @@
         .floating-widget { display: none; }
         body.quiz-active .floating-widget { display: flex; }
 
-        .live-score-widget, .tool-widget, .keyboard-hint, .video-container { position: fixed; background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); color: var(--main-text-color); border-radius: 20px; box-shadow: 0 4px 15px var(--card-shadow); font-size: 0.9em; z-index: 1001; transition: all 0.3s ease; }
+        .tool-widget, .live-score-widget, .keyboard-hint, .video-container { position: fixed; background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); color: var(--main-text-color); border-radius: 20px; box-shadow: 0 8px 24px var(--card-shadow); font-size: 0.9em; z-index: 1001; transition: all 0.3s ease; }
         
-        .live-score-widget { top: 20px; right: 20px; width: 84px; height: 92px; cursor: pointer; text-align: center; overflow: hidden; padding:0; }
+        .live-score-widget { top: 20px; right: 20px; width: 84px; height: 92px; cursor: pointer; text-align: center; overflow: hidden; padding:0; border-radius: 20px; }
         .live-score-widget:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px var(--card-shadow-hover); }
         .widget-inner-flipper { position: relative; width: 100%; height: 200%; top: 0; transition: transform 0.4s ease-in-out; pointer-events: none; }
-        .live-score-widget:hover .widget-inner-flipper { transform: translateY(-50%); }
+        .live-score-widget:hover .widget-inner-flipper,
+        .live-score-widget.flip-animation .widget-inner-flipper {
+            transform: translateY(-50%);
+        }
         .score-display-area, .badge-count-display { position: absolute; width: 100%; height: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .score-display-area { top: 0; }
         .badge-count-display { top: 50%; gap: 4px; }
@@ -158,6 +162,7 @@
             position: absolute;
             z-index: 100;
             left: 50%;
+            bottom: calc(100% + 8px);
             transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.2s ease, visibility 0.2s ease;
@@ -172,20 +177,53 @@
         .badge-earned-item:hover .tooltip-text, .badge-earned-item:focus-visible .tooltip-text,
         .progress-dot:hover .tooltip-text, .progress-dot:focus-visible .tooltip-text,
         .tooltip:hover .tooltip-text, .tooltip:focus-visible .tooltip-text,
-        .stat-item h4:hover + .tooltip-text, 
-        .stat-item h4:focus-visible + .tooltip-text {
+        /* Correction: Use descendant selector for h4 tooltips */
+        .stat-item h4.tooltip:hover .tooltip-text,
+        .stat-item h4.tooltip:focus-visible .tooltip-text {
             visibility: visible;
             opacity: 1;
             transition-delay: 0.4s;
         }
         
-        .tooltip-text::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; top: 100%; border-color: var(--tooltip-border) transparent transparent transparent; }
-        .tooltip-text.bottom { bottom: auto; top: 130%; }
-        .tooltip-text.bottom::after { top: auto; bottom: 100%; transform: translateX(-50%) rotate(180deg); }
+        .tooltip-text::before, .tooltip-text::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-style: solid;
+        }
+        .tooltip-text::after {
+            border-width: 7px;
+            top: 100%;
+            border-color: var(--tooltip-border) transparent transparent transparent;
+        }
+        .tooltip-text::before {
+            border-width: 6px;
+            top: 100%;
+            border-color: var(--tooltip-bg) transparent transparent transparent;
+            z-index: 1;
+        }
+        /* Correction: Added rule to position the tooltip box below the element */
+        .tooltip-text.bottom {
+            bottom: auto;
+            top: calc(100% + 8px);
+        }
+        .tooltip-text.bottom::after, .tooltip-text.bottom::before {
+            top: auto;
+            bottom: 100%;
+            transform: translateX(-50%) rotate(180deg);
+        }
+        .tooltip-text.bottom::after {
+            bottom: 100%;
+        }
+        .tooltip-text.bottom::before {
+            bottom: 100%;
+        }
+
         .tooltip { border-bottom: 1px dotted var(--accent-color); color: var(--accent-color); cursor: help; position: relative; }
         .tooltip.no-underline { border-bottom: none; cursor: default; }
         
-        .keyboard-hint { bottom: 20px; left: 20px; position: fixed; align-items: center; border-radius: 25px; cursor: pointer; overflow: hidden; width: 45px; height: 45px; padding: 0; transition: width 0.4s ease-in-out; }
+        .keyboard-hint { bottom: 20px; left: 20px; align-items: center; border-radius: 25px; cursor: pointer; overflow: hidden; width: 45px; height: 45px; padding: 0; transition: width 0.4s ease-in-out; }
         .keyboard-hint:hover { width: 400px; }
         .hint-icon { position: absolute; top: 0; left: 0; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; z-index: 2; }
         .hint-icon svg { width: 24px; height: 24px; }
@@ -195,7 +233,7 @@
         .question-card.review-mode-active .review-banner { display: flex; align-items: center; gap: 15px; }
         .review-banner .btn-link-review { background: none; border: none; color: var(--accent-color); text-decoration: underline; cursor: pointer; font-size: 0.9em; margin-left: auto; font-weight: bold; padding: 5px; }
         .review-banner .btn-link-review:hover { text-decoration: none; }
-        .progress-container { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid var(--glass-border); transition: background-color 0.3s ease, border-color 0.3s ease; }
+        .progress-container { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px var(--card-shadow); transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
         .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
         .progress-track { position: relative; width: 100%; height: 20px; margin: 15px 0; }
         .progress-bar { width: 100%; height: 6px; background: var(--progress-track-bg); border-radius: 3px; position: absolute; top: 50%; transform: translateY(-50%); overflow: hidden; }
@@ -206,7 +244,7 @@
         .progress-dot.completed-correct { background-color: var(--success-color); }
         .progress-dot.completed-incorrect { background-color: var(--error-color); }
         .progress-dot.active { background-color: var(--primary-color); border-color: var(--primary-color); transform: scale(1.2); box-shadow: 0 0 12px var(--primary-color); }
-        .question-card { background: var(--card-bg); padding: 30px; border-radius: 20px; margin-bottom: 0; box-shadow: 0 10px 30px var(--card-shadow); display: none; transition: background-color 0.3s ease, border-color 0.3s ease; }
+        .question-card { background: var(--card-bg); padding: 30px; border-radius: 20px; margin-bottom: 0; box-shadow: 0 4px 15px var(--card-shadow); display: none; transition: background-color 0.3s ease, border-color 0.3s ease; }
         .question-card.active { display: block; animation: slideInRight 0.5s ease-out forwards; }
         .question-card.slide-from-left { animation: slideInLeft 0.5s ease-out forwards; }
         .question-card.slide-out-left { animation: slideOutLeft 0.4s ease-in forwards; }
@@ -236,7 +274,7 @@
         .option.incorrect { background: rgba(231, 76, 60, 0.2); border-color: var(--error-color); }
         .option.incorrect .option-number { background-color: var(--error-color); color: white; border-color: var(--error-color); }
         .option.disabled { cursor: not-allowed; opacity: 0.7; }
-        .option.disabled:hover { transform: none; background: var(--option-bg); }
+        .option.disabled:hover { transform: none; background-color: initial; } /* CORRECTION: Supprime la réinitialisation du fond au survol */
         .option.disabled:hover .option-number { transform: none; }
         .feedback { margin: 20px 0; padding: 20px; border-radius: 10px; display: none; border-left-width: 5px; border-left-style: solid;}
         .feedback:focus-visible, .feedback:focus { outline: none; }
@@ -253,13 +291,24 @@
         html[data-theme='light'] .video-timestamp-hint strong { color: var(--secondary-color); }
         html[data-theme='light'] .video-timestamp-hint button { color: var(--secondary-color); }
         .context-box { background: rgba(var(--primary-color-rgb), 0.1); border-left: 5px solid var(--primary-color); padding: 15px; margin: 15px 0; border-radius: 5px; }
+        
+        .details-content a, .context-box a {
+            color: var(--accent-color);
+            font-weight: bold;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        .details-content a:hover, .context-box a:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
         .nav-buttons { display: flex; gap: 10px; margin-top: 20px; }
         .btn-nav { background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); width: 45px; height: 45px; border-radius: 50%; transition: all 0.2s ease-out; display: flex; align-items: center; justify-content: center; color: var(--main-text-color); }
         .btn-nav:not(:disabled) { cursor: pointer; }
         .btn-nav:not(:disabled):hover { background: var(--option-hover-bg); transform: scale(1.1); }
         .btn-nav:not(:disabled):active { transform: scale(0.95); transition-duration: 0.1s; }
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; backdrop-filter: none; }
-        /* AJOUT : Style pour les SVG dans les boutons de navigation */
         .btn-nav svg { width: 24px; height: 24px; }
         .nav-buttons .btn-nav:last-child:not(:disabled) { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; border: none; box-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.4); }
         .nav-buttons.review-mode-active .btn-nav:last-child { background: var(--glass-bg); color: var(--main-text-color); border: 1px solid var(--glass-border); box-shadow: none; }
@@ -272,19 +321,18 @@
         .ranking-slot .rank-label { font-weight: bold; width: 130px; text-align: right; }
         .ranking-slot .dropzone { flex: 1; min-height: 45px; border-radius: 8px; }
         
-        /* --- CORRECTIF ACCORDÉON --- */
         details {
             margin-top: 15px;
             background: var(--option-bg);
             border-radius: 8px;
-            padding: 0; /* MODIFIÉ */
+            padding: 0;
             border-left: 3px solid var(--accent-color);
-            overflow: hidden; /* AJOUTÉ */
+            overflow: hidden;
         }
         summary {
             cursor: pointer;
             font-weight: bold;
-            padding: 10px 15px; /* MODIFIÉ */
+            padding: 10px 15px;
             outline: none;
             display: flex;
             align-items: center;
@@ -306,14 +354,13 @@
             transform: rotate(180deg);
         }
         .details-content {
-            padding: 10px 15px; /* MODIFIÉ */
+            padding: 10px 15px;
             font-size: 0.95em;
         }
-        /* --- FIN CORRECTIF --- */
 
         .details-content ul { list-style-type: '• '; padding-left: 20px; }
         .details-content li { margin-bottom: 5px; }
-        .results { text-align: center; padding: 30px; background: var(--card-bg); border-radius: 20px; display: none; position: relative; transition: background-color 0.3s ease; }
+        .results { text-align: center; padding: 30px; background: var(--card-bg); border-radius: 20px; display: none; position: relative; transition: background-color 0.3s ease; box-shadow: 0 8px 24px var(--card-shadow); }
         .results h2 { outline: none; }
         .results.show { display: block; animation: zoomIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -358,50 +405,153 @@
         .category-performance-title { color: var(--primary-color); }
         .badges-earned-container { margin: 30px 0; padding: 20px; background: rgba(var(--primary-color-rgb), 0.1); border-left: 4px solid var(--primary-color); border-radius: 8px; text-align: left; }
         #badges-earned { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-        .badge-earned-item { display: flex; flex-direction: column; align-items: center; position: relative; }
+        
+        /* ================================================= */
+        /*          STYLES AMÉLIORÉS POUR LES BADGES         */
+        /* ================================================= */
+
+        .badge-earned-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            position: relative; 
+            transition: transform 0.3s ease;
+        }
         #badges-earned .badge-earned-item { width: 130px; }
         .badge-earned-item .badge-icon {
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            transition: all 0.3s ease;
-            overflow: hidden; /* MODIFIÉ : Correction pour les coins carrés des emojis sur mobile */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden; /* Important pour l'effet de reflet */
+            position: relative; /* Nécessaire pour le pseudo-élément ::before */
         }
         #badges-earned .badge-icon { font-size: 4em; width: 90px; height: 90px; }
-        .badges-grid .badge-icon { font-size: 3.2em; width: 75px; height: 75px; }
-        .badge-earned-item p { font-size: 0.85em; text-align: center; margin-top: 8px; color: var(--main-text-color); font-weight: bold; }
-        .badge-earned-item.unearned { filter: grayscale(90%); opacity: 0.6; cursor: default; }
+        .badges-grid .badge-icon { font-size: 3.2em; width: 85px; height: 85px; }
+
+        .badge-earned-item p { 
+            font-size: 0.85em; 
+            text-align: center; 
+            margin-top: 10px; 
+            color: var(--main-text-color); 
+            font-weight: bold; 
+            transition: color 0.3s ease;
+        }
+        .badge-earned-item .badge-icon svg { width: 50%; height: 50%; fill: currentColor; }
+
+        /* --- Badge NON débloqué --- */
+        .badge-earned-item.unearned {
+            opacity: 0.7;
+            cursor: default;
+            filter: grayscale(80%); /* Rend le badge plus neutre */
+        }
         .badge-earned-item.unearned .badge-icon {
             color: var(--secondary-text-color);
-            border: 2px solid var(--glass-border);
+            border: 2px dashed var(--glass-border);
+            background: transparent;
         }
-        .badge-earned-item.unearned p { color: var(--secondary-text-color); }
+        .badge-earned-item.unearned p {
+            color: var(--secondary-text-color);
+            font-weight: normal;
+        }
+
+        /* --- Badge débloqué (état de base) --- */
+        .badge-earned-item:not(.unearned) { cursor: help; }
         .badge-earned-item:not(.unearned) .badge-icon {
             color: var(--primary-color);
-            cursor: help;
-            border: 2px solid rgba(var(--primary-color-rgb), 0.3);
-            background-color: rgba(var(--primary-color-rgb), 0.1);
+            /* Gradient pour la profondeur */
+            background: radial-gradient(circle, rgba(var(--primary-color-rgb), 0.15) 0%, rgba(var(--primary-color-rgb), 0.05) 70%);
+            border: 2px solid rgba(var(--primary-color-rgb), 0.4);
+            /* Ombre intérieure pour l'effet biseauté et ombre extérieure subtile */
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.1);
         }
-        .badge-earned-item:not(.unearned):hover .badge-icon, .badge-earned-item:not(.unearned):focus-visible .badge-icon { transform: scale(1.1); background-color: rgba(var(--primary-color-rgb), 0.25); box-shadow: 0 0 20px rgba(var(--primary-color-rgb), 0.7); border-color: rgba(var(--primary-color-rgb), 0.6); }
+        html[data-theme='light'] .badge-earned-item:not(.unearned) .badge-icon {
+            background: radial-gradient(circle, rgba(var(--primary-color-rgb), 0.1) 0%, rgba(var(--primary-color-rgb), 0.02) 70%);
+            border-color: rgba(var(--primary-color-rgb), 0.3);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        /* --- Effet de reflet (shine) --- */
+        .badge-earned-item:not(.unearned) .badge-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%; /* Positionné hors du badge au départ */
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        html[data-theme='light'] .badge-earned-item:not(.unearned) .badge-icon::before {
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        }
+
+
+        /* --- Badge débloqué (au survol / focus) --- */
+        .badge-earned-item:not(.unearned):hover, 
+        .badge-earned-item:not(.unearned):focus-visible {
+            transform: translateY(-5px); /* Un peu plus de levée */
+        }
+        .badge-earned-item:not(.unearned):hover .badge-icon, 
+        .badge-earned-item:not(.unearned):focus-visible .badge-icon { 
+            transform: scale(1.1); 
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            border-color: var(--primary-color);
+            /* Ombre plus prononcée pour l'effet de lueur */
+            box-shadow: 0 5px 20px -2px rgba(var(--primary-color-rgb), 0.6);
+        }
+        html[data-theme='light'] .badge-earned-item:not(.unearned):hover .badge-icon, 
+        html[data-theme='light'] .badge-earned-item:not(.unearned):focus-visible .badge-icon {
+            color: white;
+        }
+
+        /* Fait passer le reflet sur le badge au survol */
+        .badge-earned-item:not(.unearned):hover .badge-icon::before,
+        .badge-earned-item:not(.unearned):focus-visible .badge-icon::before {
+            left: 150%;
+        }
+        
+        /* =============================================== */
+        /*                 FIN DES STYLES BADGES           */
+        /* =============================================== */
+
         .results-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease-out; padding: 20px; }
         html[data-theme='light'] .modal-overlay { background: rgba(244, 246, 248, 0.7); }
         .modal-overlay.show { display: flex; opacity: 1; }
-        .stats-modal { background: var(--card-bg); color: var(--main-text-color); padding: 30px; border-radius: 20px; width: 100%; max-width: 600px; box-shadow: 0 10px 30px var(--card-shadow); position: relative; transition: background-color 0.3s ease, color 0.3s ease; transform: scale(0.95); opacity: 0; max-height: 90vh; overflow-y: auto; overflow-x: hidden;}
+        .stats-modal { background: var(--card-bg); color: var(--main-text-color); padding: 30px; border-radius: 20px; width: 100%; max-width: 700px; box-shadow: 0 8px 24px var(--card-shadow); position: relative; transition: background-color 0.3s ease, color 0.3s ease; transform: scale(0.95); opacity: 0; max-height: 90vh; overflow-y: auto; overflow-x: hidden;}
         .modal-overlay.show .stats-modal { animation: modal-fade-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .modal-overlay.hiding .stats-modal { animation: modal-fade-out 0.3s ease-out forwards; }
         @keyframes modal-fade-in { to { transform: scale(1); opacity: 1; } }
         @keyframes modal-fade-out { from { transform: scale(1); opacity: 1; } to { transform: scale(0.95); opacity: 0; } }
         .modal-close-btn { position: absolute; top: 15px; right: 15px; background: var(--option-hover-bg); color: var(--main-text-color); border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1.2em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s, transform 0.3s; }
         .modal-close-btn:hover { transform: rotate(90deg); }
-        .stats-modal h3 { font-size: 1.2em; margin-top: 25px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; gap: 10px; }
+        .stats-modal h3 {
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: space-between;
+        }
         .stats-modal h3:first-of-type { margin-top: 0; }
         .stat-item { position: relative; } 
-        .stat-item h4 { font-size: 0.9em; margin-bottom: 2px; font-weight: bold; cursor: help; }
+        .stat-item h4 { 
+            position: relative; 
+            font-size: 0.9em; 
+            margin-bottom: 2px; 
+            font-weight: bold; 
+            cursor: help; 
+            display: inline-block;
+        }
         .stat-item p { font-size: 1.1em; font-weight: bold; }
-        .badges-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 20px; }
         .badge p { font-size: 0.8em; margin-top: 5px; font-weight: bold; }
         #confetti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 10; }
         .confetti { position: absolute; width: 10px; height: 10px; background-color: #f00; opacity: 1; animation: fall 5s linear forwards; }
@@ -443,10 +593,27 @@
         #q17-description-box ul { list-style-type: none; padding-left: 0; }
         #q17-description-box li { margin-bottom: 8px; }
         
-        /* --- STYLES VIDÉO --- */
-        .video-container { position: fixed; bottom: 80px; right: 20px; width: 280px; background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid var(--glass-border); border-radius: 12px; box-shadow: 0 8px 32px var(--card-shadow); z-index: 1000; transition: all 0.4s ease-in-out; overflow: hidden; flex-direction: column; padding: 8px; gap: 8px; }
+        .video-container { position: fixed; bottom: 80px; right: 20px; width: 280px; background: var(--glass-bg); backdrop-filter: blur(5px); border-radius: 12px; z-index: 1000; transition: all 0.4s ease-in-out; overflow: hidden; flex-direction: column; padding: 8px; gap: 8px; }
         .video-container:not(.minimized):hover { transform: scale(1.03); box-shadow: 0 12px 40px var(--card-shadow-hover); }
-        .video-container.minimized { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 2px solid rgba(255, 255, 255, 0.5); padding: 0; cursor: pointer; align-items: center; justify-content: center; }
+        
+        .video-container.minimized {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: transparent;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid var(--glass-border);
+            padding: 0; cursor: pointer;
+            align-items: center; justify-content: center;
+        }
+        .video-container.minimized::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: inherit;
+            z-index: -1;
+        }
+        
         .video-container.minimized:hover { transform: scale(1.1); box-shadow: 0 8px 25px var(--card-shadow-hover); }
         .video-header { background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.8), rgba(252, 74, 26, 0.8)); color: white; padding: 8px 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: grab; user-select: none; border-radius: 8px; }
         html[data-theme='light'] .video-header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
@@ -460,7 +627,8 @@
         .video-player-container.player-loading .video-play-button, .video-player-container.player-loading .video-thumbnail-overlay { display: none; }
         .video-player-container iframe { width: 100%; height: 100%; border: none; }
         .video-container.minimized .video-title, .video-container.minimized .video-controls, .video-container.minimized .video-content { display: none; }
-        .dynamic-icon { transition: transform 0.3s ease; display: inline-block; font-size: 1.8em; }
+        .dynamic-icon { transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 1.8em; }
+        .dynamic-icon svg { width: 22px; height: 22px; fill: currentColor; }
         .video-thumbnail-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.5), rgba(var(--secondary-color-rgb), 0.7)); display: flex; align-items: flex-end; padding: 12px; pointer-events: none; transition: background 0.4s ease; }
         html[data-theme='light'] .video-thumbnail-overlay { background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.6), rgba(var(--secondary-color-rgb), 0.8)); }
         .video-player-container:hover .video-thumbnail-overlay { background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.3), rgba(var(--secondary-color-rgb), 0.5)); }
@@ -472,129 +640,39 @@
         .video-player-container:hover .video-play-button { transform: translate(-50%, -50%) scale(1.1); background: rgba(255, 255, 255, 0.3); }
         .video-player-container.player-active .video-thumbnail-overlay, .video-player-container.player-active .video-play-button { display: none; }
         
-        #toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column-reverse; gap: 10px; align-items: center; pointer-events: none;}
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; align-items: center; pointer-events: none; }
         .toast { display: flex; align-items: center; gap: 15px; background: var(--tooltip-bg); color: var(--tooltip-text-color); padding: 12px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: toast-in-out 4s ease-in-out forwards; border: 1px solid var(--tooltip-border); pointer-events: all; }
-        @keyframes toast-in-out { 0% { transform: translateY(100px) scale(0.9); opacity: 0; } 15% { transform: translateY(0) scale(1); opacity: 1; } 85% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(100px) scale(0.9); opacity: 0; } }
+        @keyframes toast-in-out { 0% { transform: translateY(-100px) scale(0.9); opacity: 0; } 15% { transform: translateY(0) scale(1); opacity: 1; } 85% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100px) scale(0.9); opacity: 0; } }
         
-        #startFooter, #resultsFooter {
-            text-align: center;
-            padding-top: 20px;
-            margin-top: 30px;
-            color: var(--secondary-text-color);
-            font-size: 0.9em;
-            border-top: 1px solid var(--glass-border);
-        }
+        #startFooter, #resultsFooter { text-align: center; padding-top: 20px; margin-top: 30px; color: var(--secondary-text-color); font-size: 0.9em; border-top: 1px solid var(--glass-border); }
 
-        @media (max-width: 768px) { .video-container { width: 250px; } .floating-widget { font-size: 0.8em; padding: 8px 12px; } .keyboard-hint:hover { width: 300px; } body.quiz-active .tool-widget:hover { width: 180px; } .results-stat-widget { top: 15px; font-size: 0.9em;} #finalTimeWidget { left: 15px; } #attemptCounterWidget { right: 15px; } }
+        @media (max-width: 768px) { .video-container { width: 250px; } .floating-widget { font-size: 0.8em; padding: 8px 12px; } .keyboard-hint:hover { width: 300px; } body.quiz-active .tool-widget:hover { width: 180px; } .results-stat-widget { top: 15px; font-size: 0.9em;} #finalTimeWidget { left: 15px; } #attemptCounterWidget { right: 15px; } .stats-modal { max-width: 95vw; } }
         @media (max-width: 480px) { .header:not(.header-compact) h1 { font-size: 1.8em; } .start-actions { flex-direction: column; } .results-stat-widget { display: none; }}
 
-        /* --- MODIFICATIONS PAGE BILAN --- */
-        #results #badges-earned {
-            justify-content: space-around;
-            flex-wrap: nowrap;
-            gap: 10px;
-        }
-        #results #badges-earned .badge-earned-item {
-            flex: 1;
-            max-width: 120px;
-        }
-        #results #badges-earned .badge-icon {
-            font-size: 3.2em;
-            width: 75px;
-            height: 75px;
-        }
-        #results #badges-earned .badge-earned-item p {
-            font-size: 0.8em;
-        }
-        #category-performance-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 15px;
-            list-style: none;
-            padding: 0;
-        }
-        .category-perf-item {
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            gap: 8px;
-            background: var(--option-bg);
-            padding: 15px;
-            border-radius: 12px;
-            border-bottom: none;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-        }
-        .category-perf-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--card-shadow);
-        }
-        .category-perf-name {
-            color: var(--secondary-text-color);
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        .category-perf-bar-container {
-            width: 100%;
-        }
-        .category-perf-score {
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .category-perf-bar {
-            width: 100%;
-            height: 8px;
-            background-color: var(--progress-track-bg);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .category-perf-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 4px;
-            transition: width 0.5s ease-out;
-        }
-        .results-accordion {
-            background: var(--option-bg);
-            border-radius: 12px;
-            margin-top: 30px;
-            border: 1px solid var(--glass-border);
-            padding: 0;
-        }
-        .results-accordion .results-summary {
-            margin-top: 0;
-            padding: 0 20px 20px 20px;
-        }
-        .summary-header {
-            justify-content: flex-start;
-        }
+        #results #badges-earned { justify-content: space-around; flex-wrap: nowrap; gap: 10px; }
+        #results #badges-earned .badge-earned-item { flex: 1; max-width: 120px; }
+        #results #badges-earned .badge-icon { font-size: 3.2em; width: 75px; height: 75px; }
+        #results #badges-earned .badge-earned-item p { font-size: 0.8em; }
+        #category-performance-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; list-style: none; padding: 0; }
+        .category-perf-item { display: flex; flex-direction: column; text-align: center; gap: 8px; background: var(--option-bg); padding: 15px; border-radius: 12px; border-bottom: none; border: 1px solid var(--glass-border); transition: all 0.3s ease; }
+        .category-perf-item:hover { transform: translateY(-3px); box-shadow: 0 5px 15px var(--card-shadow); }
+        .category-perf-name { color: var(--secondary-text-color); font-size: 0.9em; font-weight: bold; }
+        .category-perf-bar-container { width: 100%; }
+        .category-perf-score { font-size: 1.1em; font-weight: bold; margin-bottom: 5px; }
+        .category-perf-bar { width: 100%; height: 8px; background-color: var(--progress-track-bg); border-radius: 4px; overflow: hidden; }
+        .category-perf-fill { height: 100%; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); border-radius: 4px; transition: width 0.5s ease-out; }
+        .results-accordion { background: var(--option-bg); border-radius: 12px; margin-top: 30px; border: 1px solid var(--glass-border); padding: 0; }
+        .results-accordion .results-summary { margin-top: 0; padding: 0 20px 20px 20px; }
+        .summary-header { justify-content: flex-start; }
         
-        /* --- MODIFICATIONS MODALE STATS --- */
-        .stats-grid.performance-grid { 
-            display: flex; 
-            justify-content: space-between;
-            gap: 20px; 
-            align-items: flex-start;
-        }
-        .stats-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            text-align: center;
-            flex: 1;
-        }
-        .stats-column:nth-child(1) .stat-item h4 { color: var(--primary-color); }
-        .stats-column:nth-child(2) .stat-item h4 { color: var(--accent-color); }
-        .stats-column:nth-child(3) .stat-item h4 { color: var(--secondary-color); }
-        
-        .badges-grid {
-             grid-template-columns: repeat(4, 1fr);
-             gap: 15px;
-        }
-        .badges-grid .badge-earned-item {
-            width: auto;
-        }
+        .stats-grid {  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center; }
+        .badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .badges-grid .badge-earned-item { width: auto; }
+
+        #resetStatsBtn { background: var(--option-bg); border: 1px solid var(--glass-border); color: var(--secondary-text-color); font-size: 0.75em; padding: 2px 8px; border-radius: 15px; cursor: pointer; transition: all 0.2s ease; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+        #resetStatsBtn:hover { background: var(--option-hover-bg); color: var(--main-text-color); }
+        #resetStatsBtn svg { width: 11px; height: 11px; fill: currentColor; }
+
     </style>
 </head>
 <body>
@@ -609,7 +687,7 @@
                 <div class="score-label">Score</div>
             </div>
             <div class="badge-count-display">
-                <span class="badge-icon">🏆</span>
+                <span class="badge-icon">💎</span>
                 <span id="badgeCount">0 / 8</span>
             </div>
         </div>
@@ -678,7 +756,7 @@
              <div class="start-section">
                 <h4>🎬 Conseil de préparation</h4>
                 <div class="start-video-box">
-                    <p>Pour mettre toutes les chances de votre côté, visionnez la vidéo "C'est Pas Sorcier". Vous pouvez la garder visible pendant le quiz grâce au widget 🎬 en bas à droite.</p>
+                    <p>Pour mettre toutes les chances de votre côté, visionnez la vidéo "C'est Pas Sorcier". Vous pouvez la garder visible pendant le quiz grâce au widget en bas à droite.</p>
                     <a href="https://youtu.be/GRwOsXCW2jM" target="_blank" class="video-link-start" title="C'est Pas Sorcier - Lumières de la ville (26 minutes)">🎬 Voir la vidéo</a>
                 </div>
             </div>
@@ -722,15 +800,15 @@
             
             <div class="question-card" data-question="7" data-category="Environnement"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">7</div><div class="question-category">🌿 Environnement</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q7-title" tabindex="-1">Quel est l'un des défis environnementaux majeurs de l'éclairage urbain ?</h2><div class="options" role="radiogroup" aria-labelledby="q7-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Le manque de lumière</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>La pollution lumineuse et son impact sur la faune nocturne</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Le coût trop faible</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>L'éclairage trop coloré</div></div><div class="feedback" id="feedback7" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : La pollution lumineuse</p><p class="feedback-explanation">L'éclairage artificiel excessif ou mal dirigé crée un "halo lumineux" au-dessus des villes qui perturbe les écosystèmes, notamment les cycles de vie et de migration des animaux nocturnes (insectes, oiseaux, chauves-souris).</p><div class="video-timestamp-hint">🎬 <strong>Indice Vidéo :</strong> le sujet est abordé dès <button data-timestamp="1010"><strong>16:50</strong></button>.</div><details><summary>En savoir + sur les couleurs (Kelvin)</summary><div class="details-content"><p>La "couleur" de la lumière se mesure en <strong>Kelvin (K)</strong>. Une lumière "chaude" (orange, ~2200K) contient peu de lumière bleue et perturbe moins la faune. Une lumière "froide" (blanche-bleutée, > 4000K) est riche en lumière bleue et a un impact plus fort. Les villes privilégient donc des LED de <strong>moins de 3000K</strong> pour protéger la biodiversité.</p></div></details></div></div>
             
-            <div class="question-card" data-question="8" data-category="Environnement"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">8</div><div class="question-category">💡 Énergie alternative</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q8-title" tabindex="-1">Quelle innovation surprenante permet d'alimenter l'éclairage de manière écologique ?</h2><div class="options" role="radiogroup" aria-labelledby="q8-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Les batteries de sol utilisant les plantes</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>L'énergie du vent uniquement</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Les hamsters dans des roues</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>L'énergie des voitures qui passent</div></div><div class="feedback" id="feedback8" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Les batteries de sol utilisant les plantes</p><p class="feedback-explanation">Des startups développent des technologies qui exploitent les micro-organismes présents dans le sol autour des racines des plantes. Ces microbes dégradent la matière organique et libèrent des électrons, créant un courant électrique.</p><div class="context-box"><h4>🧬 Biotechnologies</h4><p>Bien qu'encore expérimentale et à faible rendement, cette approche bio-inspirée montre une voie fascinante pour une énergie décentralisée et intégrée à l'environnement urbain.</p></div></div></div>
+            <div class="question-card" data-question="8" data-category="Environnement"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">8</div><div class="question-category">💡 Énergie alternative</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q8-title" tabindex="-1">Quelle innovation surprenante permet d'alimenter l'éclairage de manière écologique ?</h2><div class="options" role="radiogroup" aria-labelledby="q8-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Les batteries de sol utilisant les plantes</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>L'énergie du vent uniquement</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Les hamsters dans des roues</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>L'énergie des voitures qui passent</div></div><div class="feedback" id="feedback8" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Les batteries de sol utilisant les plantes</p><p class="feedback-explanation">Des startups développent des technologies qui exploitent les micro-organismes présents dans le sol autour des racines des plantes. Ces microbes dégradent la matière organique et libèrent des électrons, créant un courant électrique.</p><div class="context-box"><h4>🧬 Biotechnologies</h4><p>Bien qu'encore expérimentale et à faible rendement, cette approche bio-inspirée montre une voie fascinante pour une énergie décentralisée et intégrée à l'environnement urbain.</p></div><details><summary>Lire un article sur cette technologie</summary><div class="details-content"><p>Cette technologie, appelée "pile à combustible microbienne végétale", est un domaine de recherche actif. Pour en savoir plus sur son fonctionnement et son potentiel, vous pouvez consulter cet <a href="https://www.neozone.org/innovation/alinti-linvention-dun-pot-de-plante-qui-produit-de-lelectricite-grace-aux-vegetaux/" target="_blank" rel="noopener noreferrer">article de NeozOne</a>.</p></div></details></div></div>
             
-            <div class="question-card" data-question="9" data-category="Smart City"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">9</div><div class="question-category">🏙️ Smart Cities <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q9">*<span id="tooltip-q9" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q9-title" tabindex="-1">Dans une "ville intelligente", un lampadaire peut maintenant servir à :</h2><div class="options" role="radiogroup" aria-labelledby="q9-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Seulement éclairer les rues</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Mesurer la qualité de l'air, fournir du Wi-Fi et diffuser des infos</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Uniquement décorer la ville</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>Remplacer les feux de circulation</div></div><div class="feedback" id="feedback9" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Mesurer la qualité de l'air, fournir du Wi-Fi...</p><p class="feedback-explanation">Le lampadaire, déjà alimenté et présent partout en ville, est devenu le support idéal pour une multitude de capteurs et services connectés.</p><details><summary>En savoir + sur le Li-Fi</summary><div class="details-content"><p>Certains lampadaires peuvent même transmettre des données via la lumière elle-même ! C'est la technologie <strong>Li-Fi (Light Fidelity)</strong>. En modulant l'intensité de la lumière à une fréquence imperceptible pour l'œil humain, on peut créer une connexion internet très rapide et sécurisée, complémentaire au Wi-Fi.</p></div></details></div></div>
+            <div class="question-card" data-question="9" data-category="Smart City"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">9</div><div class="question-category">🏙️ Smart Cities <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q9">*<span id="tooltip-q9" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q9-title" tabindex="-1">Dans une "ville intelligente", un lampadaire peut maintenant servir à :</h2><div class="options" role="radiogroup" aria-labelledby="q9-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Seulement éclairer les rues</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Mesurer la qualité de l'air, fournir du Wi-Fi et diffuser des infos</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Uniquement décorer la ville</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>Remplacer les feux de circulation</div></div><div class="feedback" id="feedback9" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Mesurer la qualité de l'air, fournir du Wi-Fi...</p><p class="feedback-explanation">Le lampadaire, déjà alimenté et présent partout en ville, est devenu le support idéal pour une multitude de capteurs et services connectés.</p><details><summary>En savoir + sur le Li-Fi</summary><div class="details-content"><p>Certains lampadaires peuvent même transmettre des données via la lumière elle-même ! C'est la technologie <strong>Li-Fi (Light Fidelity)</strong>. En modulant l'intensité de la lumière à une fréquence imperceptible pour l'œil humain, on peut créer une connexion internet très rapide et sécurisée, complémentaire au Wi-Fi. <a href="https://pro.orange.fr/lemag/le-lifi-qu-est-ce-que-c-est-CNT000001cTLO6.html" target="_blank" rel="noopener noreferrer">Plus de détails sur le Li-Fi.</a></p></div></details></div></div>
             
             <div class="question-card" data-question="10" data-category="Économie"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">10</div><div class="question-category">💰 Économies</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q10-title" tabindex="-1">Quelle économie d'énergie peut réaliser une ville en passant à l'éclairage <span class="tooltip" aria-describedby="tooltip-q10">LED<span class="tooltip-text" id="tooltip-q10">Diode Électroluminescente.</span></span> intelligent ?</h2><div class="options" role="radiogroup" aria-labelledby="q10-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>10 à 20%</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>30 à 40%</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>50 à 75%</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>90 à 100%</div></div><div class="feedback" id="feedback10" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : 50 à 75%</p><p class="feedback-explanation">La combinaison de la haute efficacité des LED (par rapport aux anciennes lampes) et des systèmes de gestion intelligents (qui modulent l'intensité lumineuse selon les besoins) permet de réaliser des économies d'énergie très significatives.</p><div class="context-box"><h4>📈 Retour sur investissement</h4><p>Malgré un coût d'installation élevé, le retour sur investissement est rapide (souvent entre 3 et 7 ans) grâce aux économies sur la facture d'électricité et la réduction des coûts de maintenance.</p></div></div></div>
             
-            <div class="question-card" data-question="11" data-category="Technique"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">11</div><div class="question-category">🛰️ Innovations <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q11">*<span id="tooltip-q11" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q11-title" tabindex="-1">Quelle technologie de détection améliore la précision de l'éclairage adaptatif ?</h2><div class="options" role="radiogroup" aria-labelledby="q11-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Les capteurs infrarouges classiques</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Les radars à ondes millimétriques</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Les caméras simples</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>Les capteurs de température</div></div><div class="feedback" id="feedback11" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Les radars à ondes millimétriques</p><p class="feedback-explanation">Ces radars avancés sont beaucoup plus précis que les capteurs infrarouges. Ils peuvent détecter la présence, la vitesse et la direction des piétons ou des véhicules, même dans de mauvaines conditions météorologiques.</p><details><summary>En savoir + : Radar vs Infrarouge (PIR)</summary><div class="details-content"><p>Un capteur <strong>infrarouge passif (PIR)</strong> détecte les changements de chaleur. Il peut être trompé par temps chaud ou ne pas détecter une personne immobile. Un <strong>radar</strong> envoie des ondes et analyse leur écho. Il détecte donc le moindre mouvement et la position exacte, quelle que soit la température, ce qui le rend beaucoup plus fiable.</p></div></details></div></div>
+            <div class="question-card" data-question="11" data-category="Technique"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">11</div><div class="question-category">🛰️ Innovations <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q11">*<span id="tooltip-q11" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q11-title" tabindex="-1">Quelle technologie de détection améliore la précision de l'éclairage adaptatif ?</h2><div class="options" role="radiogroup" aria-labelledby="q11-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Les capteurs infrarouges classiques</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Les radars à ondes millimétriques</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Les caméras simples</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>Les capteurs de température</div></div><div class="feedback" id="feedback11" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Les radars à ondes millimétriques</p><p class="feedback-explanation">Ces radars avancés sont beaucoup plus précis que les capteurs infrarouges. Ils peuvent détecter la présence, la vitesse et la direction des piétons ou des véhicules, même dans de mauvaines conditions météorologiques.</p><details><summary>En savoir + : Radar vs Infrarouge (PIR)</summary><div class="details-content"><p>Un capteur <strong>infrarouge passif (PIR)</strong> détecte les changements de chaleur. Il peut être trompé par temps chaud ou ne pas détecter une personne immobile. Un <strong>radar</strong> envoie des ondes et analyse leur écho. Il détecte donc le moindre mouvement et la position exacte, quelle que soit la température, ce qui le rend beaucoup plus fiable. <a href="https://choisir-son-alarme.tech/le-detecteur-de-mouvement/" target="_blank" rel="noopener noreferrer">Comment fonctionne un détecteur de mouvement ?</a></p></div></details></div></div>
 
-            <div class="question-card" data-question="12" data-category="Synthèse"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">12</div><div class="question-category">🎯 Synthèse <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q12">*<span id="tooltip-q12" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q12-title" tabindex="-1">Quel est le défi principal pour l'avenir de l'éclairage urbain ?</h2><div class="options" role="radiogroup" aria-labelledby="q12-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Éclairer plus fort partout</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Concilier efficacité énergétique, biodiversité et services connectés</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Revenir à l'éclairage au gaz</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>Supprimer tout éclairage public</div></div><div class="feedback" id="feedback12" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Concilier efficacité, biodiversité et services</p><p class="feedback-explanation">L'éclairage de demain doit être un compromis intelligent : il doit consommer le moins possible, tout en assurant la sécurité des citoyens, en offrant de nouveaux services et en minimisant son impact sur l'environnement nocturne.</p><div class="context-box"><h4>🔮 Perspective 2030</h4><p>L'avenir s'oriente vers des réseaux d'éclairage entièrement autonomes et auto-adaptatifs, qui ajustent en temps réel la couleur et l'intensité de la lumière en fonction de données multiples (météo, trafic, événements, cycles de la faune...).</p></div></div></div>
+            <div class="question-card" data-question="12" data-category="Synthèse"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">12</div><div class="question-category">🎯 Synthèse <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q12">*<span id="tooltip-q12" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q12-title" tabindex="-1">Quel est le défi principal pour l'avenir de l'éclairage urbain ?</h2><div class="options" role="radiogroup" aria-labelledby="q12-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Éclairer plus fort partout</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Concilier efficacité énergétique, biodiversité et services connectés</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>Revenir à l'éclairage au gaz</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>Supprimer tout éclairage public</div></div><div class="feedback" id="feedback12" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Concilier efficacité, biodiversité et services</p><p class="feedback-explanation">L'éclairage de demain doit être un compromis intelligent : il doit consommer le moins possible, tout en assurant la sécurité des citoyens, en offrant de nouveaux services et en minimisant son impact sur l'environnement nocturne.</p><div class="context-box"><h4>🔮 Perspective 2030</h4><p>L'avenir s'oriente vers des réseaux d'éclairage entièrement autonomes et auto-adaptatifs, qui ajustent en temps réel la couleur et l'intensité de la lumière en fonction de données multiples (météo, trafic, événements, cycles de la faune...).</p></div><details><summary>Explorer les tendances futures</summary><div class="details-content"><p>L'Association Française de l'Éclairage (AFE) publie régulièrement des dossiers sur les innovations et les enjeux du secteur. Ces ressources sont excellentes pour comprendre les orientations technologiques et réglementaires. <a href="https://www.afe-eclairage.fr/?page_id=2517" target="_blank" rel="noopener noreferrer">Explorer les publications de l'AFE.</a></p></div></details></div></div>
             
             <div class="question-card" data-question="13" data-category="Calcul"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">13</div><div class="question-category">🧮 Calcul</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q13-title" tabindex="-1">Une lampe LED de 15W produit 1500 <span class="tooltip" aria-describedby="tooltip-q13">lumens<span class="tooltip-text" id="tooltip-q13">Unité de mesure de la quantité totale de lumière visible émise par une source.</span></span>. Quelle est son efficacité lumineuse (en lm/W) ?</h2><div class="options" role="radiogroup" aria-labelledby="q13-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>75 lm/W</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>90 lm/W</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>100 lm/W</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>120 lm/W</div></div><div class="feedback" id="feedback13" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : 100 lm/W</p><p class="feedback-explanation">L'efficacité lumineuse se calcule en divisant le flux lumineux (lumens) par la puissance consommée (Watts).</p><div class="calculation-breakdown">Calcul : 1500 lumens / 15 Watts = <strong>100 lm/W</strong></div><div class="context-box"><h4>💡 Rappel</h4><p><strong>Efficacité (lm/W) = Flux lumineux (lm) ÷ Puissance (W)</strong>. Plus ce chiffre est élevé, plus la lampe convertit efficacement l'électricité en lumière.</p></div></div></div>
             <div class="question-card" data-question="14" data-category="Calcul"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">14</div><div class="question-category">🔧 Maintenance</div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q14-title" tabindex="-1">Combien de lampes classiques (2000h) faut-il pour la durée de vie d'une seule LED (50000h) ?</h2><div class="options" role="radiogroup" aria-labelledby="q14-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>15 fois</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>25 fois</div><div class="option" data-answer="c" role="radio" aria-checked="false" tabindex="0"><span class="option-number">3</span>30 fois</div><div class="option" data-answer="d" role="radio" aria-checked="false" tabindex="0"><span class="option-number">4</span>35 fois</div></div><div class="feedback" id="feedback14" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : 25 fois</p><p class="feedback-explanation">On divise la durée de vie de la LED par celle de la lampe classique.</p> <div class="calculation-breakdown">Calcul : 50 000 heures / 2 000 heures = <strong>25</strong></div><div class="context-box"><h4>🌱 Impact</h4><p>Cette longévité exceptionnelle réduit drastiquement les coûts de main-d'œuvre pour le remplacement des ampoules, ainsi que la quantité de déchets générés.</p></div></div></div>
@@ -772,11 +850,12 @@
                         <li><strong>Lampe à Sodium :</strong> Assez efficace mais avec un mauvais rendu des couleurs (80-140 lm/W).</li>
                         <li><strong>Incandescence :</strong> Très inefficace, la majorité de l'énergie est perdue en chaleur (10-17 lm/W).</li>
                     </ol>
+                    <div class="context-box"><h4>💡 Le critère clé : lm/W</h4><p>Le lumen par Watt (lm/W) est l'unité de mesure de l'efficacité lumineuse. Elle indique combien de lumière (lumens) est produite pour chaque Watt d'électricité consommé. Plus ce chiffre est élevé, plus la technologie est performante et économique.</p></div>
                 </div>
             </div>
 
-            <div class="question-card" data-question="19" data-category="Environnement"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">19</div><div class="question-category">🤔 Mythe ou Réalité <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q19">*<span id="tooltip-q19" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q19-title" tabindex="-1">Affirmation : "Grâce à leur faible consommation, les éclairages LED blancs modernes ont toujours un impact environnemental plus faible que les anciennes lampes oranges."</h2><div class="options" role="radiogroup" aria-labelledby="q19-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Vrai</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Faux</div></div><div class="feedback" id="feedback19" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Faux</p><p class="feedback-explanation">Bien que plus efficaces énergétiquement, les LED blanches froides (riches en lumière bleue) peuvent perturber davantage la faune nocturne et le rythme circadien humain que la lumière orange des anciennes lampes.</p><div class="context-box"><h4>🔬 Énergie vs. Biodiversité</h4><p>C'est un compromis : l'impact environnemental n'est pas qu'énergétique. De plus en plus de villes optent pour des LED à teinte chaude (ambrées, < 3000K) pour un meilleur équilibre.</p></div></div></div>
-            <div class="question-card" data-question="20" data-category="Technique"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">20</div><div class="question-category">🔀 Tri Interactif <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q20">*<span id="tooltip-q20" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q20-title" tabindex="-1">Triez les caractéristiques : glissez chaque étiquette dans la bonne catégorie.</h2><div class="interactive-question-container sorting-container" id="q20-container"><div class="sorting-source-list dropzone" id="q20-source"><div class="draggable-item" draggable="true" data-category="led">Très longue durée de vie (> 50 000h)</div><div class="draggable-item" draggable="true" data-category="old">Contient du mercure (polluant)</div><div class="draggable-item" draggable="true" data-category="led">Allumage instantané</div><div class="draggable-item" draggable="true" data-category="old">Long temps de préchauffage</div><div class="draggable-item" draggable="true" data-category="led">Excellente efficacité énergétique</div><div class="draggable-item" draggable="true" data-category="old">Lumière monochromatique (orange)</div></div><div class="sorting-bins"><div class="sorting-bin"><h4>💡 LED Moderne</h4><div class="dropzone" data-target="led"></div></div><div class="sorting-bin"><h4>🏮 Ancienne Lampe à Décharge (Sodium)</h4><div class="dropzone" data-target="old"></div></div></div></div><button class="btn btn-secondary btn-autocomplete">💡 Compléter pour moi</button><div class="feedback" id="feedback20" tabindex="-1" aria-live="polite"><p class="feedback-title">Distinction des technologies</p><p class="feedback-explanation">Vous avez trié les caractéristiques des deux générations d'éclairage. Les LED se distinguent par leur efficacité, leur longévité et leur flexibilité, tandis que les lampes à décharge avaient des contraintes comme le temps de chauffe et la présence de matériaux polluants.</p></div></div>
+            <div class="question-card" data-question="19" data-category="Environnement"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">19</div><div class="question-category">🤔 Mythe ou Réalité <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q19">*<span id="tooltip-q19" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q19-title" tabindex="-1">Affirmation : "Grâce à leur faible consommation, les éclairages LED blancs modernes ont toujours un impact environnemental plus faible que les anciennes lampes oranges."</h2><div class="options" role="radiogroup" aria-labelledby="q19-title"><div class="option" data-answer="a" role="radio" aria-checked="false" tabindex="0"><span class="option-number">1</span>Vrai</div><div class="option" data-answer="b" role="radio" aria-checked="false" tabindex="0"><span class="option-number">2</span>Faux</div></div><div class="feedback" id="feedback19" tabindex="-1" aria-live="polite"><p class="feedback-title">Réponse : Faux</p><p class="feedback-explanation">Bien que plus efficaces énergétiquement, les LED blanches froides (riches en lumière bleue) peuvent perturber davantage la faune nocturne et le rythme circadien humain que la lumière orange des anciennes lampes.</p><div class="context-box"><h4>🔬 Énergie vs. Biodiversité</h4><p>C'est un compromis : l'impact environnemental n'est pas qu'énergétique. De plus en plus de villes optent pour des LED à teinte chaude (ambrées, < 3000K) pour un meilleur équilibre.</p></div><details><summary>Comprendre l'impact de la couleur</summary><div class="details-content"><p>Des organismes comme l'Office Français de la Biodiversité (OFB) documentent l'impact des différentes températures de couleur sur la faune. Le choix d'une lumière ambrée (autour de 2200K-2700K) est désormais une recommandation forte pour les projets d'éclairage en zone naturelle. <a href="https://www.ofb.gouv.fr/limiter-les-eclairages-exterieurs-chez-soi-pour-preserver-les-especes-vegetales-et-animales" target="_blank" rel="noopener noreferrer">Lire une publication sur le sujet.</a></p></div></details></div></div>
+            <div class="question-card" data-question="20" data-category="Technique"><div class="review-banner">🧐 <strong>Mode Révision :</strong> Vous consultez vos réponses. <button class="btn-link-review">Retour aux résultats</button></div><div class="question-header"><div class="question-header-left"><div class="question-number">20</div><div class="question-category">🔀 Tri Interactif <span class="modern-topic-tag tooltip no-underline" aria-describedby="tooltip-q20">*<span id="tooltip-q20" role="tooltip" class="tooltip-text">Cette question aborde un sujet moderne non couvert en détail par la vidéo de référence.</span></span></div></div><div class="nav-buttons"></div></div><h2 class="question-title" id="q20-title" tabindex="-1">Triez les caractéristiques : glissez chaque étiquette dans la bonne catégorie.</h2><div class="interactive-question-container sorting-container" id="q20-container"><div class="sorting-source-list dropzone" id="q20-source"><div class="draggable-item" draggable="true" data-category="led">Très longue durée de vie (> 50 000h)</div><div class="draggable-item" draggable="true" data-category="old">Contient du mercure (polluant)</div><div class="draggable-item" draggable="true" data-category="led">Allumage instantané</div><div class="draggable-item" draggable="true" data-category="old">Long temps de préchauffage</div><div class="draggable-item" draggable="true" data-category="led">Excellente efficacité énergétique</div><div class="draggable-item" draggable="true" data-category="old">Lumière monochromatique (orange)</div></div><div class="sorting-bins"><div class="sorting-bin"><h4>💡 LED Moderne</h4><div class="dropzone" data-target="led"></div></div><div class="sorting-bin"><h4>🏮 Ancienne Lampe à Décharge (Sodium)</h4><div class="dropzone" data-target="old"></div></div></div></div><button class="btn btn-secondary btn-autocomplete">💡 Compléter pour moi</button><div class="feedback" id="feedback20" tabindex="-1" aria-live="polite"><p class="feedback-title">Distinction des technologies</p><p class="feedback-explanation">Vous avez trié les caractéristiques des deux générations d'éclairage. Les LED se distinguent par leur efficacité, leur longévité et leur flexibilité, tandis que les lampes à décharge avaient des contraintes comme le temps de chauffe et la présence de matériaux polluants.</p><div class="context-box"><h4>🔄 Un changement de paradigme</h4><p>Le passage des lampes à décharge aux LED représente plus qu'une simple amélioration. C'est un changement fondamental : on passe d'une technologie "figée" (une fois installée, ses caractéristiques ne changent pas) à une technologie numérique et flexible, dont on peut piloter l'intensité, la couleur et le fonctionnement à distance et en temps réel.</p></div></div></div>
             </div>
         </div>
 
@@ -853,7 +932,9 @@
     
     <div class="video-container floating-widget minimized" id="videoWidget">
         <div class="video-header" id="videoHeader">
-            <span class="dynamic-icon" id="videoStatusIcon">🎬</span>
+            <span class="dynamic-icon" id="videoStatusIcon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+            </span>
             <span class="video-title">Vidéo C'est Pas Sorcier</span>
             <div class="video-controls">
                 <button id="minimizeBtn" aria-label="Minimiser la vidéo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg></button>
@@ -877,48 +958,46 @@
     <div class="modal-overlay" id="statsModalOverlay">
         <div class="stats-modal">
             <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fermer les statistiques">✖</button>
-            <h3>📊 Statistiques de la Session</h3>
-            <div class="stats-grid performance-grid">
-                <div class="stats-column">
-                    <div class="stat-item">
-                        <h4 class="tooltip no-underline">Répondues</h4>
-                        <span class="tooltip-text bottom">Nombre de questions auxquelles vous avez répondu.</span>
-                        <p id="statsAnswered">0 / 20</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4 class="tooltip no-underline">Précision</h4>
-                        <span class="tooltip-text bottom">Pourcentage de bonnes réponses sur les questions répondues.</span>
-                        <p id="statsAccuracy">--%</p>
-                    </div>
+            <h3>📊 Statistiques de Session</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h4 class="tooltip no-underline">Précision (Session)<span class="tooltip-text bottom">Pourcentage de bonnes réponses sur les questions répondues durant cet essai.</span></h4>
+                    <p id="statsAccuracy">--%</p>
                 </div>
-                <div class="stats-column">
-                    <div class="stat-item">
-                        <h4 class="tooltip no-underline">Série Actuelle</h4>
-                        <span class="tooltip-text bottom">Nombre de bonnes réponses consécutives actuelles.</span>
-                        <p id="statsCurrentStreak">0</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4 class="tooltip no-underline">Meilleure Série</h4>
-                         <span class="tooltip-text bottom">Plus grand nombre de bonnes réponses consécutives obtenues durant ce test.</span>
-                        <p id="statsBestStreak">0</p>
-                    </div>
+                <div class="stat-item">
+                    <h4 class="tooltip no-underline">Temps (Session)<span class="tooltip-text bottom">Durée de votre session de quiz actuelle.</span></h4>
+                    <p id="statsTime">00:00</p>
                 </div>
-                <div class="stats-column">
-                    <div class="stat-item">
-                        <h4 class="tooltip no-underline">Temps Total</h4>
-                        <span class="tooltip-text bottom">Durée totale de votre session de quiz.</span>
-                        <p id="statsTime">00:00</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4 class="tooltip no-underline">Temps Moy. / Q.</h4>
-                        <span class="tooltip-text bottom">Temps moyen passé pour répondre à chaque question.</span>
-                        <p id="statsAvgTime">-- s</p>
-                    </div>
+                <div class="stat-item">
+                    <h4 class="tooltip no-underline">Série Actuelle<span class="tooltip-text bottom">Nombre de bonnes réponses consécutives actuelles.</span></h4>
+                    <p id="statsCurrentStreak">0</p>
                 </div>
             </div>
-            <h3>🏆 Vos Badges</h3>
+            
+            <h3>🏆 Records & Progression</h3>
+             <div class="stats-grid">
+                <div class="stat-item">
+                    <h4 class="tooltip no-underline">Meilleure Précision<span class="tooltip-text bottom">Meilleur pourcentage de réussite obtenu sur une session complète (tous essais confondus).</span></h4>
+                    <p id="statsBestAccuracy">--%</p>
+                </div>
+                <div class="stat-item">
+                    <h4 class="tooltip no-underline">Meilleur Temps<span class="tooltip-text bottom">Temps le plus rapide pour terminer le quiz avec un score d'au moins 80%.</span></h4>
+                    <p id="statsBestTime">--:--</p>
+                </div>
+                <div class="stat-item">
+                    <h4 class="tooltip no-underline">Meilleure Série<span class="tooltip-text bottom">Plus grand nombre de bonnes réponses consécutives obtenues (tous essais confondus).</span></h4>
+                    <p id="statsBestStreak">0</p>
+                </div>
+            </div>
+
+            <h3>
+                <span>💎 Vos Badges</span>
+                <button id="resetStatsBtn">
+                    <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                    Réinitialiser
+                </button>
+            </h3>
             <div class="badges-grid" id="modalBadgesGrid">
-                <!-- Badges will be dynamically inserted here by JS -->
             </div>
         </div>
     </div>
@@ -927,11 +1006,9 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-    // Self-executing anonymous function to encapsulate the script
     (function() {
     'use strict';
     
-    // --- State & Constants ---
     let totalQuestions;
     let timerInterval;
     let videoPlayer; 
@@ -940,21 +1017,27 @@
     let draggedItem = null;
     let reviewScrollPosition = 0;
 
-    const quizSaveKey = 'urbanLightingQuiz_vFinal_75'; // Incremented version key for state reset
+    const quizSaveKey = 'urbanLightingQuiz_vFinal_78';
     const themeStorageKey = 'urbanLightingTheme_v1';
-    const attemptCountKey = 'urbanLightingQuiz_attempts_v1';
-    const badgeStorageKey = 'urbanLightingQuiz_badges_v1';
-    
+    const attemptCountKey = 'urbanLightingQuiz_attempts_v2';
+    const badgeStorageKey = 'urbanLightingQuiz_badges_v2';
+    const globalBestStreakKey = 'urbanLightingQuiz_bestStreak_v3';
+    const globalBestAccuracyKey = 'urbanLightingQuiz_bestAccuracy_v3';
+    const globalBestTimeKey = 'urbanLightingQuiz_bestTime_v3';
+
     const Q_TIMELINE = 16;
     const Q_LAMP_BUILDER = 17;
     const Q_RANKING = 18;
     const Q_SORTING = 20;
     const INTERACTIVE_QUESTIONS = [Q_TIMELINE, Q_LAMP_BUILDER, Q_RANKING, Q_SORTING];
 
-    // MODIFIÉ : Ajout des constantes SVG pour les flèches de navigation
     const ARROW_LEFT_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
     const ARROW_RIGHT_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
-
+    const LOCKED_BADGE_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>';
+    
+    const PLAY_ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    const PAUSE_ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const MOVIE_ICON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>';
 
     const correctAnswers = { 1: 'b', 2: 'b', 3: 'c', 4: 'b', 5: 'b', 6: 'b', 7: 'b', 8: 'a', 9: 'b', 10: 'c', 11: 'b', 12: 'b', 13: 'c', 14: 'b', 15: 'a', [Q_TIMELINE]: true, [Q_LAMP_BUILDER]: true, [Q_RANKING]: true, 19: 'b', [Q_SORTING]: true };
     const questionTitles = [ "Éclairage dominant au XIXe s.", "Révolution d'Edison (vidéo)", "Points lumineux à Paris (vidéo)", "Fonctionnement lampe à incandescence", "Différence lampe classique/halogène", "Principe lampes à décharge", "Défi environnemental majeur", "Innovation d'alimentation écologique", "Rôle de l'éclairage en Smart City", "Économie d'énergie avec les LED", "Technologie de détection avancée", "Défi futur de l'éclairage", "Calcul d'efficacité lumineuse", "Calcul d'économies de maintenance", "Calcul de % d'économie d'énergie", "Timeline interactive de l'histoire", "Constructeur de lampadaire intelligent", "Classement d'Efficacité", "Mythe ou Réalité", "Tri des Caractéristiques" ];
@@ -966,11 +1049,10 @@
         expert: { name: "Expert Technique", icon: "🛠️", description: "Réussir les exercices interactifs (timeline, classement, tri...)" },
         streak: { name: "Série Parfaite", icon: "🔥", description: "Obtenir 5 bonnes réponses d'affilée" },
         curious: { name: "Curieux de Nature", icon: "🕵️", description: "Explorer l'interface pendant le quiz (ouvrir stats, voir vidéo...)" },
-        perfect: { name: "Grand Chelem", icon: "🌟", description: "Obtenir un score parfait de 20/20" },
-        sprinter: { name: "Éclair Rapide", icon: "⚡", description: "Terminer le quiz en moins de 10 minutes" }
+        sprinter: { name: "Éclair Rapide", icon: "⚡", description: "Terminer le quiz en moins de 10 minutes avec un score de 80% ou plus" },
+        perfect: { name: "Grand Chelem", icon: "🌟", description: "Obtenir un score parfait de 20/20" }
     };
     
-    // --- DOM Elements Cache ---
     const dom = {
         mainHeader: document.getElementById('mainHeader'), quizContent: document.querySelector('.quiz-content'),
         startScreen: document.getElementById('startScreen'), startQuizBtn: document.getElementById('startQuizBtn'), resumeBtn: document.getElementById('resumeBtn'),
@@ -989,10 +1071,10 @@
         resultsReviewBtn: document.getElementById('resultsReviewBtn'),
         reviewErrorsBtn: document.getElementById('reviewErrorsBtn'),
         resultsRestartBtn: document.getElementById('resultsRestartBtn'),
-        modalBadgesGrid: document.getElementById('modalBadgesGrid')
+        modalBadgesGrid: document.getElementById('modalBadgesGrid'),
+        resetStatsBtn: document.getElementById('resetStatsBtn')
     };
 
-    // --- Centralized State ---
     let state = {};
     const getDefaultState = () => ({
         currentQuestion: 1, score: 0, secondsElapsed: 0,
@@ -1004,11 +1086,11 @@
         isReviewing: false, reviewingErrorsOnly: false, errorIndices: [],
         interactiveStates: {},
         attemptCount: parseInt(localStorage.getItem(attemptCountKey), 10) || 0,
-        badges: { history: false, smartcity: false, calculator: false, expert: false, streak: false, perfect: false, curious: false, sprinter: false },
-        curiosityTracker: { videoClicked: false, statsOpened: false, hintHovered: false }
+        badges: { history: false, smartcity: false, calculator: false, expert: false, streak: false, curious: false, sprinter: false, perfect: false },
+        curiosityTracker: { videoClicked: false, statsOpened: false, hintHovered: false },
+        allBadgesUnlocked: false
     });
 
-    // --- Core UI & Logic Functions ---
     function applyTheme(theme) { document.documentElement.setAttribute('data-theme', theme); dom.themeToggle.checked = (theme === 'light'); }
     function saveThemePreference(theme) { localStorage.setItem(themeStorageKey, theme); }
     function setupTheme() { const sT = localStorage.getItem(themeStorageKey); const pT = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; applyTheme(sT || pT); dom.themeToggle.addEventListener('change', () => { const nT = dom.themeToggle.checked ? 'light' : 'dark'; applyTheme(nT); saveThemePreference(nT); }); }
@@ -1058,41 +1140,24 @@
         let savedBadges = state.badges;
         let attemptCount = state.attemptCount + 1;
         
-        state = getDefaultState(); // Reset everything
+        state = getDefaultState();
+        updateLiveScore();
+        
         state.attemptCount = attemptCount;
         state.badges = savedBadges;
         
-        localStorage.setItem(attemptCountKey, state.attemptCount);
-        localStorage.removeItem(quizSaveKey); // Clear old session.
+        localStorage.setItem(attemptCountKey, state.attemptCount.toString());
+        localStorage.removeItem(quizSaveKey);
         
         resetInteractiveQuestions();
         document.querySelectorAll('.question-card').forEach(card => {
-            card.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('disabled', 'selected', 'correct', 'incorrect', 'glow');
-                opt.setAttribute('aria-checked', 'false');
-            });
-
-            card.querySelectorAll('.feature-option').forEach(opt => {
-                opt.classList.remove('selected', 'disabled');
-            });
-
-            // FIX: Reset the styling for draggable items from previous sessions.
-            card.querySelectorAll('.draggable-item').forEach(item => {
-                item.classList.remove('correct', 'incorrect');
-            });
-
-            const q17DescBox = card.querySelector('#q17-description-box');
-            if (q17DescBox) {
-                q17DescBox.style.display = 'none';
-                q17DescBox.querySelector('#q17-description-list').innerHTML = '';
-            }
-
-            const feedback = card.querySelector('.feedback');
-            if (feedback) feedback.classList.remove('show', 'correct', 'incorrect');
+            card.querySelectorAll('.option').forEach(opt => { opt.classList.remove('disabled', 'selected', 'correct', 'incorrect', 'glow'); opt.setAttribute('aria-checked', 'false'); });
+            card.querySelectorAll('.feature-option').forEach(opt => { opt.classList.remove('selected', 'disabled'); });
+            card.querySelectorAll('.draggable-item').forEach(item => { item.classList.remove('correct', 'incorrect'); });
+            const q17DescBox = card.querySelector('#q17-description-box'); if (q17DescBox) { q17DescBox.style.display = 'none'; q17DescBox.querySelector('#q17-description-list').innerHTML = ''; }
+            const feedback = card.querySelector('.feedback'); if (feedback) feedback.classList.remove('show', 'correct', 'incorrect');
         });
-        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => {
-            dot.className = 'progress-dot'; // Reset classes
-        });
+        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => { dot.className = 'progress-dot'; });
         
         transitionToQuizView();
         startTimer();
@@ -1108,7 +1173,6 @@
             for (let i = 1; i <= totalQuestions; i++) { if (state.isAnswered[i]) { const isC = state.answers[i] === correctAnswers[i]; updateProgressDot(i, isC); } }
             updateLiveScore();
             updateTimerDisplay();
-
             transitionToQuizView();
             
             if (state.quizCompleted) {
@@ -1170,7 +1234,7 @@
             if (state.isAnswered[state.currentQuestion]) { 
                 renderAnsweredState(state.currentQuestion, state.answers[state.currentQuestion]); 
                 if (INTERACTIVE_QUESTIONS.includes(state.currentQuestion)) {
-                    restoreInteractiveState(state.currentQuestion);
+                    setTimeout(() => restoreInteractiveState(state.currentQuestion), 50);
                 }
             }
 
@@ -1196,7 +1260,7 @@
             nextBtn.disabled = isNextDisabled;
 
             if (state.currentQuestion === totalQuestions && state.isAnswered[totalQuestions] && !state.isReviewing) { nextBtn.innerHTML = '🏆'; } 
-            else { nextBtn.innerHTML = ARROW_RIGHT_SVG; } // MODIFIÉ : Utilisation du SVG
+            else { nextBtn.innerHTML = ARROW_RIGHT_SVG; }
             
             updateProgress();
             const title = card.querySelector('.question-title'); if(title) title.focus({ preventScroll: true });
@@ -1207,7 +1271,13 @@
         if (isCorrect) {
             state.score++;
             state.currentStreak++;
-            if (state.currentStreak > state.bestStreak) { state.bestStreak = state.currentStreak; }
+            if (state.currentStreak > state.bestStreak) { 
+                state.bestStreak = state.currentStreak;
+                const globalBest = parseInt(localStorage.getItem(globalBestStreakKey), 10) || 0;
+                if(state.bestStreak > globalBest) {
+                    localStorage.setItem(globalBestStreakKey, state.bestStreak.toString());
+                }
+            }
         } else {
             state.currentStreak = 0;
         }
@@ -1218,18 +1288,13 @@
     
     function handleAnswer(questionNumber, selectedAnswer, element) { if (state.isAnswered[questionNumber]) return;
         state.questionTimestamps[questionNumber].duration = Date.now() - state.questionTimestamps[questionNumber].start;
-        
         state.isAnswered[questionNumber] = true; 
         state.answers[questionNumber] = selectedAnswer; 
         const isCorrect = correctAnswers[questionNumber] === selectedAnswer; 
         if (isCorrect) element.classList.add('glow');
         processAnswerResult(isCorrect);
-        
         const card = element.closest('.question-card'); 
-        card.querySelectorAll('.option').forEach(opt => {
-            opt.classList.add('disabled');
-            opt.setAttribute('aria-checked', 'false');
-        }); 
+        card.querySelectorAll('.option').forEach(opt => { opt.classList.add('disabled'); opt.setAttribute('aria-checked', 'false'); }); 
         element.classList.add('selected'); 
         if (element.getAttribute('role') === 'radio') element.setAttribute('aria-checked', 'true'); 
         renderAnsweredState(questionNumber, selectedAnswer); 
@@ -1240,10 +1305,36 @@
     }
     
     function showResults(isFirstTime = true) {
+        if (videoPlayer && typeof videoPlayer.pauseVideo === 'function') {
+            videoPlayer.pauseVideo();
+        }
+
         state.isReviewing = false; state.reviewingErrorsOnly = false;
         if (isFirstTime) { 
             state.quizCompleted = true;
             clearInterval(timerInterval); 
+
+            // Update records
+            const sessionAccuracy = Math.round((state.score / totalQuestions) * 100);
+            const bestAccuracy = parseInt(localStorage.getItem(globalBestAccuracyKey), 10) || 0;
+            if (sessionAccuracy > bestAccuracy) {
+                localStorage.setItem(globalBestAccuracyKey, sessionAccuracy.toString());
+                showToast("Nouveau Record !", `Précision de ${sessionAccuracy}%`, "🎯");
+            }
+            
+            const bestStreak = parseInt(localStorage.getItem(globalBestStreakKey), 10) || 0;
+            if (state.bestStreak > bestStreak) {
+                localStorage.setItem(globalBestStreakKey, state.bestStreak.toString());
+            }
+
+            if (sessionAccuracy >= 80) {
+                const bestTime = parseInt(localStorage.getItem(globalBestTimeKey), 10) || Infinity;
+                if (state.secondsElapsed < bestTime) {
+                    localStorage.setItem(globalBestTimeKey, state.secondsElapsed.toString());
+                    showToast("Nouveau Record !", `Quiz terminé en ${formatTime(state.secondsElapsed)}`, "⏱️");
+                }
+            }
+
             checkBadges(true); 
             saveProgress(); 
         }
@@ -1251,17 +1342,16 @@
         const categoryData = generateCategoryPerformance();
         document.body.classList.remove('quiz-active');
         document.body.classList.add('results-visible');
+        if (state.allBadgesUnlocked) { document.body.classList.add('all-badges-unlocked'); }
         dom.quizContent.style.display = 'none';
-        dom.mainHeader.classList.remove('header-compact'); // AJOUT : Agrandir l'en-tête
+        dom.mainHeader.classList.remove('header-compact');
         dom.resultsScreen.classList.add('show');
         
         let message, description; const accuracy = state.score / totalQuestions;
         const scoreCircle = document.getElementById('scoreCircle');
         
         const finalTimeWidgetStrong = document.querySelector('#finalTimeWidget strong');
-        const m = Math.floor(state.secondsElapsed / 60).toString().padStart(2, '0');
-        const s = (state.secondsElapsed % 60).toString().padStart(2, '0');
-        if(finalTimeWidgetStrong) finalTimeWidgetStrong.textContent = `${m}:${s}`;
+        if(finalTimeWidgetStrong) finalTimeWidgetStrong.textContent = formatTime(state.secondsElapsed);
 
         const attemptCounterWidgetStrong = document.querySelector('#attemptCounterWidget strong');
         if(attemptCounterWidgetStrong) attemptCounterWidgetStrong.textContent = state.attemptCount;
@@ -1280,15 +1370,8 @@
         displayEarnedBadges(); 
         const resultsTitle = document.getElementById('results-title');
 
-        if (isFirstTime) {
-             window.scrollTo({ top: dom.resultsScreen.offsetTop, behavior: 'smooth' });
-        } else if (reviewScrollPosition > 0) {
-            // FIX: Use a timeout to ensure the scroll happens after the browser has rendered the page.
-            setTimeout(() => {
-                window.scrollTo({ top: reviewScrollPosition, behavior: 'auto' });
-                reviewScrollPosition = 0; // Reset after use
-            }, 0);
-        }
+        if (isFirstTime) { window.scrollTo({ top: dom.resultsScreen.offsetTop, behavior: 'smooth' }); } 
+        else if (reviewScrollPosition > 0) { setTimeout(() => { window.scrollTo({ top: reviewScrollPosition, behavior: 'auto' }); reviewScrollPosition = 0; }, 0); }
         
         resultsTitle.focus({ preventScroll: true });
         document.getElementById('scoreDisplay').textContent = `${state.score}/${totalQuestions}`;
@@ -1342,12 +1425,10 @@
         } 
     }
     
-    // --- Navigation & Helper Functions ---
     function navigateToQuestion(targetQuestion) {
         if (!state.isReviewing) return;
         const current = state.currentQuestion;
         if (targetQuestion === current) return;
-
         const direction = targetQuestion > current ? 'forward' : 'backward';
         showQuestion(targetQuestion, direction);
     }
@@ -1355,8 +1436,6 @@
     function nextQuestion(e) {
         const btn = e.currentTarget;
         if (btn.disabled) return;
-
-        // UX Improvement for Q17: Check if enough features are selected
         if (state.currentQuestion === Q_LAMP_BUILDER && !state.isAnswered[Q_LAMP_BUILDER]) {
             const selections = Array.from(document.querySelectorAll(`#q${Q_LAMP_BUILDER}-builder .feature-option.selected`));
             if (selections.length < 4) {
@@ -1364,19 +1443,11 @@
                 return;
             }
         }
-
-        if (state.isReviewing && state.currentQuestion === totalQuestions) {
-            showResults(false);
-            return;
-        }
-
+        if (state.isReviewing && state.currentQuestion === totalQuestions) { showResults(false); return; }
         if (state.reviewingErrorsOnly) {
             const currentIndexInErrors = state.errorIndices.indexOf(state.currentQuestion);
-            if (currentIndexInErrors < state.errorIndices.length - 1) {
-                showQuestion(state.errorIndices[currentIndexInErrors + 1], 'forward');
-            } else {
-                showResults(false);
-            }
+            if (currentIndexInErrors < state.errorIndices.length - 1) { showQuestion(state.errorIndices[currentIndexInErrors + 1], 'forward'); } 
+            else { showResults(false); }
         } else {
             state.currentQuestion < totalQuestions ? showQuestion(state.currentQuestion + 1, 'forward') : showResults(true);
         }
@@ -1387,9 +1458,7 @@
         if (btn.disabled) return;
         if (state.reviewingErrorsOnly) {
             const currentIndexInErrors = state.errorIndices.indexOf(state.currentQuestion);
-            if (currentIndexInErrors > 0) {
-                showQuestion(state.errorIndices[currentIndexInErrors - 1], 'backward');
-            }
+            if (currentIndexInErrors > 0) { showQuestion(state.errorIndices[currentIndexInErrors - 1], 'backward'); }
         } else {
             if (state.currentQuestion > 1) showQuestion(state.currentQuestion - 1, 'backward');
         }
@@ -1398,64 +1467,44 @@
     function generateSummary() { 
         const sc = document.getElementById('summaryContent'); 
         sc.innerHTML = questionTitles.map((t, i) => { const n = i + 1; const isCorrect = state.answers[n] === correctAnswers[n]; let resultHtml = `<span class="summary-result ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? '✅' : '❌'}</span>`; if (!state.isAnswered[n]) { resultHtml = `<span class="summary-result" style="background: var(--secondary-text-color)">--</span>`; } else if (!isCorrect) { let cAT = ''; const cAV = correctAnswers[n]; if (typeof cAV === 'boolean') { cAT = 'Réponse interactive'; } else { const oE = document.querySelector(`.question-card[data-question="${n}"] .option[data-answer="${cAV}"]`); if (oE) { cAT = `R: ${oE.innerText.trim().substring(2)}`; } } if (cAT) { resultHtml += `<small style="margin-left: 10px; color: var(--secondary-text-color);">${cAT}</small>`; } } return `<div class="summary-item" data-question-index="${n}" data-correct="${state.isAnswered[n] ? isCorrect : 'none'}" role="button" tabindex="0"><span>Q${n}. ${t}</span><div>${resultHtml}</div></div>`; }).join(''); 
-        
-        // Add event listener to the container (event delegation)
         const h = e => { 
             const item = e.target.closest('.summary-item'); 
             if(item && (e.type === 'click' || e.key === 'Enter')) { 
-                reviewScrollPosition = window.scrollY; // Save scroll position before navigating away
+                reviewScrollPosition = window.scrollY; 
                 reviewQuestion(item.dataset.questionIndex); 
             } 
         }; 
-        sc.addEventListener('click', h); 
-        sc.addEventListener('keydown', h); 
+        sc.addEventListener('click', h); sc.addEventListener('keydown', h); 
     }
     
-    // Review a specific question, called from the summary list
     function reviewQuestion(questionNumber) {
-        state.isReviewing = true;
-        state.reviewingErrorsOnly = false;
-        
-        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => {
-            if (state.isAnswered[parseInt(dot.dataset.questionIndex, 10)]) {
-                dot.classList.add('clickable');
-            }
-        });
-        
-        transitionToQuizView();
-        showQuestion(questionNumber, 'forward');
+        state.isReviewing = true; state.reviewingErrorsOnly = false;
+        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => { if (state.isAnswered[parseInt(dot.dataset.questionIndex, 10)]) { dot.classList.add('clickable'); } });
+        transitionToQuizView(); showQuestion(questionNumber, 'forward');
     }
 
-    // Review all questions, called from the "Revoir toutes mes réponses" button
     function reviewQuestions() { 
-        state.isReviewing = true; 
-        state.reviewingErrorsOnly = false;
-        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => {
-            if (state.isAnswered[parseInt(dot.dataset.questionIndex, 10)]) {
-                dot.classList.add('clickable');
-            }
-        });
-        transitionToQuizView();
-        showQuestion(1, 'forward'); 
+        state.isReviewing = true; state.reviewingErrorsOnly = false;
+        dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => { if (state.isAnswered[parseInt(dot.dataset.questionIndex, 10)]) { dot.classList.add('clickable'); } });
+        transitionToQuizView(); showQuestion(1, 'forward'); 
     }
     
     function reviewErrors() {
-        state.isReviewing = true; 
-        state.reviewingErrorsOnly = true;
+        state.isReviewing = true; state.reviewingErrorsOnly = true;
         state.errorIndices = state.answers.map((ans, i) => (i > 0 && ans !== null && ans !== correctAnswers[i]) ? i : -1).filter(i => i !== -1);
         if(state.errorIndices.length > 0) {
             dom.progressDotsContainer.querySelectorAll('.progress-dot').forEach(dot => dot.classList.add('clickable'));
-            transitionToQuizView();
-            showQuestion(state.errorIndices[0], 'forward');
+            transitionToQuizView(); showQuestion(state.errorIndices[0], 'forward');
         }
     }
 
     function returnToStartScreen() {
-        document.body.classList.remove('quiz-active', 'results-visible');
-        dom.resultsScreen.classList.remove('show');
-        dom.quizContent.classList.add('hidden');
-        dom.startScreen.classList.remove('hidden');
-        dom.mainHeader.classList.remove('header-compact');
+        if (videoPlayer && typeof videoPlayer.pauseVideo === 'function') {
+            videoPlayer.pauseVideo();
+        }
+        document.body.classList.remove('quiz-active', 'results-visible', 'all-badges-unlocked');
+        dom.resultsScreen.classList.remove('show'); dom.quizContent.classList.add('hidden');
+        dom.startScreen.classList.remove('hidden'); dom.mainHeader.classList.remove('header-compact');
         if(timerInterval) clearInterval(timerInterval);
         updateStartScreenButtons();
     }
@@ -1463,46 +1512,147 @@
     function updateStartScreenButtons() {
         const savedProgress = localStorage.getItem(quizSaveKey);
         if (savedProgress) {
-            dom.resumeBtn.style.display = 'inline-flex';
-            dom.startQuizBtn.textContent = 'Recommencer';
-            // Swap classes to make "Resume" the primary action
-            dom.startQuizBtn.classList.replace('btn-primary', 'btn-secondary');
-            dom.resumeBtn.classList.replace('btn-secondary', 'btn-primary');
+            dom.resumeBtn.style.display = 'inline-flex'; dom.startQuizBtn.textContent = 'Recommencer';
+            dom.startQuizBtn.classList.replace('btn-primary', 'btn-secondary'); dom.resumeBtn.classList.replace('btn-secondary', 'btn-primary');
         } else {
-            dom.resumeBtn.style.display = 'none';
-            dom.startQuizBtn.textContent = '🚀 Commencer le Quiz !';
+            dom.resumeBtn.style.display = 'none'; dom.startQuizBtn.textContent = '🚀 Commencer le Quiz !';
             dom.startQuizBtn.classList.replace('btn-secondary', 'btn-primary');
         }
     }
 
     function restartQuiz() { if (confirm("Êtes-vous sûr de vouloir réinitialiser le quiz ? Votre progression sera perdue.")) { localStorage.removeItem(quizSaveKey); returnToStartScreen(); } }
     
-    function triggerConfetti() { const c = document.getElementById('confetti-container'); if (!c) return; c.innerHTML = ''; const s = getComputedStyle(document.documentElement); const cl = [s.getPropertyValue('--primary-color'), s.getPropertyValue('--secondary-color'), s.getPropertyValue('--accent-color'), s.getPropertyValue('--success-color')]; for (let i = 0; i < 150; i++) { const e = document.createElement('div'); e.classList.add('confetti'); e.style.left = `${Math.random() * 100}%`; e.style.backgroundColor = cl[Math.floor(Math.random() * cl.length)]; e.style.animationDelay = `${Math.random() * 2}s`; e.style.animationDuration = `${3 + Math.random() * 2}s`; e.style.transform = `rotate(${Math.random() * 360}deg)`; c.appendChild(e); } }
+    function triggerConfetti(colors = null, particleCount = 150) { 
+        const c = document.getElementById('confetti-container'); if (!c) return; c.innerHTML = ''; 
+        const s = getComputedStyle(document.documentElement); 
+        const defaultColors = [s.getPropertyValue('--primary-color'), s.getPropertyValue('--secondary-color'), s.getPropertyValue('--accent-color'), s.getPropertyValue('--success-color')];
+        const cl = colors || defaultColors;
+        for (let i = 0; i < particleCount; i++) { 
+            const e = document.createElement('div'); e.classList.add('confetti'); 
+            e.style.left = `${Math.random() * 100}%`; 
+            e.style.backgroundColor = cl[Math.floor(Math.random() * cl.length)]; 
+            e.style.animationDelay = `${Math.random() * 2}s`; 
+            e.style.animationDuration = `${3 + Math.random() * 2}s`; 
+            e.style.transform = `rotate(${Math.random() * 360}deg)`; 
+            c.appendChild(e); 
+        } 
+    }
+    
+    function triggerAllBadgesUnlockedCelebration() {
+        if (state.allBadgesUnlocked) return;
+        state.allBadgesUnlocked = true;
+        saveProgress();
+        document.body.classList.add('all-badges-unlocked');
+        const s = getComputedStyle(document.documentElement); 
+        const goldColors = ['#ffd700', '#ffc400', '#ffab00', '#fff'];
+        triggerConfetti(goldColors, 250);
+        showToast("🏆✨ Maître des Lumières !", "Félicitations ! Vous avez débloqué tous les badges !", "🌟");
+    }
+
     function saveProgress() { try { localStorage.setItem(quizSaveKey, JSON.stringify(state)); } catch (e) { console.error("Sauvegarde impossible:", e); } }
 
-    // --- Badges, Stats & Modals ---
+    function triggerWidgetFlip() {
+        if (!dom.liveScoreWidget) return;
+        dom.liveScoreWidget.classList.add('flip-animation');
+        setTimeout(() => {
+            dom.liveScoreWidget.classList.remove('flip-animation');
+        }, 1500);
+    }
+
     function getEarnedBadgeCount() { return Object.values(state.badges).filter(Boolean).length; }
     function updateBadgeCountDisplay() { const earned = getEarnedBadgeCount(); const total = Object.keys(badgeDetails).length; const badgeCountEl = document.getElementById('badgeCount'); if (badgeCountEl) { badgeCountEl.textContent = `${earned} / ${total}`; } }
-    function checkCuriosityBadge() { if (state.badges.curious || dom.resultsScreen.classList.contains('show') || [state.curiosityTracker.videoClicked, state.curiosityTracker.statsOpened, state.curiosityTracker.hintHovered].filter(Boolean).length < 2) return; state.badges.curious = true; showToast("Badge débloqué !", badgeDetails.curious.description, badgeDetails.curious.icon); localStorage.setItem(badgeStorageKey, JSON.stringify(state.badges)); updateBadgeCountDisplay(); }
-    function checkBadges(isFinalCheck = false) { let newBadgeEarned = false; const c = { history: () => state.answers[Q_TIMELINE] === true, smartcity: () => state.answers[Q_LAMP_BUILDER] === true, calculator: () => [13, 14, 15].every(q => state.answers[q] === correctAnswers[q]), expert: () => [Q_TIMELINE, Q_RANKING, Q_SORTING].every(q => state.answers[q] === true), streak: () => state.bestStreak >= 5, perfect: () => isFinalCheck && state.score === totalQuestions, sprinter: () => isFinalCheck && state.secondsElapsed < 600 }; for (const b in c) { if (!state.badges[b] && c[b]()) { state.badges[b] = true; newBadgeEarned = true; const d = badgeDetails[b]; if (d) showToast("Badge débloqué !", d.description, d.icon); } } if(newBadgeEarned) { localStorage.setItem(badgeStorageKey, JSON.stringify(state.badges)); updateBadgeCountDisplay(); } }
-    function displayEarnedBadges() { const container = document.getElementById('badges-earned'); container.innerHTML = Object.keys(badgeDetails).map(id => `<div class="badge-earned-item ${!state.badges[id] ? 'unearned' : ''}"><span class="badge-icon">${badgeDetails[id].icon}</span><p>${badgeDetails[id].name}</p><span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span></div>`).join(''); document.getElementById('badgesEarnedContainer').style.display = 'block'; }
+    function checkCuriosityBadge() { if (state.badges.curious || dom.resultsScreen.classList.contains('show') || [state.curiosityTracker.videoClicked, state.curiosityTracker.statsOpened, state.curiosityTracker.hintHovered].filter(Boolean).length < 2) return; state.badges.curious = true; showToast("Badge débloqué !", badgeDetails.curious.description, badgeDetails.curious.icon); localStorage.setItem(badgeStorageKey, JSON.stringify(state.badges)); updateBadgeCountDisplay(); triggerWidgetFlip(); }
+    
+    function checkBadges(isFinalCheck = false) {
+        let newBadgeEarned = false;
+        const conditions = {
+            history: () => state.answers[Q_TIMELINE] === true,
+            smartcity: () => state.answers[Q_LAMP_BUILDER] === true,
+            calculator: () => [13, 14, 15].every(q => state.answers[q] === correctAnswers[q]),
+            expert: () => [Q_TIMELINE, Q_RANKING, Q_SORTING].every(q => state.answers[q] === true),
+            streak: () => state.bestStreak >= 5,
+            sprinter: () => isFinalCheck && state.secondsElapsed < 600 && state.score / totalQuestions >= 0.8,
+            perfect: () => isFinalCheck && state.score === totalQuestions,
+        };
+        for (const badge in conditions) {
+            if (!state.badges[badge] && conditions[badge]()) {
+                state.badges[badge] = true; newBadgeEarned = true;
+                const details = badgeDetails[badge];
+                if (details) showToast("Badge débloqué !", details.description, details.icon);
+            }
+        }
+        if(newBadgeEarned) { 
+            localStorage.setItem(badgeStorageKey, JSON.stringify(state.badges)); 
+            updateBadgeCountDisplay(); 
+            triggerWidgetFlip(); 
+            if (Object.values(state.badges).every(Boolean)) {
+                 triggerAllBadgesUnlockedCelebration();
+            }
+        }
+    }
+    
+    function displayBadge(id, isUnlocked) {
+        const details = badgeDetails[id];
+        const iconHtml = isUnlocked ? details.icon : LOCKED_BADGE_SVG;
+        return `<div class="badge-earned-item ${!isUnlocked ? 'unearned' : ''}"><span class="badge-icon">${iconHtml}</span><p>${details.name}</p><span role="tooltip" class="tooltip-text">${details.description}</span></div>`;
+    }
+
+    function displayEarnedBadges() { 
+        const container = document.getElementById('badges-earned'); 
+        container.innerHTML = Object.keys(badgeDetails).map(id => displayBadge(id, state.badges[id])).join(''); 
+        document.getElementById('badgesEarnedContainer').style.display = 'block'; 
+    }
+    
     function openStatsModal() { 
-        state.curiosityTracker.statsOpened = true; checkCuriosityBadge(); 
-        const aC = state.isAnswered.slice(1).filter(Boolean).length; 
-        document.getElementById('statsAnswered').textContent = `${aC} / ${totalQuestions}`; 
-        document.getElementById('statsAccuracy').textContent = `${aC > 0 ? Math.round((state.score / aC) * 100) : 0}%`; 
+        state.curiosityTracker.statsOpened = true; 
+        checkCuriosityBadge(); 
+        
+        const answeredCount = state.isAnswered.slice(1).filter(Boolean).length;
+        document.getElementById('statsAccuracy').textContent = `${answeredCount > 0 ? Math.round((state.score / answeredCount) * 100) : 0}%`; 
         document.getElementById('statsCurrentStreak').textContent = state.currentStreak;
-        document.getElementById('statsBestStreak').textContent = state.bestStreak;
         
-        const answeredTimes = state.questionTimestamps.filter(t => t && t.duration).map(t => t.duration);
-        const avgTime = answeredTimes.length > 0 ? (answeredTimes.reduce((a, b) => a + b, 0) / answeredTimes.length / 1000).toFixed(2) : '--';
-        document.getElementById('statsAvgTime').textContent = `${avgTime} s`;
+        const bestAccuracy = parseInt(localStorage.getItem(globalBestAccuracyKey), 10);
+        document.getElementById('statsBestAccuracy').textContent = (bestAccuracy && isFinite(bestAccuracy)) ? `${bestAccuracy}%` : '--%';
+
+        const bestTime = parseInt(localStorage.getItem(globalBestTimeKey), 10);
+        document.getElementById('statsBestTime').textContent = (bestTime && isFinite(bestTime)) ? formatTime(bestTime) : '--:--';
+
+        const bestStreak = parseInt(localStorage.getItem(globalBestStreakKey), 10) || 0;
+        document.getElementById('statsBestStreak').textContent = bestStreak;
         
-        dom.modalBadgesGrid.innerHTML = Object.keys(badgeDetails).map(id => { const isUnlocked = state.badges[id]; return `<div class="badge-earned-item ${!isUnlocked ? 'unearned' : ''}"> <div class="badge-icon">${badgeDetails[id].icon}</div> <p>${badgeDetails[id].name}</p> <span role="tooltip" class="tooltip-text">${badgeDetails[id].description}</span> </div>`; }).join(''); 
+        dom.modalBadgesGrid.innerHTML = Object.keys(badgeDetails).map(id => displayBadge(id, state.badges[id])).join('');
+        
         dom.statsModalOverlay.classList.add('show'); 
     }
+
     function closeStatsModal() { dom.statsModalOverlay.classList.add('hiding'); dom.statsModalOverlay.addEventListener('animationend', () => { dom.statsModalOverlay.classList.remove('show', 'hiding'); }, { once: true }); }
     
+    function resetAllStats() {
+        if (confirm("Attention, ceci effacera vos badges et tous vos records (précision, temps, série) de façon permanente.\n\nÊtes-vous sûr de vouloir continuer ?")) {
+            localStorage.removeItem(badgeStorageKey);
+            localStorage.removeItem(attemptCountKey);
+            localStorage.removeItem(globalBestAccuracyKey);
+            localStorage.removeItem(globalBestTimeKey);
+            localStorage.removeItem(globalBestStreakKey);
+            
+            state.badges = getDefaultState().badges;
+            state.curiosityTracker = getDefaultState().curiosityTracker;
+            state.attemptCount = 0;
+            state.allBadgesUnlocked = false;
+            localStorage.setItem(attemptCountKey, '0');
+            
+            document.body.classList.remove('all-badges-unlocked');
+            updateBadgeCountDisplay();
+            if (document.body.classList.contains('results-visible')) {
+                displayEarnedBadges();
+                const attemptCounterWidgetStrong = document.querySelector('#attemptCounterWidget strong');
+                if(attemptCounterWidgetStrong) attemptCounterWidgetStrong.textContent = state.attemptCount;
+            }
+            openStatsModal(); 
+            showToast("Réinitialisation complète", "Vos statistiques et badges ont été effacés.", "🗑️");
+        }
+    }
+
     function generateCategoryPerformance() {
         const categories = {};
         document.querySelectorAll('.question-card[data-category]').forEach(card => {
@@ -1516,38 +1666,35 @@
         const container = document.getElementById('category-performance-list');
         container.innerHTML = Object.values(categories).map(data => {
             const percentage = data.total > 0 ? (data.correct / data.total) * 100 : 0;
-            return `
-                <div class="category-perf-item">
-                    <span class="category-perf-name">${data.name}</span>
-                    <div class="category-perf-bar-container">
-                        <div class="category-perf-score">${data.correct} / ${data.total}</div>
-                        <div class="category-perf-bar">
-                            <div class="category-perf-fill" style="width: ${percentage}%;"></div>
-                        </div>
-                    </div>
-                </div>`;
+            return `<div class="category-perf-item"><span class="category-perf-name">${data.name}</span><div class="category-perf-bar-container"><div class="category-perf-score">${data.correct} / ${data.total}</div><div class="category-perf-bar"><div class="category-perf-fill" style="width: ${percentage}%;"></div></div></div></div>`;
         }).join('');
-        
         document.getElementById('categoryPerformanceContainer').style.display = 'block';
         return Object.values(categories);
     }
     
     function generatePersonalizedFeedback(categoryData) {
-        if (!categoryData || categoryData.length < 2) return "";
+        if (!categoryData || categoryData.length === 0) return "";
+
         let bestCat = { score: -1, name: ''};
         let worstCat = { score: 2, name: ''};
+
         categoryData.forEach(cat => {
-            const catScore = cat.correct / cat.total;
+            const catScore = cat.total > 0 ? cat.correct / cat.total : 0;
             if (catScore > bestCat.score) bestCat = { score: catScore, name: cat.name };
             if (catScore < worstCat.score) worstCat = { score: catScore, name: cat.name };
         });
-        if (bestCat.name && worstCat.name && bestCat.name !== worstCat.name && bestCat.score > worstCat.score) {
-            return `💡 Excellent travail sur la catégorie "${bestCat.name}" ! Vous pourriez approfondir vos connaissances sur "${worstCat.name}".`;
+
+        if (worstCat.score === 1) {
+            return `✨ <strong>Maîtrise totale !</strong> Vous avez obtenu un score parfait dans toutes les catégories. Un véritable expert de la lumière !`;
         }
-        return "";
+
+        if (bestCat.name && worstCat.name && bestCat.name !== worstCat.name && bestCat.score > worstCat.score) {
+            return `💡 Excellent travail sur la catégorie "<strong>${bestCat.name}</strong>" ! Pour aller plus loin, vous pourriez approfondir vos connaissances sur "<strong>${worstCat.name}</strong>".`;
+        }
+        
+        return ""; 
     }
 
-    // --- Interactive Questions Logic ---
     function setupInteractiveQuestions() { const dS = e => { draggedItem = e.target; setTimeout(() => e.target.classList.add('dragging'), 0); }; const dE = () => { if(draggedItem) { draggedItem.classList.remove('dragging'); draggedItem = null; } }; const dO = e => { e.preventDefault(); e.currentTarget.classList.add('over'); }; const dL = e => e.currentTarget.classList.remove('over'); const dH = (e, cF, cFn) => { e.preventDefault(); e.currentTarget.classList.remove('over'); if (draggedItem && cFn(e.currentTarget)) { e.currentTarget.appendChild(draggedItem); cF(); } }; document.querySelectorAll('.draggable-item').forEach(i => { i.addEventListener('dragstart', dS); i.addEventListener('dragend', dE); }); document.querySelectorAll('.dropzone').forEach(z => { z.addEventListener('dragover', dO); z.addEventListener('dragleave', dL); }); document.querySelectorAll('#q16-container .dropzone, #q16-events').forEach(z => z.addEventListener('drop', e => dH(e, checkQ16Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q18-container .dropzone, #q18-source').forEach(z => z.addEventListener('drop', e => dH(e, checkQ18Completion, t => t.classList.contains('dropzone') ? t.children.length === 0 : true))); document.querySelectorAll('#q20-container .dropzone').forEach(z => z.addEventListener('drop', e => dH(e, checkQ20Completion, () => true))); const q17H = e => { const f = e.target.closest('.feature-option:not(.disabled)'); if (f && (e.type === 'click' || e.key === 'Enter' || e.key === ' ')) { if(e.type !== 'click') e.preventDefault(); toggleFeatureSelection(f); } }; dom.questionsWrapper.querySelector(`#q${Q_LAMP_BUILDER}-builder`).addEventListener('click', q17H); dom.questionsWrapper.querySelector(`#q${Q_LAMP_BUILDER}-builder`).addEventListener('keydown', q17H); document.querySelectorAll('.btn-autocomplete').forEach(btn => btn.addEventListener('click', e => { const qN = parseInt(e.target.closest('.question-card').dataset.question, 10); handleAutoComplete(qN); })); }
     function checkInteractiveQuestion(qN, c, fI, cI, iCF, sF) { if (!c || state.isAnswered[qN]) return;
         const container = document.getElementById(cI); const iAC = iCF(container); state.isAnswered[qN] = true; state.answers[qN] = iAC; state.interactiveStates[`q${qN}`] = sF(container);
@@ -1558,30 +1705,20 @@
     function checkQ17Completion(selections) { if (state.isAnswered[Q_LAMP_BUILDER]) return; const isC = selections.length >= 4; if (isC) { checkInteractiveQuestion(Q_LAMP_BUILDER, true, `feedback${Q_LAMP_BUILDER}`, `q${Q_LAMP_BUILDER}-builder`, () => true, () => ({ selections })); } }
     function checkQ18Completion() { checkInteractiveQuestion(Q_RANKING, document.getElementById('q18-source').children.length === 0, `feedback${Q_RANKING}`, `q${Q_RANKING}-container`, () => { const cO = ['led', 'sodium', 'incandescent']; const uO = Array.from(document.querySelectorAll(`#q${Q_RANKING}-container .ranking-slot .dropzone .draggable-item`)).map(i => i.dataset.id); return JSON.stringify(cO) === JSON.stringify(uO); }, () => ({ slots: Array.from(document.querySelectorAll(`#q${Q_RANKING}-container .ranking-slot .dropzone`)).map(z => z.children[0]?.dataset.id || null) })); }
     function checkQ20Completion() { checkInteractiveQuestion(Q_SORTING, document.getElementById('q20-source').children.length === 0, `feedback${Q_SORTING}`, `q${Q_SORTING}-container`, () => { const aI = Array.from(document.querySelectorAll(`#q${Q_SORTING}-container .dropzone[data-target] .draggable-item`)); return aI.length === 6 && aI.every(i => i.dataset.category === i.parentElement.dataset.target); }, () => ({ bins: { led: Array.from(document.querySelectorAll(`#q20-container .dropzone[data-target="led"] .draggable-item`)).map(i => i.innerText), old: Array.from(document.querySelectorAll(`#q20-container .dropzone[data-target="old"] .draggable-item`)).map(i => i.innerText) } }) ); }
+    
     function restoreInteractiveState(qNum) {
-        const iState = state.interactiveStates[`q${qNum}`]; if (!iState) return;
+        const iState = state.interactiveStates[`q${qNum}`]; 
+        if (!iState) return;
         const card = document.querySelector(`.question-card[data-question="${qNum}"]`);
-        
-        const placeItem = (itemId, targetSelector) => {
-            const item = card.querySelector(`.draggable-item[data-id="${itemId}"]`);
-            const target = card.querySelector(targetSelector);
-            if (item && target) target.appendChild(item);
-        };
-        const placeItemByText = (itemText, targetSelector) => {
-            const items = Array.from(card.querySelectorAll('.draggable-item'));
-            const item = items.find(i => i.innerText === itemText);
-            const target = card.querySelector(targetSelector);
-            if (item && target) target.appendChild(item);
-        };
-
+        const placeItem = (itemId, targetSelector) => { const item = card.querySelector(`.draggable-item[data-id="${itemId}"]`); const target = card.querySelector(targetSelector); if (item && target) target.appendChild(item); };
+        const placeItemByText = (itemText, targetSelector) => { const items = Array.from(card.querySelectorAll('.draggable-item')); const item = items.find(i => i.innerText === itemText); const target = card.querySelector(targetSelector); if (item && target) target.appendChild(item); };
         if (qNum === Q_TIMELINE && iState.slots) { iState.slots.forEach((itemId, i) => { if (itemId) placeItem(itemId, `.timeline-slot:nth-child(${i + 1}) .dropzone`); }); }
         if (qNum === Q_RANKING && iState.slots) { iState.slots.forEach((itemId, i) => { if (itemId) placeItem(itemId, `.ranking-slot:nth-child(${i + 1}) .dropzone`); }); }
         if (qNum === Q_SORTING && iState.bins) { iState.bins.led.forEach(text => placeItemByText(text, '.dropzone[data-target="led"]')); iState.bins.old.forEach(text => placeItemByText(text, '.dropzone[data-target="old"]')); }
     }
     
     function handleAutoComplete(qN) { if (state.isAnswered[qN]) return; 
-        state.isAnswered[qN] = true; state.answers[qN] = true; 
-        state.currentStreak = 0; 
+        state.isAnswered[qN] = true; state.answers[qN] = true; state.currentStreak = 0; 
         updateLiveScore(); checkBadges(); 
         const card = document.querySelector(`.question-card[data-question="${qN}"]`); 
         const f = card.querySelector('.feedback'); 
@@ -1601,12 +1738,15 @@
         saveProgress(); 
     }
     function showCorrectInteractiveSolution(qN) { const card = document.querySelector(`.question-card[data-question="${qN}"]`); if (!card) return; const actions = { [Q_TIMELINE]: () => ['gaz', 'edison', 'led', 'smart'].forEach((id, i) => { const item = card.querySelector(`.draggable-item[data-id="${id}"]`); const target = card.querySelector(`.timeline-slot:nth-child(${i + 1}) .dropzone`); if(item && target) target.appendChild(item); }), [Q_RANKING]: () => ['led', 'sodium', 'incandescent'].forEach((id, i) => { const item = card.querySelector(`.draggable-item[data-id="${id}"]`); const target = card.querySelector(`.dropzone[data-rank="${i + 1}"]`); if(item && target) target.appendChild(item); }), [Q_SORTING]: () => card.querySelectorAll('.draggable-item').forEach(item => { const cat = item.dataset.category; const target = card.querySelector(`.dropzone[data-target="${cat}"]`); if(target) target.appendChild(item); }) }; if (actions[qN]) actions[qN](); card.querySelectorAll('.draggable-item').forEach(i => i.classList.add('correct'));}
+    
+    function formatTime(seconds) {
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    }
 
-    // --- Timer & Video ---
     function updateTimerDisplay() {
-        const m = Math.floor(state.secondsElapsed / 60).toString().padStart(2, '0');
-        const s = (state.secondsElapsed % 60).toString().padStart(2, '0');
-        const t = `${m}:${s}`;
+        const t = formatTime(state.secondsElapsed);
         if(dom.timerDisplay) dom.timerDisplay.textContent = t;
         const statsTime = document.getElementById('statsTime');
         if(statsTime) statsTime.textContent = t;
@@ -1614,7 +1754,7 @@
 
     function startTimer() { 
         if (timerInterval) clearInterval(timerInterval);
-        updateTimerDisplay(); // Display initial time immediately
+        updateTimerDisplay();
         timerInterval = setInterval(() => { 
             state.secondsElapsed++; 
             updateTimerDisplay();
@@ -1628,37 +1768,36 @@
         }
     };
     function createPlayer() {
-        if (videoPlayer) {
-            videoPlayer.playVideo();
-            return;
-        }
-        state.curiosityTracker.videoClicked = true;
-        checkCuriosityBadge();
-        
+        if (videoPlayer) { videoPlayer.playVideo(); return; }
+        state.curiosityTracker.videoClicked = true; checkCuriosityBadge();
         dom.videoPlayerContainer.classList.add('player-loading');
-        
         const createAction = () => {
             dom.videoPlayerContainer.classList.remove('player-loading');
             dom.videoPlayerContainer.classList.add('player-active');
             dom.videoPlayerContainer.innerHTML = '<div id="player-iframe"></div>';
             videoPlayer = new YT.Player('player-iframe', {
-                height: '100%',
-                width: '100%',
-                videoId: 'GRwOsXCW2jM',
+                height: '100%', width: '100%', videoId: 'GRwOsXCW2jM',
                 playerVars: { 'autoplay': 1, 'rel': 0, 'controls': 1 },
-                events: { 'onStateChange': e => { dom.videoStatusIcon.textContent = (e.data === YT.PlayerState.PLAYING) ? '🎶' : '🎬'; } }
+                events: { 
+                    'onStateChange': e => { 
+                        switch (e.data) {
+                            case YT.PlayerState.PLAYING:
+                                dom.videoStatusIcon.innerHTML = PAUSE_ICON_SVG;
+                                break;
+                            case YT.PlayerState.PAUSED:
+                            case YT.PlayerState.ENDED:
+                            default: // Gère aussi les états intermédiaires comme le buffering
+                                dom.videoStatusIcon.innerHTML = MOVIE_ICON_SVG;
+                                break;
+                        }
+                    } 
+                }
             });
         };
-        
-        if (isYouTubeApiReady || (window.YT && window.YT.Player)) {
-            isYouTubeApiReady = true;
-            createAction();
-        } else {
-            youtubeApiQueue.push(createAction);
-        }
+        if (isYouTubeApiReady || (window.YT && window.YT.Player)) { isYouTubeApiReady = true; createAction(); } 
+        else { youtubeApiQueue.push(createAction); }
     }
 
-    // --- Event Listeners & Initialization ---
     function setupEventListeners() {
         dom.startQuizBtn.addEventListener('click', startNewQuiz);
         dom.resumeBtn.addEventListener('click', resumeQuiz);
@@ -1668,6 +1807,7 @@
         dom.resultsReviewBtn.addEventListener('click', reviewQuestions);
         dom.reviewErrorsBtn.addEventListener('click', reviewErrors);
         dom.resultsRestartBtn.addEventListener('click', startNewQuiz);
+        dom.resetStatsBtn.addEventListener('click', resetAllStats);
 
         dom.questionsWrapper.addEventListener('click', e => {
             const option = e.target.closest('.option:not(.disabled)');
@@ -1682,57 +1822,33 @@
                     if (dom.videoWidget.classList.contains('minimized')) dom.videoWidget.classList.remove('minimized');
                     videoPlayer.seekTo(parseInt(tsBtn.dataset.timestamp, 10), true);
                     videoPlayer.playVideo();
-                } else {
-                    showToast("Vidéo non lancée", "Veuillez d'abord lancer la vidéo pour utiliser cette fonctionnalité.", "🎬");
-                }
+                } else { showToast("Vidéo non lancée", "Veuillez d'abord lancer la vidéo pour utiliser cette fonctionnalité.", "🎬"); }
             }
         });
         
-        dom.questionsWrapper.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                 const option = e.target.closest('.option:not(.disabled)');
-                 if (option) { e.preventDefault(); option.click(); }
-            }
-        });
-
-        dom.progressDotsContainer.addEventListener('click', e => {
-            const dot = e.target.closest('.progress-dot');
-            if (dot && dot.classList.contains('clickable')) {
-                navigateToQuestion(parseInt(dot.dataset.questionIndex, 10));
-            }
-        });
-
-        document.addEventListener('click', e => {
-            if (e.target.matches('.review-banner .btn-link-review')) { 
-                showResults(false); 
-            }
-        });
-
+        dom.questionsWrapper.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { const option = e.target.closest('.option:not(.disabled)'); if (option) { e.preventDefault(); option.click(); } } });
+        dom.progressDotsContainer.addEventListener('click', e => { const dot = e.target.closest('.progress-dot'); if (dot && dot.classList.contains('clickable')) { navigateToQuestion(parseInt(dot.dataset.questionIndex, 10)); } });
+        document.addEventListener('click', e => { if (e.target.matches('.review-banner .btn-link-review')) { showResults(false); } });
         document.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return; const k = e.key; if (k === 'ArrowRight') { e.preventDefault(); document.querySelector('.question-card.active .nav-buttons .btn-nav:last-child')?.click(); } else if (k === 'ArrowLeft') { e.preventDefault(); document.querySelector('.question-card.active .nav-buttons .btn-nav:first-child')?.click(); } else if (['1', '2', '3', '4'].includes(k)) { const aC = document.querySelector('.question-card.active'); if (aC && aC.querySelector('.option:not(.disabled)')) { const optionNode = aC.querySelector(`.options .option:nth-child(${k})`); if (optionNode && !optionNode.classList.contains('disabled')) { e.preventDefault(); optionNode.click(); } } } else if (k === 'Escape' && dom.statsModalOverlay.classList.contains('show')) { closeStatsModal(); } });
-        dom.liveScoreWidget.addEventListener('click', openStatsModal);
-        dom.keyboardHint.addEventListener('mouseover', () => { state.curiosityTracker.hintHovered = true; checkCuriosityBadge(); }, { once: true });
-        dom.videoPlayerContainer.addEventListener('click', createPlayer);
+        
+        dom.liveScoreWidget.addEventListener('click', () => { state.curiosityTracker.statsOpened = true; checkCuriosityBadge(); openStatsModal(); });
+        dom.keyboardHint.addEventListener('mouseover', () => { state.curiosityTracker.hintHovered = true; checkCuriosityBadge(); });
+        dom.videoPlayerContainer.addEventListener('click', () => { state.curiosityTracker.videoClicked = true; checkCuriosityBadge(); createPlayer(); });
+        
         dom.modalCloseBtn.addEventListener('click', closeStatsModal);
         dom.statsModalOverlay.addEventListener('click', e => { if (e.target === dom.statsModalOverlay) closeStatsModal(); });
         document.getElementById('minimizeBtn').addEventListener('click', (e) => { e.stopPropagation(); dom.videoWidget.classList.toggle('minimized'); });
         dom.videoWidget.addEventListener('click', () => { if (dom.videoWidget.classList.contains('minimized')) dom.videoWidget.classList.remove('minimized'); });
         
         document.querySelector('.summary-filters').addEventListener('click', e => {
-            const filterBtn = e.target.closest('button[data-filter]');
-            if (!filterBtn) return;
-            document.querySelectorAll('.summary-filters button').forEach(b => b.classList.remove('active'));
-            filterBtn.classList.add('active');
+            const filterBtn = e.target.closest('button[data-filter]'); if (!filterBtn) return;
+            document.querySelectorAll('.summary-filters button').forEach(b => b.classList.remove('active')); filterBtn.classList.add('active');
             const filter = filterBtn.dataset.filter;
             document.querySelectorAll('.summary-item').forEach(item => {
-                const itemCorrectState = item.dataset.correct;
-                let show = false;
-                if (filter === 'all' || itemCorrectState === 'none') {
-                    show = true;
-                } else if (filter === 'correct' && itemCorrectState === 'true') {
-                    show = true;
-                } else if (filter === 'incorrect' && itemCorrectState === 'false') {
-                    show = true;
-                }
+                const itemCorrectState = item.dataset.correct; let show = false;
+                if (filter === 'all' || itemCorrectState === 'none') { show = true; } 
+                else if (filter === 'correct' && itemCorrectState === 'true') { show = true; } 
+                else if (filter === 'incorrect' && itemCorrectState === 'false') { show = true; }
                 item.classList.toggle('hidden', !show);
             });
         });
@@ -1744,19 +1860,19 @@
         
         const savedBadges = localStorage.getItem(badgeStorageKey);
         if(savedBadges) {
-            try { state.badges = JSON.parse(savedBadges); } catch(e) { console.error("Error parsing badges", e); }
+            try { 
+                const parsedBadges = JSON.parse(savedBadges); 
+                Object.assign(state.badges, parsedBadges);
+                if (Object.values(state.badges).every(Boolean)) {
+                    state.allBadgesUnlocked = true;
+                }
+            } 
+            catch(e) { console.error("Error parsing badges", e); }
         }
         
         dom.totalQuestionsDisplay.textContent = totalQuestions;
-
-        dom.progressDotsContainer.innerHTML = questionTitles.map((title, i) =>
-            `<div class="progress-dot" data-question-index="${i + 1}">
-                <span class="tooltip-text">${i + 1}. ${title}</span>
-             </div>`
-        ).join('');
-
+        dom.progressDotsContainer.innerHTML = questionTitles.map((title, i) => `<div class="progress-dot" data-question-index="${i + 1}"><span class="tooltip-text">${i + 1}. ${title}</span></div>`).join('');
         dom.questionsWrapper.querySelectorAll('.question-card .nav-buttons').forEach(c => {
-            // MODIFIÉ : Utilisation des constantes SVG pour créer les boutons
             c.innerHTML = `<button class="btn-nav" title="Précédent (←)" aria-label="Précédent" disabled>${ARROW_LEFT_SVG}</button> <button class="btn-nav" title="Suivant (→)" aria-label="Suivant" disabled>${ARROW_RIGHT_SVG}</button>`;
             c.querySelector('.btn-nav:first-child').addEventListener('click', previousQuestion);
             c.querySelector('.btn-nav:last-child').addEventListener('click', nextQuestion);
@@ -1767,7 +1883,6 @@
         setupInteractiveQuestions();
         updateBadgeCountDisplay();
         updateStartScreenButtons();
-        
         updateLiveScore();
     }
     
